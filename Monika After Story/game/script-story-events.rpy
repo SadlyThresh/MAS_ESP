@@ -125,7 +125,7 @@ label monika_gender_redo:
         "Soy un chico.":
 
             if persistent.gender == "M" and not persistent._mas_pm_is_trans:
-                $ gender_var = "boy"
+                $ gender_var = "un chico"
                 call mas_gender_redo_same from _call_mas_gender_redo_same
             else:
                 $ persistent.gender = "M"
@@ -134,7 +134,7 @@ label monika_gender_redo:
         "Soy una chica.":
 
             if persistent.gender == "F" and not persistent._mas_pm_is_trans:
-                $ gender_var = "girl"
+                $ gender_var = "una chica"
                 call mas_gender_redo_same from _call_mas_gender_redo_same_1
             else:
                 $ persistent.gender = "F"

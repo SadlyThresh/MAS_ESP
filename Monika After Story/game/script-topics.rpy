@@ -8881,7 +8881,7 @@ label monika_concerts:
                 musicgenrename = ""
                 while len(musicgenrename) == 0:
                     musicgenrename = renpy.input(
-                        'What kind of music do you listen to?',
+                        '¿Qué tipo de música escuchas?',
                         length=15,
                         allow=letters_only
                     ).strip(' \t\n\r')

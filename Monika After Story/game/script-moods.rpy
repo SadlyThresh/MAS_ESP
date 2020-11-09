@@ -645,7 +645,7 @@ label mas_mood_bored:
         gamepicked = renpy.random.choice(unlockedgames)
         display_picked = gamepicked
 
-        if gamepicked == "hangman" and persistent._mas_sensitive_mode:
+        if gamepicked == "el ahorcado" and persistent._mas_sensitive_mode:
             display_picked = "adivinar las palabras"
 
     if gamepicked == "piano":
@@ -676,9 +676,9 @@ label mas_mood_bored:
         "Sí.":
             if gamepicked == "pong":
                 call game_pong from _call_game_pong_1
-            elif gamepicked == "chess":
+            elif gamepicked == "el ajedrez":
                 call game_chess from _call_game_chess_1
-            elif gamepicked == "hangman":
+            elif gamepicked == "el ahorcado":
                 call game_hangman from _call_game_hangman_1
             elif gamepicked == "piano":
                 call mas_piano_start from _call_mas_piano_start_1

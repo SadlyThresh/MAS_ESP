@@ -336,7 +336,7 @@ screen mas_gmenu_confirm(sel_rend):
             yalign .5
             spacing 30
 
-        label _("Switch renderer to " + sel_rend + "?"):
+        label _("¿Cambiar render a " + sel_rend + "?"):
             style "confirm_prompt"
             xalign 0.5
 
@@ -344,7 +344,7 @@ screen mas_gmenu_confirm(sel_rend):
             xalign 0.5
             spacing 100
 
-            textbutton _("Yes") action Return(True)
+            textbutton _("Sí") action Return(True)
             textbutton _("No") action Return(False)
 
 

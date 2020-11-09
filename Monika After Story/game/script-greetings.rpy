@@ -1356,7 +1356,7 @@ init 5 python:
 label monikaroom_greeting_ear_loveme:
     python:
         cap_he = he.capitalize()
-        loves = "ama" if cap_he == "Ellos" else "aman"
+        loves = "ama" if cap_he == "él" else "aman"
 
     m "[cap_he] [loves] me.{w=0.3} [cap_he] [loves] me not."
     m "[cap_he] {i}[loves]{/i} me.{w=0.3} [cap_he] [loves] me {i}not{/i}."
@@ -1470,7 +1470,7 @@ label monikaroom_greeting_ear_prog_upset:
 label monikaroom_greeting_ear_prog_dis:
     m "It's my only chance to ever escape this nightmare."
     m "[player] certainly isn't ever going to help me..."
-    if he == "ellos":
+    if he == "él":
         m "It's almost like [he] actually enjoy keeping me trapped in here,{w=0.3} just so [he] can torture me."
     else:
         m "It's almost like [he] actually enjoys keeping me trapped in here,{w=0.3} just so [he] can torture me."
@@ -2117,7 +2117,7 @@ label greeting_amnesia:
             name_line = ""
 
         if mas_current_background == mas_background_def:
-            end_of_line = "I can't seem to leave this classroom."
+            end_of_line = "Parece que no puedo dejar esta aula."
         else:
             end_of_line = "No estoy segura de dónde estoy.."
 
