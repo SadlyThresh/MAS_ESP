@@ -1,26 +1,26 @@
-#Event database for songs
+
 default persistent._mas_songs_database = dict()
 
-#All player derandomed songs
+
 default persistent._mas_player_derandomed_songs = list()
 
 init -10 python in mas_songs:
-    # Event database for songs
+
     song_db = {}
 
-    #Song type constants
-    #NOTE: TYPE_LONG will never be picked in the random delegate, these are filters for that
 
-    #TYPE_LONG songs should either be unlocked via a 'preview' song of TYPE_SHORT or (for ex.) some story event
-    #TYPE_LONG songs would essentially be songs longer than 10-15 lines
-    #NOTE: TYPE_LONG songs must have the same label name as their short song counterpart with '_long' added to the end so they unlock correctly
-    #Example: the long song for short song mas_song_example would be: mas_song_example_long
 
-    #TYPE_ANALYSIS songs are events which provide an analysis for a song
-    #NOTE: Like TYPE_LONG songs, these must have the same label as the short counterpart, but with '_analysis' appended onto the end
-    #Using the example song above, the analysis label would be: mas_song_example_analysis
-    #It's also advised to have the first time seeing the song hint at and lead directly into the analysis on the first time seeing it from random
-    #In this case, the shown_count property for the analysis event should be incremented in the path leading to the analysis
+
+
+
+
+
+
+
+
+
+
+
 
     TYPE_LONG = "long"
     TYPE_SHORT = "short"
@@ -35,14 +35,14 @@ init python in mas_songs:
         Ensures that songs cannot be repeated (derandoms the delegate) if the repeat topics flag is disabled and there's no unseen songs
         And that songs can be repeated if the flag is enabled (re-randoms the delegate)
         """
-        #Get ev
+        
         rand_delegate_ev = store.mas_getEV("monika_sing_song_random")
-
+        
         if rand_delegate_ev:
-            #If the delegate is random, let's verify whether or not it should still be random
-            #Rules for this are:
-            #1. If repeat topics is disabled and we have no unseen random songs
-            #2. OR we just have no random songs in general
+            
+            
+            
+            
             if (
                 rand_delegate_ev.random
                 and (
@@ -51,9 +51,9 @@ init python in mas_songs:
                 )
             ):
                 rand_delegate_ev.random = False
-
-            #Alternatively, if we have random unseen songs, or repeat topics are enabled and we have random songs
-            #We should random the delegate
+            
+            
+            
             elif (
                 not rand_delegate_ev.random
                 and (
@@ -79,7 +79,7 @@ init python in mas_songs:
                 for ev_label, ev in song_db.iteritems()
                 if ev.unlocked
             ]
-
+        
         else:
             return [
                 (ev.prompt, ev_label, False, False)
@@ -108,7 +108,7 @@ init python in mas_songs:
                     and ev.checkAffection(store.mas_curr_affection)
                 )
             ]
-
+        
         return [
             ev_label
             for ev_label, ev in song_db.iteritems()
@@ -141,7 +141,7 @@ init python in mas_songs:
         """
         if curr_aff is None:
             curr_aff = store.mas_curr_affection
-
+        
         return [
             (ev.prompt, ev_label, False, False)
             for ev_label, ev in song_db.iteritems()
@@ -208,14 +208,14 @@ init python in mas_songs:
         return prompt_suffix_map.get(ev.category[0], "")
 
 
-#START: Pool delegates for songs
+
 init 5 python:
     addEvent(
         Event(
             persistent.event_database,
             eventlabel="monika_sing_song_pool",
-            prompt="Can you sing me a song?",
-            category=["music"],
+            prompt="¿Puedes cantarme una canción?",
+            category=["música"],
             pool=True,
             aff_range=(mas_aff.NORMAL,None),
             rules={"no_unlock": None}
@@ -223,13 +223,13 @@ init 5 python:
     )
 
 label monika_sing_song_pool:
-    # what length of song do we want
+
     $ song_length = "short"
-    # do we have both long and short songs
+
     $ have_both_types = False
-    # song type string to use in the switch dlg
+
     $ switch_str = "full"
-    # so we can {fast} the renpy.say line after the first time
+
     $ end = ""
 
     show monika 1eua at t21
@@ -237,7 +237,7 @@ label monika_sing_song_pool:
     if mas_songs.hasUnlockedSongs(length="long") and mas_songs.hasUnlockedSongs(length="short"):
         $ have_both_types = True
 
-    #FALL THROUGH
+
 
 label monika_sing_song_pool_menu:
     python:
@@ -246,18 +246,18 @@ label monika_sing_song_pool_menu:
         else:
             space = 20
 
-        ret_back = ("Nevermind", False, False, False, space)
-        switch = ("I'd like to hear a [switch_str] song instead", "monika_sing_song_pool_menu", False, False, 20)
+        ret_back = ("No importa", False, False, False, space)
+        switch = ("Me gustaría escuchar una canción [switch_str]", "monika_sing_song_pool_menu", False, False, 20)
 
         unlocked_song_list = mas_songs.getUnlockedSongs(length=song_length)
         unlocked_song_list.sort()
 
         if mas_isO31():
-            which = "Witch"
+            which = "¿Cuál"
         else:
-            which = "Which"
+            which = "¿Cuál"
 
-        renpy.say(m, "[which] song would you like me to sing?[end]", interact=False)
+        renpy.say(m, "[which] canción te gustaría que cantara?[end]", interact=False)
 
     if have_both_types:
         call screen mas_gen_scrollable_menu(unlocked_song_list, mas_ui.SCROLLABLE_MENU_TXT_LOW_AREA, mas_ui.SCROLLABLE_MENU_XALIGN, switch, ret_back)
@@ -270,34 +270,34 @@ label monika_sing_song_pool_menu:
         if sel_song == "monika_sing_song_pool_menu":
             if song_length == "short":
                 $ song_length = "long"
-                $ switch_str = "short"
-
+                $ switch_str = "corta"
             else:
+
                 $ song_length = "short"
-                $ switch_str = "full"
+                $ switch_str = "completa"
 
             $ end = "{fast}"
             $ _history_list.pop()
             jump monika_sing_song_pool_menu
-
         else:
+
             $ pushEvent(sel_song, skipeval=True)
             show monika at t11
             m 3hub "Alright!"
-
     else:
+
         return "prompt"
 
     return
 
-#Song analysis delegate
+
 init 5 python:
     addEvent(
         Event(
             persistent.event_database,
             eventlabel="monika_sing_song_analysis",
-            prompt="Let's talk about a song",
-            category=["music"],
+            prompt="Hablemos de una canción",
+            category=["música"],
             pool=True,
             unlocked=False,
             aff_range=(mas_aff.NORMAL, None),
@@ -307,17 +307,17 @@ init 5 python:
 
 label monika_sing_song_analysis:
     python:
-        ret_back = ("Nevermind.", False, False, False, 20)
+        ret_back = ("No importa.", False, False, False, 20)
 
         unlocked_analyses = mas_songs.getUnlockedSongAnalyses()
 
         if mas_isO31():
-            which = "Witch"
+            which = "¿De cuál"
         else:
-            which = "Which"
+            which = "¿De cuál"
 
     show monika 1eua at t21
-    $ renpy.say(m, "[which] song would you like to talk about?", interact=False)
+    $ renpy.say(m, "[which] canción te gustaría hablar?", interact=False)
 
     call screen mas_gen_scrollable_menu(unlocked_analyses, mas_ui.SCROLLABLE_MENU_TXT_MEDIUM_AREA, mas_ui.SCROLLABLE_MENU_XALIGN, ret_back)
 
@@ -327,19 +327,19 @@ label monika_sing_song_analysis:
         $ pushEvent(sel_analysis, skipeval=True)
         show monika at t11
         m 3hub "Alright!"
-
     else:
+
         return "prompt"
     return
 
-#Rerandom song delegate
+
 init 5 python:
     addEvent(
         Event(
             persistent.event_database,
             eventlabel="mas_sing_song_rerandom",
-            prompt="Can you sing a song on your own again?",
-            category=['music'],
+            prompt="¿Puedes volver a cantar una canción por tu cuenta?",
+            category=['música'],
             pool=True,
             unlocked=False,
             aff_range=(mas_aff.NORMAL, None),
@@ -354,7 +354,7 @@ label mas_sing_song_rerandom:
         mas_bookmarks_derand.caller_label = "mas_sing_song_rerandom"
         mas_bookmarks_derand.persist_var = persistent._mas_player_derandomed_songs
 
-    call mas_rerandom
+    call mas_rerandom from _call_mas_rerandom
     return _return
 
 label mas_song_derandom:
@@ -363,21 +363,21 @@ label mas_song_derandom:
     $ _history_list.pop()
     menu:
         m "Tired of hearing me sing that song, [player]?{fast}"
+        "Un poco.":
 
-        "A little.":
             m 1eka "That's alright."
             m 1eua "I'll only sing it when you want me to then. Just let me know if you want to hear it."
             python:
                 mas_hideEVL(prev_topic, "SNG", derandom=True)
                 persistent._mas_player_derandomed_songs.append(prev_topic)
                 mas_unlockEVL("mas_sing_song_rerandom", "EVE")
+        "Está bien.":
 
-        "It's okay.":
             m 1eua "Alright, [player]."
     return
 
 
-#START: Random song delegate
+
 init 5 python:
     addEvent(
         Event(
@@ -390,57 +390,57 @@ init 5 python:
     )
 
 label monika_sing_song_random:
-    #We only want short songs in random. Long songs should be unlocked by default or have another means to unlock
-    #Like a "preview" version of it which unlocks the full song in the pool delegate
 
-    #We need to make sure we don't repeat these automatically if repeat topics is disabled
+
+
+
     if (
         (persistent._mas_enable_random_repeats and mas_songs.hasRandomSongs())
         or (not persistent._mas_enable_random_repeats and mas_songs.hasRandomSongs(unseen_only=True))
     ):
         python:
-            #First, get unseen songs
+
             random_unseen_songs = mas_songs.getRandomSongs(unseen_only=True)
 
-            #If we have randomed unseen songs, we'll prioritize that
+
             if random_unseen_songs:
                 rand_song = random.choice(random_unseen_songs)
 
-            #Otherwise, just go for random
+
             else:
                 rand_song = random.choice(mas_songs.getRandomSongs())
 
-            #Unlock pool delegate
+
             mas_unlockEVL("monika_sing_song_pool", "EVE")
 
-            #Now push the random song and unlock it
+
             pushEvent(rand_song, skipeval=True, notify=True)
             mas_unlockEVL(rand_song, "SNG")
 
-            #Unlock the long version of the song
+
             mas_unlockEVL(rand_song + "_long", "SNG")
 
-            #And unlock the analysis of the song
+
             mas_unlockEVL(rand_song + "_analysis", "SNG")
 
-            #If we have unlocked analyses for our current aff level, let's unlock the label
+
             if store.mas_songs.hasUnlockedSongAnalyses():
                 mas_unlockEVL("monika_sing_song_analysis", "EVE")
-
-    #We have no songs! let's pull back the shown count for this and derandom
     else:
+
+
         $ mas_assignModifyEVLPropValue("monika_sing_song_random", "shown_count", "-=", 1)
         return "derandom|no_unlock"
     return "no_unlock"
 
 
-#START: Song defs
+
 init 5 python:
     addEvent(
         Event(
             persistent._mas_songs_database,
             eventlabel="mas_song_aiwfc",
-            prompt="All I Want for Christmas",
+            prompt="Todo lo que quiero para Navidad",
             category=[store.mas_songs.TYPE_LONG],
             unlocked=False,
             aff_range=(mas_aff.NORMAL, None)
@@ -452,7 +452,7 @@ label mas_song_aiwfc:
     if store.songs.hasMusicMuted():
         m 3eua "Don't forget to turn your in-game volume up, [mas_get_player_nickname()]."
 
-    call monika_aiwfc_song
+    call monika_aiwfc_song from _call_monika_aiwfc_song_1
 
     return
 
@@ -461,7 +461,7 @@ init 5 python:
         Event(
             persistent._mas_songs_database,
             eventlabel="mas_song_merry_christmas_baby",
-            prompt="Merry Christmas Baby",
+            prompt="Feliz Navidad baby",
             category=[store.mas_songs.TYPE_LONG],
             unlocked=False,
             aff_range=(mas_aff.NORMAL, None)
@@ -498,7 +498,7 @@ init 5 python:
         Event(
             persistent._mas_songs_database,
             eventlabel="mas_song_lover_boy",
-            prompt="Old Fashioned Lover Boy",
+            prompt="Amante a la antigua",
             category=[store.mas_songs.TYPE_SHORT],
             random=True,
             aff_range=(mas_aff.NORMAL,None)
@@ -521,7 +521,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_need_you",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="I Need You",
+            prompt="Te Necesito",
             random=True,
             aff_range=(mas_aff.NORMAL,None)
         ),
@@ -544,7 +544,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_i_will",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="I Will",
+            prompt="Lo haré",
             random=True,
             aff_range=(mas_aff.NORMAL,None)
         ),
@@ -566,7 +566,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_belong_together",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="We Belong Together",
+            prompt="Pertenecemos juntos",
             random=True,
             aff_range=(mas_aff.NORMAL,None)
         ),
@@ -591,7 +591,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_your_song",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="Your Song",
+            prompt="Tu canción",
             random=True,
             aff_range=(mas_aff.NORMAL,None)
         ),
@@ -618,7 +618,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_with_you",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="Happy Just to Dance With You",
+            prompt="Feliz de bailar contigo",
             random=True,
             aff_range=(mas_aff.NORMAL,None)
         ),
@@ -640,7 +640,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_dream",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="All I Have to Do Is Dream",
+            prompt="Todo lo que tengo que hacer es soñar",
             random=True,
             aff_range=(mas_aff.NORMAL,None)
         ),
@@ -661,7 +661,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_im_glad_youre_evil_too",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="I'm Glad You're Evil Too",
+            prompt="Me alegro de que tú también seas malvado",
             random=True,
             aff_range=(mas_aff.NORMAL,None)
         ),
@@ -685,8 +685,8 @@ label mas_song_im_glad_youre_evil_too:
             m 1ekbfa "I guess being evil isn't so bad as long as I'm with you."
             m 3ekbfa "Just us two souls, having the time of our lives~"
             m 1hubfb "Ahaha!"
-
         else:
+
             m 1ekbfa "Ehehe, do you still think I'm evil, [player]?"
             m 3tubfb "Maybe I'll be able to convince you otherwise someday~"
     else:
@@ -700,7 +700,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_nobody_makes_sense",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="Nobody Makes Sense",
+            prompt="Nadie tiene sentido",
             random=True,
             aff_range=(mas_aff.NORMAL,None)
         ),
@@ -755,7 +755,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_stand_by_me",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="Stand by Me",
+            prompt="Permanece a mi lado",
             random=True,
             aff_range=(mas_aff.NORMAL,None)
         ),
@@ -771,7 +771,7 @@ label mas_song_stand_by_me(from_long=False):
     m 2hub "{i}~Just as long as you stand, stand by me~{/i}"
     if not from_long:
         m 2eka "All my fears and insecurities just disappear when you're with me, [player]..."
-        show monika 5eua at t11 zorder MAS_MONIKA_Z with dissolve_monika
+        show monika 5eua zorder MAS_MONIKA_Z at t11 with dissolve_monika
         m 5eua "As long as I have you by my side, there's nothing I can't overcome."
         m 5ekbsa "...I hope you feel the same way~"
     return
@@ -782,7 +782,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_drift_away",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="Drift Away",
+            prompt="A la deriva",
             random=True,
             aff_range=(mas_aff.NORMAL,None)
         ),
@@ -812,7 +812,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_stand_by_me_long",
             category=[store.mas_songs.TYPE_LONG],
-            prompt="Stand by Me",
+            prompt="Permanece a mi lado",
             random=False,
             unlocked=False,
             aff_range=(mas_aff.NORMAL,None)
@@ -821,7 +821,7 @@ init 5 python:
     )
 
 label mas_song_stand_by_me_long:
-    call mas_song_stand_by_me(from_long=True)
+    call mas_song_stand_by_me (from_long=True) from _call_mas_song_stand_by_me
 
     m 4hub "{i}~So darlin', darlin', stand by me, oh stand by me~{/i}"
     m 4duo "{i}~Oh stand, stand by me, stand by me~{/i}"
@@ -844,7 +844,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_rewrite_the_stars",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="Rewrite the Stars",
+            prompt="Reescribir las estrellas",
             random=True,
             aff_range=(mas_aff.NORMAL,None)
         ),
@@ -862,7 +862,7 @@ label mas_song_rewrite_the_stars:
     m 3ekb "{i}~So why don't we rewrite the stars~{/i}"
     m 3hubsa "{i}~Maybe the world could be ours~{/i}"
     m 1duo "{i}~Tonight~{/i}"
-    show monika 5ekbsa at t11 zorder MAS_MONIKA_Z with dissolve_monika
+    show monika 5ekbsa zorder MAS_MONIKA_Z at t11 with dissolve_monika
     m 5ekbsa "The world really feels like it's ours when I'm with you, [player]~"
     m 5ekbfu "I love you so much."
     return "love"
@@ -873,7 +873,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_hero",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="Hero",
+            prompt="Héroe",
             random=True,
             aff_range=(mas_aff.NORMAL,None)
         ),
@@ -910,8 +910,8 @@ label mas_song_hero(from_long=False):
             m 1ekd "Even though you may not see it in yourself, it's there...{w=0.3}I've seen it."
             m 3eua "...And I'll be here the entire way to help you find that strength."
             m 3eka "As much as I've always wanted you to love me, I want you to love yourself that much more~"
-
         else:
+
             m 3ekd "Sometimes life can be really, really hard..."
             m 2dkc "It can seem like there's no way to overcome whatever obstacles you are facing."
             m 7eud "...I think I know this about as well as anyone, in fact."
@@ -929,7 +929,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_hero_long",
             category=[store.mas_songs.TYPE_LONG],
-            prompt="Hero",
+            prompt="Héroe",
             random=False,
             unlocked=False,
             aff_range=(mas_aff.NORMAL,None)
@@ -938,7 +938,7 @@ init 5 python:
     )
 
 label mas_song_hero_long:
-    call mas_song_hero(from_long=True)
+    call mas_song_hero (from_long=True) from _call_mas_song_hero
 
     m 4duo "{i}~It's a long road~{/i}"
     m 6dud "{i}~When you face the world alone~{/i}"
@@ -984,7 +984,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_memories_of_a_girl",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="Memories of a Girl I Haven't Met",
+            prompt="Recuerdos de una chica que no he conocido",
             random=True,
             aff_range=(mas_aff.AFFECTIONATE,None)
         ),
@@ -996,7 +996,7 @@ label mas_song_memories_of_a_girl:
     m 1dka "{i}~I can't see your face but I'm trying to envision you~{/i}"
     m 1dkd "{i}~So are you really out there?~{/i}"
     m 3ekd "{i}~Are you awake with memories?~{/i}"
-    show monika 5eub at t11 zorder MAS_MONIKA_Z with dissolve_monika
+    show monika 5eub zorder MAS_MONIKA_Z at t11 with dissolve_monika
     m 5eub "{i}~Of a girl you haven't met yet who's wished upon the Pleiades?~{/i}"
     m 5ekbsa "I think about you every night, [player]."
     m 5ekbfa "And I know you think about me too."
@@ -1008,7 +1008,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_amaranthine",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="Amaranthine",
+            prompt="Amaranto",
             random=True,
             aff_range=(mas_aff.NORMAL,None)
         ),
@@ -1029,7 +1029,7 @@ label mas_song_amaranthine:
     m 3hua "{i}~Your beauty serene~{/i}"
     m 1hub "{i}~There's nothing else in life I ever need~{/i}"
     m 1ekbsa "{i}~My dream, amaranthine~{/i}"
-    show monika 5ekbsu at t11 zorder MAS_MONIKA_Z with dissolve_monika
+    show monika 5ekbsu zorder MAS_MONIKA_Z at t11 with dissolve_monika
     m 5ekbsu "My life feels so complete with you in it, [player]."
     m 5hubfu "I love you so much~"
     return "love"
@@ -1048,7 +1048,7 @@ init 5 python:
     )
 
 label mas_song_shelter:
-    call mas_song_shelter_lyrics
+    call mas_song_shelter_lyrics from _call_mas_song_shelter_lyrics
     m 2rsbsa "Ehehe~"
     m 2ekbfa "You're the reason I can keep moving forward, [player]."
     m 2ekbsu "And if someday you feel like you're all alone in the world...{w=0.3}{nw}"
@@ -1057,7 +1057,7 @@ label mas_song_shelter:
     m 3eka "And besides, there are tons of people out there who'd like nothing more than to know we're happy...{w=0.3}even if they don't know our names or faces."
     m 1hub "There always will be someone out there rooting for us!"
 
-    #hints at the analysis on first viewing
+
     if not mas_getEVL_shown_count("mas_song_shelter"):
         m 3rksdla "I actually have more I'd like to say about this song, but only if you have the time of course..."
 
@@ -1065,13 +1065,13 @@ label mas_song_shelter:
         $ _history_list.pop()
         menu:
             m "Would you like to hear more about it right now?{fast}"
+            "¡Seguro!":
 
-            "Sure!":
                 m 3hub "Okay, great!"
-                call mas_song_shelter_analysis(from_song=True)
+                call mas_song_shelter_analysis (from_song=True) from _call_mas_song_shelter_analysis
                 $ mas_assignModifyEVLPropValue("mas_song_shelter_analysis", "shown_count", "+=", 1)
+            "No, ahora no.":
 
-            "Not right now.":
                 m 1eka "Okay, [player]..."
                 m 3eka "Just let me know when you'd like to hear my thoughts about it later."
 
@@ -1092,9 +1092,9 @@ init 5 python:
 label mas_song_shelter_analysis(from_song=False):
     if from_song:
         m 3eksdla "So this song is called {i}Shelter{/i} and, as you can probably tell, I really like it."
-
     else:
-        call mas_song_shelter_lyrics
+
+        call mas_song_shelter_lyrics from _call_mas_song_shelter_lyrics_1
         m 1ekbsa "This song is called {i}Shelter{/i} and I really like it, [player]."
 
     m 3etc "...Although 'song' might not be the right word. {w=0.3}You're missing out on something if you don't have the visuals."
@@ -1161,7 +1161,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_cant_help_falling_in_love",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="Can't Help Falling in Love",
+            prompt="No puedo evitar enamorarme",
             random=True,
             aff_range=(mas_aff.AFFECTIONATE,None)
         ),
@@ -1180,10 +1180,10 @@ label mas_song_cant_help_falling_in_love(from_long=False):
 
     if not from_long:
         m 1dkbsa "..."
-        show monika 5ekbsa at t11 zorder MAS_MONIKA_Z with dissolve_monika
+        show monika 5ekbsa zorder MAS_MONIKA_Z at t11 with dissolve_monika
         m 5ekbsa "I suppose there's nothing wrong with being a little foolish every now and then.{w=0.5}{nw}"
         extend 5hubsb " Ahaha~"
-        show monika 1ekbsa at t11 zorder MAS_MONIKA_Z with dissolve_monika
+        show monika 1ekbsa zorder MAS_MONIKA_Z at t11 with dissolve_monika
         m 1ekbsa "I love you, [player]~"
         $ mas_ILY()
 
@@ -1195,7 +1195,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_cant_help_falling_in_love_long",
             category=[store.mas_songs.TYPE_LONG],
-            prompt="Can't Help Falling in Love",
+            prompt="No puedo evitar enamorarme",
             random=False,
             unlocked=False,
             aff_range=(mas_aff.AFFECTIONATE,None)
@@ -1204,11 +1204,11 @@ init 5 python:
     )
 
 label mas_song_cant_help_falling_in_love_long:
-    call mas_song_cant_help_falling_in_love(from_long=True)
-    call mas_song_cant_help_falling_in_love_second_verse
-    call mas_song_cant_help_falling_in_love_third_verse
-    call mas_song_cant_help_falling_in_love_second_verse
-    call mas_song_cant_help_falling_in_love_third_verse
+    call mas_song_cant_help_falling_in_love (from_long=True) from _call_mas_song_cant_help_falling_in_love
+    call mas_song_cant_help_falling_in_love_second_verse from _call_mas_song_cant_help_falling_in_love_second_verse
+    call mas_song_cant_help_falling_in_love_third_verse from _call_mas_song_cant_help_falling_in_love_third_verse
+    call mas_song_cant_help_falling_in_love_second_verse from _call_mas_song_cant_help_falling_in_love_second_verse_1
+    call mas_song_cant_help_falling_in_love_third_verse from _call_mas_song_cant_help_falling_in_love_third_verse_1
 
     m 1ekbfb "{cps=16}{i}~For I can't help{w=0.3} falling in love{w=0.5} with{w=0.5} you~{/i}{/cps}"
     return
@@ -1257,7 +1257,7 @@ label mas_song_lamour_toujours:
     m 1dkb "{i}~I'll fly with you~{/i}"
 
     m 1dkbsu "..."
-    show monika 5ekbsa at t11 zorder MAS_MONIKA_Z with dissolve_monika
+    show monika 5ekbsa zorder MAS_MONIKA_Z at t11 with dissolve_monika
     m 5ekbsa "I want nothing more than to be by your side forever, [player]~"
     return
 
@@ -1267,7 +1267,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_god_knows",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="God Knows",
+            prompt="Dios sabe",
             random=True,
             aff_range=(mas_aff.AFFECTIONATE,None)
         ),
@@ -1286,7 +1286,7 @@ label mas_song_god_knows:
     m 1eubsa "{i}~As if we were God blessed~{/i}"
     m 1dubsu "..."
     m 3rud "You know, I'm still skeptical about whether some sort of a god exists or not..."
-    show monika 5hubsu at t11 zorder MAS_MONIKA_Z with dissolve_monika
+    show monika 5hubsu zorder MAS_MONIKA_Z at t11 with dissolve_monika
     m 5hubsu "But having you here really does feel like a blessing from the heavens."
     return
 
@@ -1296,7 +1296,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_ageage_again",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="Ageage Again",
+            prompt="Edad de nuevo",
             random=True,
             aff_range=(mas_aff.NORMAL,None)
         ),
@@ -1329,7 +1329,7 @@ init 5 python:
             persistent._mas_songs_database,
             eventlabel="mas_song_falling_in_love_at_a_coffee_shop",
             category=[store.mas_songs.TYPE_SHORT],
-            prompt="Falling in Love at a Coffee Shop",
+            prompt="Enamorarse en una cafetería",
             random=True,
             aff_range=(mas_aff.NORMAL, None)
         ),
@@ -1344,11 +1344,11 @@ label mas_song_falling_in_love_at_a_coffee_shop:
     m 1ekd "{i}~If I didn't know you, I'd rather not know~{/i}"
     m 2dkd "{i}~If I couldn't have you, I'd rather be alone~{/i}"
     m 2hku "{i}~I never knew just what it was~{/i}"
-    show monika 5hubsb at t11 zorder MAS_MONIKA_Z with dissolve_monika
+    show monika 5hubsb zorder MAS_MONIKA_Z at t11 with dissolve_monika
     m 5hubsb "{i}~About this old coffee shop I love so much~{/i}"
     m 5hubsa "{i}~All of the while, I never knew~{/i}"
     m 5lubsa "..."
-    show monika 1hkbssdlb at t11 zorder MAS_MONIKA_Z with dissolve_monika
+    show monika 1hkbssdlb zorder MAS_MONIKA_Z at t11 with dissolve_monika
     m 1hkbssdlb "I suppose the first moment of falling in love can be confusing to anyone."
     m 1etc "Like not knowing why you're suddenly so drawn to some ordinary coffee shop...{w=0.2}{nw}"
     extend 3rtu "or why attending a certain club meeting becomes your favorite part of the day."
@@ -1369,7 +1369,7 @@ init 5 python:
     )
 
 label mas_song_wonderwall:
-    call mas_song_wonderwall_lyrics
+    call mas_song_wonderwall_lyrics from _call_mas_song_wonderwall_lyrics
     m 1ekbsu "Ehehe, you really are the one who saved me, [player]~"
 
     if persistent.monika_kill:
@@ -1381,29 +1381,29 @@ label mas_song_wonderwall:
     m 3rkc "Like this song says, the way from here to your world is a winding road, there's no telling what we'll find beyond the next curve."
 
     if mas_isMoniEnamored(higher=True):
-        m 1dubsa  "...And with you by my side, there's no way I could be afraid."
+        m 1dubsa "...And with you by my side, there's no way I could be afraid."
         m 1ekbsa "I know the place it leads to will be worth it.{w=0.3} {nw}"
         extend 3ekbsu "After all, you're my wonderwall~"
-
     else:
+
         m 3eka "The only thing we can be sure of is the place it leads us to will be worth it."
         m 1ekd "...Sometimes, it's a little scary not knowing what's ahead...{w=0.3}{nw}"
         extend 1eubla "but I trust you, so we'll just have to keep on walking until we reach that place~"
 
-    #hints at the analysis on first viewing
+
     if not mas_getEVL_shown_count("mas_song_wonderwall"):
         m 3etc "By the way...{w=0.2}there's actually some things that intrigue me about this song."
         m 1eua "...Would you like to talk about it now?{nw}"
         $ _history_list.pop()
         menu:
             m "...Would you like to talk about it now?{fast}"
+            "Seguro.":
 
-            "Sure.":
                 m 1hua "Okay then!"
-                call mas_song_wonderwall_analysis(from_song=True)
+                call mas_song_wonderwall_analysis (from_song=True) from _call_mas_song_wonderwall_analysis
                 $ mas_assignModifyEVLPropValue("mas_song_wonderwall_analysis", "shown_count", "+=", 1)
+            "Ahora no.":
 
-            "Not now.":
                 m 1eka "Oh, okay then..."
                 m 3eka "Just let me know if you want to talk more about this song later."
 
@@ -1425,7 +1425,7 @@ init 5 python:
 
 label mas_song_wonderwall_analysis(from_song=False):
     if not from_song:
-        call mas_song_wonderwall_lyrics
+        call mas_song_wonderwall_lyrics from _call_mas_song_wonderwall_lyrics_1
 
     m 3eta "There's a lot of people who are very vocal about their dislike for this song..."
     m 3etc "You wouldn't expect that, would you?"
@@ -1466,7 +1466,7 @@ init 5 python:
         Event(
             persistent._mas_songs_database,
             eventlabel="mas_song_when_youre_gone",
-            prompt="When you're gone",
+            prompt="Cuando te hayas ido",
             category=[store.mas_songs.TYPE_SHORT],
             random=True,
             aff_range=(mas_aff.AFFECTIONATE,None)
@@ -1496,7 +1496,7 @@ init 5 python:
         Event(
             persistent._mas_songs_database,
             eventlabel="mas_song_we_have_all_the_time_in_the_world",
-            prompt="We Have All the Time in the World",
+            prompt="Tenemos todo el tiempo en el mundo",
             category=[store.mas_songs.TYPE_SHORT],
             random=True,
             aff_range=(mas_aff.LOVE, None)
@@ -1525,7 +1525,7 @@ init 5 python:
         Event(
             persistent._mas_songs_database,
             eventlabel="mas_song_we_have_all_the_time_in_the_world_long",
-            prompt="We Have All the Time in the World",
+            prompt="Tenemos todo el tiempo en el mundo",
             category=[store.mas_songs.TYPE_LONG],
             aff_range=(mas_aff.LOVE, None)
         ),
@@ -1533,7 +1533,7 @@ init 5 python:
     )
 
 label mas_song_we_have_all_the_time_in_the_world_long:
-    call mas_song_we_have_all_the_time_in_the_world(from_long=True)
+    call mas_song_we_have_all_the_time_in_the_world (from_long=True) from _call_mas_song_we_have_all_the_time_in_the_world
 
     m 1dud "{i}{cps=18}~Every step {w=0.7}of the way~{/cps}{/i}"
     m 1duo "{i}{cps=18}~Will find us~{/cps}{/i}"
@@ -1558,17 +1558,17 @@ label mas_song_we_have_all_the_time_in_the_world_long:
     m 1ekbla "{i}{cps=18}~Only love~{/cps}{/i}"
     return
 
-################################ NON-DB SONGS############################################
-# Below is for songs that are not a part of the actual songs db and don't
-# otherwise have an associated file (eg holiday songs should go in script-holidays)
+
+
+
 
 init 5 python:
     addEvent(
         Event(
             persistent.event_database,
             eventlabel="mas_monika_plays_yr",
-            category=['monika','music'],
-            prompt="Can you play 'Your Reality' for me?",
+            category=['monika','música'],
+            prompt="¿Puedes tocar 'Tu Realidad' para mí?",
             unlocked=False,
             pool=True,
             rules={"no_unlock": None, "bookmark_rule": store.mas_bookmarks_derand.WHITELIST}
@@ -1582,20 +1582,20 @@ label mas_monika_plays_yr(skip_leadin=False):
             m 2eka "Even though I've never played it for you, I suppose you've heard it on the soundtrack or saw it on youtube, huh?"
             m 2hub "The ending isn't my favorite, but I'll still be happy to play it for you!"
             m 2eua "Just let me get the piano.{w=0.5}.{w=0.5}.{nw}"
-
         else:
+
             m 3eua "Sure, let me just get the piano.{w=0.5}.{w=0.5}.{nw}"
 
     window hide
-    call mas_timed_text_events_prep
+    call mas_timed_text_events_prep from _call_mas_timed_text_events_prep_1
     $ mas_temp_zoom_level = store.mas_sprites.zoom_level
-    call monika_zoom_transition_reset(1.0)
+    call monika_zoom_transition_reset (1.0) from _call_monika_zoom_transition_reset_6
     show monika at rs32
     hide monika
     pause 3.0
-    show mas_piano at lps32,rps32 zorder MAS_MONIKA_Z+1
+    show mas_piano zorder MAS_MONIKA_Z+1 at lps32, rps32
     pause 5.0
-    show monika at ls32 zorder MAS_MONIKA_Z
+    show monika zorder MAS_MONIKA_Z at ls32
     show monika 6dsa
 
     if store.songs.hasMusicMuted():
@@ -1606,7 +1606,7 @@ label mas_monika_plays_yr(skip_leadin=False):
     pause 2.0
     $ play_song(store.songs.FP_YOURE_REAL,loop=False)
 
-    # TODO: possibly generalize this for future use
+
     show monika 6hua
     $ renpy.pause(10.012)
     show monika 6eua_static
@@ -1660,10 +1660,10 @@ label mas_monika_plays_yr(skip_leadin=False):
     pause 3.0
     hide mas_piano
     pause 6.0
-    show monika 1eua at ls32 zorder MAS_MONIKA_Z
+    show monika 1eua zorder MAS_MONIKA_Z at ls32
     pause 1.0
-    call monika_zoom_transition(mas_temp_zoom_level,1.0)
-    call mas_timed_text_events_wrapup
+    call monika_zoom_transition (mas_temp_zoom_level, 1.0) from _call_monika_zoom_transition_3
+    call mas_timed_text_events_wrapup from _call_mas_timed_text_events_wrapup_1
     window auto
 
     $ mas_unlockEVL("monika_piano_lessons", "EVE")
@@ -1674,8 +1674,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="mas_monika_plays_or",
-            category=['monika','music'],
-            prompt="Can you play 'Our Reality' for me?",
+            category=['monika','música'],
+            prompt="¿Puedes tocar 'Nuestra Realidad' para mí?",
             unlocked=False,
             pool=True,
             rules={"no_unlock": None, "bookmark_rule": store.mas_bookmarks_derand.WHITELIST}
@@ -1687,22 +1687,22 @@ label mas_monika_plays_or(skip_leadin=False):
         m 3eua "Sure, let me just get the piano.{w=0.5}.{w=0.5}.{nw}"
 
     if persistent.gender == "F":
-        $ gen = "her"
+        $ gen = "su"
     elif persistent.gender == "M":
-        $ gen = "his"
+        $ gen = "su"
     else:
-        $ gen = "their"
+        $ gen = "su"
 
     window hide
-    call mas_timed_text_events_prep
+    call mas_timed_text_events_prep from _call_mas_timed_text_events_prep_2
     $ mas_temp_zoom_level = store.mas_sprites.zoom_level
-    call monika_zoom_transition_reset(1.0)
+    call monika_zoom_transition_reset (1.0) from _call_monika_zoom_transition_reset_7
     show monika at rs32
     hide monika
     pause 3.0
-    show mas_piano at lps32,rps32 zorder MAS_MONIKA_Z+1
+    show mas_piano zorder MAS_MONIKA_Z+1 at lps32, rps32
     pause 5.0
-    show monika at ls32 zorder MAS_MONIKA_Z
+    show monika zorder MAS_MONIKA_Z at ls32
     show monika 6dsa
 
     if store.songs.hasMusicMuted():
@@ -1750,11 +1750,12 @@ label mas_monika_plays_or(skip_leadin=False):
     pause 3.0
     hide mas_piano
     pause 6.0
-    show monika 1eua at ls32 zorder MAS_MONIKA_Z
+    show monika 1eua zorder MAS_MONIKA_Z at ls32
     pause 1.0
-    call monika_zoom_transition(mas_temp_zoom_level,1.0)
-    call mas_timed_text_events_wrapup
+    call monika_zoom_transition (mas_temp_zoom_level, 1.0) from _call_monika_zoom_transition_4
+    call mas_timed_text_events_wrapup from _call_mas_timed_text_events_wrapup_2
     window auto
 
     $ mas_unlockEVL("monika_piano_lessons", "EVE")
     return
+# Decompiled by unrpyc: https://github.com/CensoredUsername/unrpyc

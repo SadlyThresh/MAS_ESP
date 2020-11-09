@@ -1,19 +1,19 @@
-# Monika's Grammar Tip of the Day (GTOD)
-# TIPS
-# 0 - Intro
-# 1 - Clauses
-# 2 - Comma Splices/Run-ons
-# 3 - Conjunctions
-# 4 - Semicolons
-# 5 - Subjects and Objects
-# 6 - Active and Passive Voices
-# 7 - Who vs. Whom
-# 8 - And I vs. And me
-# 9 - Apostrophes
-# 10 - The Oxford Comma
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 init 4 python in mas_gtod:
-    # to simplify unlocking, lets use a special function to unlock tips
+
     import datetime
     import store.evhand as evhand
 
@@ -32,26 +32,26 @@ init 4 python in mas_gtod:
             true if the tip has been seen and a day has past since it was
             unlocked, False otherwise
         """
-
+        
         tip_ev = evhand.event_database.get(
             M_GTOD.format(tip_num),
             None
         )
-
+        
         return (
             tip_ev is not None
             and tip_ev.last_seen is not None
             and tip_ev.timePassedSinceLastSeen_d(datetime.timedelta(days=1))
         )
 
-# gtod intro topic
+
 init 5 python:
     addEvent(
         Event(
             persistent.event_database,
             eventlabel="monika_gtod_tip000",
-            category=["grammar tips"],
-            prompt="Can you teach me about grammar?",
+            category=["consejos de gramática"],
+            prompt="¿Puedes enseñarme sobre la gramática?",
             pool=True,
             rules={"bookmark_rule": store.mas_bookmarks_derand.BLACKLIST}
         )
@@ -69,24 +69,24 @@ label monika_gtod_tip000:
     m 1hua "Let's improve our writing together, [mas_get_player_nickname()]~"
     m 3eub "We'll start with clauses, the basic building blocks of sentences!"
 
-    # hide the intro topic after viewing
+
     $ mas_hideEVL("monika_gtod_tip000", "EVE", lock=True, depool=True)
 
-    # enable tip 1
+
     $ tip_label = "monika_gtod_tip001"
     $ mas_showEVL(tip_label, "EVE", unlock=True, _pool=True)
     $ pushEvent(tip_label,skipeval=True)
     return
 
-##############################################################################
-# Actual tips start here
+
+
 init 5 python:
     addEvent(
         Event(
             persistent.event_database,
             eventlabel="monika_gtod_tip001",
-            category=["grammar tips"],
-            prompt="Clauses"
+            category=["consejos de gramática"],
+            prompt="Cláusulas"
         )
     )
 
@@ -106,8 +106,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_gtod_tip002",
-            category=["grammar tips"],
-            prompt="Comma Splices and Run-ons",
+            category=["consejos de gramática"],
+            prompt="Empalmes de Coma y Run-ons",
             pool=True,
             conditional="store.mas_gtod.has_day_past_tip(1)",
             action=EV_ACT_UNLOCK,
@@ -138,8 +138,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_gtod_tip003",
-            category=["grammar tips"],
-            prompt="Conjunctions",
+            category=["consejos de gramática"],
+            prompt="Conjunciones",
             pool=True,
             conditional="store.mas_gtod.has_day_past_tip(2)",
             action=EV_ACT_UNLOCK,
@@ -181,8 +181,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_gtod_tip004",
-            category=["grammar tips"],
-            prompt="Semicolons",
+            category=["consejos de gramática"],
+            prompt="Punto y coma",
             pool=True,
             conditional="store.mas_gtod.has_day_past_tip(3)",
             action=EV_ACT_UNLOCK,
@@ -216,8 +216,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_gtod_tip005",
-            category=["grammar tips"],
-            prompt="Subjects and Objects",
+            category=["consejos de gramática"],
+            prompt="Sujetos y objetos",
             pool=True,
             conditional="store.mas_gtod.has_day_past_tip(4)",
             action=EV_ACT_UNLOCK,
@@ -247,8 +247,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_gtod_tip006",
-            category=["grammar tips"],
-            prompt="Active and Passive Voices",
+            category=["consejos de gramática"],
+            prompt="Voces activas y pasivas",
             pool=True,
             conditional="store.mas_gtod.has_day_past_tip(5)",
             action=EV_ACT_UNLOCK,
@@ -277,8 +277,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_gtod_tip007",
-            category=["grammar tips"],
-            prompt="Who vs. Whom",
+            category=["consejos de gramática"],
+            prompt="Que vs Quién",
             pool=True,
             conditional="store.mas_gtod.has_day_past_tip(6)",
             action=EV_ACT_UNLOCK,
@@ -308,8 +308,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_gtod_tip008",
-            category=["grammar tips"],
-            prompt="And I vs. And me",
+            category=["consejos de gramática"],
+            prompt="Y yo vs. Y a mí",
             pool=True,
             conditional="store.mas_gtod.has_day_past_tip(7)",
             action=EV_ACT_UNLOCK,
@@ -342,8 +342,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_gtod_tip009",
-            category=["grammar tips"],
-            prompt="Apostrophes",
+            category=["consejos de gramática"],
+            prompt="Apóstrofe",
             pool=True,
             conditional="store.mas_gtod.has_day_past_tip(8)",
             action=EV_ACT_UNLOCK,
@@ -351,7 +351,7 @@ init 5 python:
         )
     )
 
-# Note: formatted apostrophes have been used in examples in this tip for clarity. Please DO NOT remove them.
+
 label monika_gtod_tip009:
     if player[-1].lower() == 's':
         $ tempname = player
@@ -382,8 +382,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="monika_gtod_tip010",
-            category=["grammar tips"],
-            prompt="The Oxford Comma",
+            category=["consejos de gramática"],
+            prompt="Al final vs a la final",
             pool=True,
             conditional="store.mas_gtod.has_day_past_tip(9)",
             action=EV_ACT_UNLOCK,
@@ -402,3 +402,4 @@ label monika_gtod_tip010:
     m 1eua "That's all I have for today, [player]."
     m 3hub "Thanks for listening!"
     return
+# Decompiled by unrpyc: https://github.com/CensoredUsername/unrpyc

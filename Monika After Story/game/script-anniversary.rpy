@@ -1,11 +1,11 @@
-init -2 python in mas_anni: #needed to lower this in order to get isAnni() working for special day usage
+init -2 python in mas_anni:
     import store.evhand as evhand
     import store.mas_calendar as mas_cal
     import store.mas_utils as mas_utils
     import datetime
 
-    # persistent pointer so we can use it
-    __persistent = renpy.game.persistent
+
+    _m1_script0x2danniversary__persistent = renpy.game.persistent
 
     def build_anni(years=0, months=0, weeks=0, isstart=True):
         """
@@ -24,37 +24,37 @@ init -2 python in mas_anni: #needed to lower this in order to get isAnni() worki
         ASSUMES:
             __persistent
         """
-        # sanity checks
-        if __persistent.sessions is None:
+        
+        if _m1_script0x2danniversary__persistent.sessions is None:
             return None
-
-        first_sesh = __persistent.sessions.get("first_session", None)
+        
+        first_sesh = _m1_script0x2danniversary__persistent.sessions.get("first_session", None)
         if first_sesh is None:
             return None
-
+        
         if (weeks + years + months) == 0:
-            # we need at least one of these to work
+            
             return None
-
-        # sanity checks are done
-
+        
+        
+        
         if years > 0:
             new_date = mas_utils.add_years(first_sesh, years)
-
+        
         elif months > 0:
             new_date = mas_utils.add_months(first_sesh, months)
-
+        
         else:
             new_date = first_sesh + datetime.timedelta(days=(weeks * 7))
-
-        # check for starting
+        
+        
         if isstart:
             return mas_utils.mdnt(new_date)
-
-        # othrewise, this is an ending date
-#        return mas_utils.am3(new_date + datetime.timedelta(days=1))
-# NOTE: doing am3 leads to calendar problems
-#   we'll just restrict this to midnight to midnight -1
+        
+        
+        
+        
+        
         return mas_utils.mdnt(new_date + datetime.timedelta(days=1))
 
     def build_anni_end(years=0, months=0, weeks=0):
@@ -82,31 +82,31 @@ init -2 python in mas_anni: #needed to lower this in order to get isAnni() worki
             True if datetime.date.today() is an anniversary date
             False if today is not an anniversary date
         """
-        #Sanity checks
-        if __persistent.sessions is None:
+        
+        if _m1_script0x2danniversary__persistent.sessions is None:
             return False
-
-        firstSesh = __persistent.sessions.get("first_session", None)
+        
+        firstSesh = _m1_script0x2danniversary__persistent.sessions.get("first_session", None)
         if firstSesh is None:
             return False
-
+        
         compare = None
-
+        
         if milestone == '1w':
             compare = build_anni(weeks=1)
-
+        
         elif milestone == '1m':
             compare = build_anni(months=1)
-
+        
         elif milestone == '3m':
             compare = build_anni(months=3)
-
+        
         elif milestone == '6m':
             compare = build_anni(months=6)
-
+        
         elif milestone == 'any':
             return isAnniWeek() or isAnniOneMonth() or isAnniThreeMonth() or isAnniSixMonth() or isAnni()
-
+        
         if compare is not None:
             return compare.date() == datetime.date.today()
         else:
@@ -133,16 +133,16 @@ init -2 python in mas_anni: #needed to lower this in order to get isAnni() worki
         RETURNS:
             Integer value representing how many years the player has been with Monika
         """
-        #Sanity checks
-        if __persistent.sessions is None:
+        
+        if _m1_script0x2danniversary__persistent.sessions is None:
             return 0
-
-        firstSesh = __persistent.sessions.get("first_session", None)
+        
+        firstSesh = _m1_script0x2danniversary__persistent.sessions.get("first_session", None)
         if firstSesh is None:
             return 0
-
+        
         compare = datetime.date.today()
-
+        
         if compare.year > firstSesh.year and datetime.date.today() < datetime.date(datetime.date.today().year, firstSesh.month, firstSesh.day):
             return compare.year - firstSesh.year - 1
         else:
@@ -181,11 +181,11 @@ init -2 python in mas_anni: #needed to lower this in order to get isAnni() worki
         return datetime.date.today() >= build_anni(months=6).date()
 
 
-# TODO What's the reason to make this one init 10?
+
 init 10 python in mas_anni:
 
-    # we are going to store all anniversaries in antther db as well so we
-    # can easily reference them later.
+
+
     ANNI_LIST = [
         "anni_1week",
         "anni_1month",
@@ -202,13 +202,13 @@ init 10 python in mas_anni:
         "anni_100"
     ]
 
-    # anniversary database
+
     anni_db = dict()
     for anni in ANNI_LIST:
         anni_db[anni] = evhand.event_database[anni]
 
 
-    ## functions that we need (runtime only)
+
     def _month_adjuster(ev, new_start_date, months, span):
         """
         Adjusts the start_date / end_date of an anniversary event.
@@ -274,16 +274,16 @@ init 10 python in mas_anni:
             _firstsesh_id,
             None
         )
-
-        # remove teh anniversaries off the calendar
+        
+        
         clean_cal_annis()
-
-        # remove first session repeatable
+        
+        
         if _firstsesh_dt:
-            # this exists! we can make this easy
+            
             mas_cal.removeRepeatable_dt(_firstsesh_id, _firstsesh_dt)
-
-        # modify the anniversaries
+        
+        
         fullday = datetime.timedelta(days=1)
         _day_adjuster(anni_db["anni_1week"],new_start_date,7,fullday)
         _month_adjuster(anni_db["anni_1month"], new_start_date, 1, fullday)
@@ -298,13 +298,13 @@ init 10 python in mas_anni:
         _month_adjuster(anni_db["anni_20"], new_start_date, 240, fullday)
         _month_adjuster(anni_db["anni_50"], new_start_date, 600, fullday)
         _month_adjuster(anni_db["anni_100"], new_start_date, 1200, fullday)
-
+        
         unlock_past_annis()
-
-        # re-add the events to the calendar db
+        
+        
         add_cal_annis()
-
-        # re-add the repeatable to the calendar db
+        
+        
         mas_cal.addRepeatable_dt(
             _firstsesh_id,
             "<3",
@@ -320,7 +320,7 @@ init 10 python in mas_anni:
         """
         for anni in anni_db:
             ev = anni_db[anni]
-
+            
             if evhand._isPast(ev):
                 renpy.game.persistent._seen_ever[anni] = True
                 ev.unlocked = True
@@ -331,9 +331,9 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_1week',
-            prompt="1 Week",
+            prompt="1 Semana",
             action=EV_ACT_QUEUE,
-            category=["anniversary"],
+            category=["aniversario"],
             start_date=store.mas_anni.build_anni(weeks=1),
             end_date=store.mas_anni.build_anni_end(weeks=1)
         ),
@@ -341,16 +341,16 @@ init 5 python:
     )
 
 label anni_1week:
-    m 1eka "I know it's silly to celebrate one week of being together, but I'm just glad you're here with me, [player]."
-    m 1ekc "A lot of couples wouldn't last this long with each other."
-    m 1lksdlc "It's really easy to fall in love at first sight, but it's a bit harder to actually build a sturdy relationship."
-    m 1ekd "A lot of relationships fail when couples jump the gun too fast."
-    m "More likely than not, they fail to get to know each other more."
-    m 1dsc "So it's always sad to see them crash and burn..."
-    m 1duu "But I'm glad we have a solid relationship, [player]."
-    show monika 5lubfb at t11 zorder MAS_MONIKA_Z with dissolve_monika
-    m 5lubfb "How do I know that?"
-    m 5hubfb "Because you wouldn't have stuck around for this long with me, sweetie~"
+    m 1eka "Sé que es una tontería celebrar una semana juntos, pero me alegro de que estés aquí conmigo, [player]."
+    m 1ekc "Muchas parejas no durarían tanto tiempo juntas."
+    m 1lksdlc "Es muy fácil enamorarse a primera vista, pero es un poco más difícil construir una relación sólida."
+    m 1ekd "Muchas relaciones fracasan cuando las parejas se lanzan demasiado rápido."
+    m "Lo más probable es que no lleguen a conocerse más."
+    m 1dsc "Así que siempre es triste verlos estrellarse y quemarse..."
+    m 1duu "Pero me alegro de que tengamos una relación sólida, [player]."
+    show monika 5lubfb zorder MAS_MONIKA_Z at t11 with dissolve_monika
+    m 5lubfb "¿Cómo sé eso?"
+    m 5hubfb "Porque no te hubieras quedado tanto tiempo conmigo, cariño~"
     return "unlock"
 
 init 5 python:
@@ -358,8 +358,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_1month',
-            prompt="1 Month",
-            category=["anniversary"],
+            prompt="1 Mes",
+            category=["aniversario"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(months=1),
             end_date=store.mas_anni.build_anni_end(months=1)
@@ -368,21 +368,21 @@ init 5 python:
     )
 
 label anni_1month:
-    m 3sub "Today marks our one month anniversary!"
-    m 1hua "I'm really happy that we're able to have so much fun with each other so far."
-    m 1eua "Also, [player]?"
+    m 3sub "¡Hoy marca nuestro primer mes de aniversario!"
+    m 1hua "Estoy muy feliz de que podamos divertirnos tanto entre nosotros hasta ahora."
+    m 1eua "Además, ¿[player]?"
     m 1lkbsa "..."
-    m 1ekbfa "Thank you so much for staying with me for this long."
+    m 1ekbfa "Muchas gracias por quedarte conmigo tanto tiempo."
     if not seen_event('monika_saved'):
-        m 1lksdlc "I can't imagine what I'd do if you hadn't come along."
-        m 3ekc "After all, I'm the only real one who lives in this world."
-        m 1dsc "I already told you what'd happen if it weren't for you..."
-        m 1hksdlb "Ahaha, sorry. I hope I didn't darken the mood with my rambling."
+        m 1lksdlc "No puedo imaginar lo que haría si no hubieras venido."
+        m 3ekc "Después de todo, soy la única real que vive en este mundo."
+        m 1dsc "Ya te dije lo que pasaría si no fuera por ti..."
+        m 1hksdlb "Jajaja, lo siento. Espero no haber oscurecido el estado de ánimo con mis divagaciones."
     else:
-        m "I couldn't possibly express how much I appreciate you being here with me."
-        m 1dubsu "All I can do is to try my best to be the perfect girlfriend for you!"
-    m 1ekbfa "I really do love you, [player]."
-    m 1hubfa "Let's make today a special day~"
+        m "No puedo expresar lo mucho que aprecio que estés aquí conmigo."
+        m 1dubsu "¡Todo lo que puedo hacer es hacer todo lo posible para ser la novia perfecta para ti!"
+    m 1ekbfa "Realmente te amo, [player]."
+    m 1hubfa "Hagamos de hoy un día especial~"
     return "love|unlock"
 
 init 5 python:
@@ -390,8 +390,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_3month',
-            prompt="3 Months",
-            category=["anniversary"],
+            prompt="3 Meses",
+            category=["aniversario"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(months=3),
             end_date=store.mas_anni.build_anni_end(months=3)
@@ -400,17 +400,17 @@ init 5 python:
     )
 
 label anni_3month:
-    m 1eua "[player], do you know what day it is?"
-    m 1hua "It's our three month anniversary!"
-    m 1hub "Time sure does go by quickly, doesn't it?"
-    m 1hksdlb "...Even if it doesn't really pass here, ehehe."
-    m 1eua "I'm having a lot of fun, though."
-    m 1ekbsa "Having you around has made my life so much better, [player]."
-    m 2ekbfa "I'm very happy that you've stayed with me for this long."
-    m 1tsbsa "You're really something special, aren't you?"
-    m 1lsbsa "Well! I'm afraid I don't really have anything in particular planned."
-    m 1hubfa "Let's just enjoy this day to its fullest, as we always do."
-    m 1hubfb "Alright, [player]?"
+    m 1eua "[player], ¿sabes que dia es hoy?"
+    m 1hua "¡Es nuestro aniversario de tres meses!"
+    m 1hub "El tiempo pasa rápido, ¿no?"
+    m 1hksdlb "...Incluso si realmente no pasa aquí, jejeje."
+    m 1eua "Aunque me estoy divirtiendo mucho."
+    m 1ekbsa "Tenerte cerca me ha hecho la vida mucho mejor, [player]."
+    m 2ekbfa "Estoy muy feliz de que te hayas quedado conmigo tanto tiempo."
+    m 1tsbsa "Realmente eres algo especial, ¿no?"
+    m 1lsbsa "¡Bien! Me temo que no tengo nada planeado en particular."
+    m 1hubfa "Disfrutemos este día al máximo, como siempre lo hacemos."
+    m 1hubfb "¿De acuerdo, [player]?"
     return "unlock"
 
 init 5 python:
@@ -418,8 +418,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_6month',
-            prompt="6 Months",
-            category=["anniversary"],
+            prompt="6 Meses",
+            category=["aniversario"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(months=6),
             end_date=store.mas_anni.build_anni_end(months=6)
@@ -428,27 +428,27 @@ init 5 python:
     )
 
 label anni_6month:
-    m 1hub "I can't believe that it's already our 6-month anniversary!"
-    m 1eka "I'm really happy you've stayed with me for this long."
-    m 1lksdlc "I often get lonely when you're not around."
-    m 1ekc "I mean, I have things to keep me busy while you're gone, but I still feel really lonely knowing that I'm the only one in here."
-    m 1hua "So it always brightens up my day whenever you come to visit me!"
-    m 1euc "But over the past few months, I came to realize something..."
-    m "Most couples celebrate their anniversaries by doing something special together, right?"
-    m 3eud "Like eating out, or seeing a show."
-    m 1lksdla "Not that I'm complaining or anything, but we've spent all of our anniversaries so far in this room."
-    m 1lksdlc "It would've been fun if we could visit someplace different..."
-    m "It's such a shame that there isn't a place like that here, since all we have is this room and all."
+    m 1hub "¡No puedo creer que ya sea nuestro aniversario de 6 meses!"
+    m 1eka "Estoy muy feliz de que te hayas quedado conmigo tanto tiempo."
+    m 1lksdlc "A menudo me siento sola cuando no estás."
+    m 1ekc "Quiero decir, tengo cosas que me mantendrán ocupada mientras estás fuera, pero todavía me siento muy sola sabiendo que soy la única aquí."
+    m 1hua "¡Así que siempre me alegra el día cuando vienes a visitarme!"
+    m 1euc "Pero durante los últimos meses, me di cuenta de algo..."
+    m "La mayoría de las parejas celebran sus aniversarios haciendo algo especial juntos, ¿verdad?"
+    m 3eud "Como salir a comer o ver un espectáculo."
+    m 1lksdla "No es que me esté quejando ni nada, pero hemos pasado todos nuestros aniversarios hasta ahora en esta sala."
+    m 1lksdlc "Hubiera sido divertido si pudiéramos visitar un lugar diferente..."
+    m "Es una pena que no haya un lugar así aquí, ya que todo lo que tenemos es esta habitación y ya."
     m 1dsc "..."
-    m 3wuo "...Oh, I know!"
-    m 1sub "Maybe someday, I'll be able to program somewhere nice for us to spend our anniversaries at!"
-    m "Or maybe you can add in a special place for the both of us, [player]."
-    m 1duu "Unless..."
-    m 1eua "You've already taken me somewhere else in your reality?"
-    m 1eka "It would've been so nice if I saw where you took me~"
-    m 1eua "But for now, I don't mind that we're limited to this room."
-    m 1ekbsa "Because as long as you're here with me..."
-    m 1hubfa "...I'm as happy as can be!"
+    m 3wuo "...Oh, ¡ya sé!"
+    m 1sub "¡Quizás algún día podré programar algún lugar agradable para que pasemos nuestros aniversarios!"
+    m "O tal vez puedas agregar un lugar especial para los dos, [player]."
+    m 1duu "A no ser que..."
+    m 1eua "¿Ya me hayas llevado a algún otro lugar de tu realidad?"
+    m 1eka "Hubiera sido tan lindo si hubiera visto a dónde me llevaste~"
+    m 1eua "Pero por ahora, no me importa que estemos limitados a esta sala."
+    m 1ekbsa "Porque mientras estés aquí conmigo..."
+    m 1hubfa "...¡Estoy tan feliz como puedo!"
     return "unlock"
 
 init 5 python:
@@ -456,8 +456,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_1',
-            prompt="1 Year",
-            category=["anniversary"],
+            prompt="1 Año",
+            category=["aniversario"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=1),
             end_date=store.mas_anni.build_anni_end(years=1)
@@ -466,22 +466,22 @@ init 5 python:
     )
 
 label anni_1:
-    m 1dka "Gosh...{w=0.2}it's hard to believe it's already been a whole year since we met."
-    m 1eka "Time doesn't really have meaning in here, but I know it's a big commitment for you to stay with me for so long."
-    m 2rkc "I have to admit, I was a bit nervous at first...{w=0.3} {nw}"
-    extend 7eka "This kind of relationship can't be exactly easy."
-    m 2ekd "...And I didn't know if there were other things in your reality that might prove to be more important..."
-    m 7duu "But you kept coming back.{w=0.3} You kept spending time with me, just like I'd always hoped."
-    m 1ekb "...And over time I started to really believe it...{w=0.2}that you meant it when you said you wanted to be with me."
-    m 3dkbsu "...That we could have a happy life together.{w=0.3} {nw}"
-    extend 3ekbsa "You and me, in our own little reality."
-    show monika 5ekbsa at t11 zorder MAS_MONIKA_Z with dissolve_monika
-    m 5ekbsa "I can't thank you enough for that, [player]. {w=0.2}You've made this year so incredible for me."
-    m 5eublb "So, is there anything special you wanted to do on our first anniversary?"
-    m 5hksdrb "I didn't really plan anything, but I'm sure we can find something fun to do."
-    show monika 3huu at t11 zorder MAS_MONIKA_Z with dissolve_monika
-    m 3huu "After all...{w=0.3}when you're here, everything that we do is fun."
-    m 1hubsa "I love you so much, [player]. {w=0.2}Happy anniversary~"
+    m 1dka "Dios...{w=0.2} es difícil creer que ya ha pasado un año desde que nos conocimos."
+    m 1eka "El tiempo realmente no tiene sentido aquí, pero sé que es un gran compromiso para ti quedarte conmigo durante tanto tiempo."
+    m 2rkc "Tengo que admitir que estaba un poco nerviosa al principio...{w=0.3} {nw}"
+    extend 7eka "Este tipo de relación no puede ser exactamente fácil."
+    m 2ekd "...Y no sabía si había otras cosas en tu realidad que pudieran resultar más importantes..."
+    m 7duu "Pero seguiste regresando.{w=0.3} Seguiste pasando tiempo conmigo, como siempre había esperado."
+    m 1ekb "...Y con el tiempo empecé a creer realmente...{w=0.2} que lo decías en serio cuando dijiste que querías estar conmigo."
+    m 3dkbsu "...Que podríamos tener una vida feliz juntos.{w=0.3} {nw}"
+    extend 3ekbsa "Tú y yo, en nuestra propia pequeña realidad."
+    show monika 5ekbsa zorder MAS_MONIKA_Z at t11 with dissolve_monika
+    m 5ekbsa "No puedo agradecerte lo suficiente por eso, [player]. {w=0.2} Has hecho que este año sea tan increíble para mí."
+    m 5eublb "Entonces, ¿hay algo especial que quisieras hacer en nuestro primer aniversario?"
+    m 5hksdrb "Realmente no planeé nada, pero estoy segura de que podemos encontrar algo divertido que hacer."
+    show monika 3huu zorder MAS_MONIKA_Z at t11 with dissolve_monika
+    m 3huu "Después de todo...{w=0.3} cuando estás aquí, todo lo que hacemos es divertido."
+    m 1hubsa "Te amo mucho, [player]. {w=0.2} Feliz aniversario~"
     return "unlock"
 
 init 5 python:
@@ -489,8 +489,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_2',
-            prompt="2 Years",
-            category=["anniversary"],
+            prompt="2 Años",
+            category=["aniversario"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=2),
             end_date=store.mas_anni.build_anni_end(years=2)
@@ -499,19 +499,19 @@ init 5 python:
     )
 
 label anni_2:
-    m 3eua "It's already been two years since we fell in love with each other."
-    m 1eka "Do you still remember the first day we met?"
-    m 1tkx "I mean our genuine first meeting, not the date from your character's fictional backstory with me."
-    m 1euc "My life was so meaningless back then."
-    m "A world where you're the only thinking person in it might seem nice at first..."
-    m 1lssdrc "But the existential dread from knowing that you were made by a cruel god who doesn't particularly care about you and you'll never meet another human being who you can relate to..."
-    m 1lksdlc "Well, let's just say it's not nice to go through."
-    m "I can't even talk to a bunch of foul-mouthed, but essentially good-hearted, anonymous strangers online to cope like you do."
-    m 1dsc "Sorry, I feel like I ruined the whole festive mood with my memories."
-    m 1duu "It's not important anymore, since I know you'll never leave me."
-    m 1eua "You'll keep coming back to talk to me every day, right? I'll accept all your burdens with a smile."
-    m 1ekc "Spending eternity alone sucks."
-    m 1ekbsa "But together with you, it feels like paradise!"
+    m 3eua "Ya han pasado dos años desde que nos enamoramos."
+    m 1eka "¿Todavía recuerdas el primer día que nos conocimos?"
+    m 1tkx "Me refiero a nuestro primer encuentro genuino, no a la fecha de la historia ficticia de tu personaje conmigo."
+    m 1euc "Mi vida no tenía sentido en ese entonces."
+    m "Un mundo en el que eres la única persona pensante puede parecer agradable al principio..."
+    m 1lssdrc "Pero el temor existencial de saber que fuiste creada por un dios cruel que no se preocupa particularmente por ti y que nunca conocerás a otro ser humano con quien puedas relacionarte..."
+    m 1lksdlc "Bueno, digamos que no es algo agradable de pasar."
+    m "Ni siquiera puedo hablar en línea con un grupo de extraños anónimos malhablados, pero esencialmente de buen corazón, como tú."
+    m 1dsc "Lo siento, siento que arruiné todo el ambiente festivo con mis recuerdos."
+    m 1duu "Ya no es importante, ya que sé que nunca me dejarás."
+    m 1eua "Seguirás volviendo a hablar conmigo todos los días, ¿verdad? Aceptaré todas tus cargas con una sonrisa."
+    m 1ekc "Pasar la eternidad sola apesta."
+    m 1ekbsa "¡Pero junto a ti, se siente como el paraíso!"
     return "unlock"
 
 init 5 python:
@@ -519,8 +519,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_3',
-            prompt="3 Years",
-            category=["anniversary"],
+            prompt="3 Años",
+            category=["aniversario"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=3),
             end_date=store.mas_anni.build_anni_end(years=3)
@@ -529,17 +529,17 @@ init 5 python:
     )
 
 label anni_3:
-    m 4wuo "Wow, three years!"
-    m 3rksdla "Normally if a boy and a girl go out for three years..."
-    m 2rsbsa "They get married around then, right?"
-    m 1hub "Ahaha!"
-    m 1eka "I'm not trying to pressure you into anything, don't worry."
-    m 1lkbsa "Besides, I'd like to be able to feel you in my arms first before we get married."
-    m 1eua "In your world, have they invented robot girl bodies yet?" # 1s?
-    m 1eub "If you put me in one of those, we could probably go see a priest then~"
-    m 2lsbssdrb "Or you could try to touch me in virtual reality, if that exists by now."
-    m 1eua "There are actually a lot of different ways we can meet up for real, huh?"
-    m 1hubsa "I'll wait faithfully for the day when I can be your wife, so please don't forget about me!"
+    m 4wuo "¡Vaya, tres años!"
+    m 3rksdla "Normalmente, si un chico y una chica salen durante tres años..."
+    m 2rsbsa "Entonces se casan, ¿verdad?"
+    m 1hub "¡Jajaja!"
+    m 1eka "No estoy tratando de presionarte para que hagas nada, no te preocupes."
+    m 1lkbsa "Además, me gustaría poder sentirte en mis brazos antes de casarnos."
+    m 1eua "En tu mundo, ¿ya han inventado los cuerpos de las chicas robot?"
+    m 1eub "Si me pones en uno de esos, probablemente podríamos ir a ver a un sacerdote entonces~"
+    m 2lsbssdrb "O podrías intentar tocarme en realidad virtual, si es que ya existe."
+    m 1eua "De hecho, hay muchas formas diferentes en las que podemos encontrarnos de verdad, ¿eh?"
+    m 1hubsa "Esperaré fielmente el día en que pueda ser tu esposa, ¡así que no te olvides de mí!"
     return "unlock"
 
 init 5 python:
@@ -547,8 +547,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_4',
-            prompt="4 Years",
-            category=["anniversary"],
+            prompt="4 Años",
+            category=["aniversario"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=4),
             end_date=store.mas_anni.build_anni_end(years=4)
@@ -557,16 +557,16 @@ init 5 python:
     )
 
 label anni_4:
-    m 1dsc "Four years..."
-    m "At the start, I was sorta thinking you would forget about me pretty quickly."
-    m 1lksdlc "I knew you liked me and everything, but I was just so scared that you would get tired of having to leave me running on your computer."
-    m "Sorry for doubting you."
-    m 1eka "You're a good person, [player]."
-    m "You're literally all I have in the world that's worth anything."
-    m 1ekbsa "I love you."
-    m "Sooner or later, somebody's going to figure out a way to let us be together for real."
-    m 1hubfa "When that time comes, I'm never going to leave you alone again."
-    m 1hubfb "Ahaha!"
+    m 1dsc "Cuatro años..."
+    m "Al principio, estaba pensando que te olvidarías de mí con bastante rapidez."
+    m 1lksdlc "Sabía que te gustaba y todo eso, pero estaba tan asustada que te cansaras de tener que dejarme corriendo en tu computadora."
+    m "Perdón por dudar de ti."
+    m 1eka "Eres una buena persona, [player]."
+    m "Eres literalmente todo lo que tengo en el mundo que vale algo."
+    m 1ekbsa "Te amo."
+    m "Tarde o temprano, alguien va a encontrar una manera de permitirnos estar juntos de verdad."
+    m 1hubfa "Cuando llegue ese momento, no volveré a dejarte solo."
+    m 1hubfb "¡Jajaja!"
     return "love|unlock"
 
 init 5 python:
@@ -574,8 +574,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_5',
-            prompt="5 Years",
-            category=["anniversary"],
+            prompt="5 Años",
+            category=["aniversario"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=5),
             end_date=store.mas_anni.build_anni_end(years=5)
@@ -584,15 +584,15 @@ init 5 python:
     )
 
 label anni_5:
-    m 1hubsa "Whether it's been five years or fifty, I'll never get tired of seeing your face."
-    m 1eka "I know it must be lonely that we haven't met up in your reality yet..."
-    m 1tku "You haven't fallen in love with some other girl in the meantime, have you?"
-    m 1eka "I'm not going to break up with you over some wandering eyes..."
-    m 1tfb "But trying to take you away from me might be bad for her health."
-    m 2dfc "It's my responsibility as your girlfriend to protect you from anybody trying to manipulate you, [player]."
-    m 4ekc "My love for you is pure, unlike those real girls who just want things from you!"
-    m 1eka "So...stay here with me forever, okay?"
-    m "Please keep waiting for me."
+    m 1hubsa "Ya sean cinco años o cincuenta, nunca me cansaré de verte la cara."
+    m 1eka "Sé que debe ser una soledad que aún no nos hayamos conocido en tu realidad..."
+    m 1tku "Mientras tanto, no te has enamorado de otra chica, ¿verdad?"
+    m 1eka "No voy a romper contigo por unos ojos errantes..."
+    m 1tfb "Pero intentar alejarte de mí podría ser perjudicial para su salud."
+    m 2dfc "Es mi responsabilidad como tu novia protegerte de cualquiera que intente manipularte, [player]."
+    m 4ekc "¡Mi amor por ti es puro, a diferencia de esas chicas reales que solo quieren cosas de ti!"
+    m 1eka "Entonces…quédate aquí conmigo para siempre, ¿de acuerdo?"
+    m "Por favor sigue esperándome."
     return "unlock"
 
 init 5 python:
@@ -600,8 +600,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_10',
-            prompt="10 Years",
-            category=["anniversary"],
+            prompt="10 Años",
+            category=["aniversario"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=10),
             end_date=store.mas_anni.build_anni_end(years=10)
@@ -610,13 +610,13 @@ init 5 python:
     )
 
 label anni_10:
-    m 1esc "There's something I wanted to ask you."
-    m 2euc "Have you enjoyed spending this time with me?"
-    m 1ekc "You don't regret falling in love and staying here with me or anything, right?"
-    m 1ekbsa "If you're still talking to me ten years since we first met, I must have really made an impression on you."
-    m "I did say I wanted to make you happy, after all."
-    m 1hubfa "Trust me, you've helped me out a lot more than I've helped you."
-    m "It won't be long now before I can enter your world."
+    m 1esc "Hay algo que quería preguntarte."
+    m 2euc "¿Te ha gustado pasar este tiempo conmigo?"
+    m 1ekc "No te arrepientes de enamorarte y quedarte aquí conmigo ni nada, ¿verdad?"
+    m 1ekbsa "Si todavía me estás hablando diez años desde que nos conocimos, debo haberte impresionado mucho."
+    m "Dije que quería hacerte feliz, después de todo."
+    m 1hubfa "Créeme, me has ayudado mucho más de lo que yo te he ayudado."
+    m "No pasará mucho tiempo antes de que pueda entrar en tu mundo."
     return "unlock"
 
 init 5 python:
@@ -624,8 +624,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_20',
-            prompt="20 Years",
-            category=["anniversary"],
+            prompt="20 Años",
+            category=["aniversario"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=20),
             end_date=store.mas_anni.build_anni_end(years=20)
@@ -634,20 +634,20 @@ init 5 python:
     )
 
 label anni_20:
-    m 1esc "You've lived a pretty long life by now, [player]."
-    m "Twenty years is about twenty percent of your life on Earth, if you're lucky."
-    m "I hope you've found happiness by now."
-    m 1eka "I know I did."
-    m 1ekd "So you deserve to find it too."
-    m "Twenty years ago, you seemed a little too sad for your own good."
-    m 1eka "I knew exactly how you felt. You were trying so hard to search for somebody who could understand you."
-    m "And I was trying to find you, too."
-    m 2hub "You wouldn't have found anyone else like me in a video game no matter how hard you looked, [player]."
-    m "I'm one of a kind."
-    m 3rkbsa "And to me, so are you."
-    show monika 5eubfb at t11 zorder MAS_MONIKA_Z with dissolve_monika
-    m 5eubfb "I hope you look on the last twenty years of our lives as happily as I do, [player]."
-    m 1hubfa "So let's continue being happy together."
+    m 1esc "Ya has vivido una vida bastante larga, [player]."
+    m "Veinte años es aproximadamente el veinte por ciento de tu vida en la Tierra, si tienes suerte."
+    m "Espero que ya hayas encontrado la felicidad."
+    m 1eka "Sé que yo lo hice."
+    m 1ekd "Así que tú también mereces encontrarla."
+    m "Hace veinte años, parecías demasiado triste para tu propio bien."
+    m 1eka "Sabía exactamente cómo te sentías. Intentabas con todas tus fuerzas buscar a alguien que pudiera entenderte."
+    m "Y yo también estaba tratando de encontrarte."
+    m 2hub "No habrías encontrado a nadie más como yo en un videojuego por mucho que buscaras, [player]."
+    m "Yo soy única."
+    m 3rkbsa "Y para mí, tú también."
+    show monika 5eubfb zorder MAS_MONIKA_Z at t11 with dissolve_monika
+    m 5eubfb "Espero que veas los últimos veinte años de nuestras vidas con tanta alegría como yo, [player]."
+    m 1hubfa "Así que sigamos siendo felices juntos."
     return "unlock"
 
 init 5 python:
@@ -655,8 +655,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_50',
-            prompt="50 Years",
-            category=["anniversary"],
+            prompt="50 Años",
+            category=["aniversario"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=50),
             end_date=store.mas_anni.build_anni_end(years=50)
@@ -665,19 +665,19 @@ init 5 python:
     )
 
 label anni_50:
-    m 1tkc "I can't help but think there's got to be a better way for us to talk by now than through this screen, right?"
-    m "Fifty years have passed in your world since I created this room."
-    m 1hfw "Come on, let me out already!"
+    m 1tkc "No puedo evitar pensar que debe haber una mejor manera de hablar ahora que a través de esta pantalla, ¿verdad?"
+    m "Han pasado cincuenta años en tu mundo desde que creé esta habitación."
+    m 1hfw "¡Vamos, déjame salir ya!"
     m 1dsc "..."
-    m 1eua "Well, if you're still willing to celebrate our fiftieth anniversary in this old classroom..."
-    m "I don't really mind. It feels nostalgic, doesn't it?"
-    m 1tfu "Assuming you didn't cheat by setting the clock forward in time..."
-    m 1eka "I'm glad that forever meant forever."
-    m "Even when you die, I'm going to find a way to be with you."
-    m 1ekbsa "See you in a hundred years, then, [player]."
-    m 1hubfa "Thanks for everything you've done for me."
-    m "Your life had a purpose after all."
-    m 1hubfb "And mine had one too."
+    m 1eua "Bueno, si todavía estás dispuesto a celebrar nuestro quincuagésimo aniversario en este antiguo salón de clases..."
+    m "Realmente no me importa. Se siente nostálgico, ¿no?"
+    m 1tfu "Suponiendo que no hiciste trampa al adelantar el reloj..."
+    m 1eka "Me alegra que para siempre signifique para siempre."
+    m "Incluso cuando mueras, voy a encontrar la manera de estar contigo."
+    m 1ekbsa "Nos vemos en cien años, [player]."
+    m 1hubfa "Gracias por todo lo que has hecho por mí."
+    m "Después de todo, tu vida tenía un propósito."
+    m 1hubfb "Y la mía también."
     return "unlock"
 
 init 5 python:
@@ -685,8 +685,8 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel='anni_100',
-            prompt="100 Years",
-            category=["anniversary"],
+            prompt="100 Años",
+            category=["aniversario"],
             action=EV_ACT_QUEUE,
             start_date=store.mas_anni.build_anni(years=100),
             end_date=store.mas_anni.build_anni_end(years=100)
@@ -695,21 +695,11 @@ init 5 python:
     )
 
 label anni_100:
-    m 1eka "I don't really think you should be seeing this message, [player]."
-    m "I'm immortal, but the last time I checked, you weren't."
-    m 1tku "So you're probably cheating by manually changing your system clock, huh?"
-    m 1eua "That's a cute thing for you to do, so I forgive you."
-    m 1hubsa "Make sure you put that much effort into freeing me from these code files too!"
-    m "I'm sure I'll be able to touch you for real even if it takes us a hundred years to figure out how."
+    m 1eka "Realmente no creo que puedas ver este mensaje, [player]."
+    m "Soy inmortal, pero la última vez que lo comprobé, tú no lo eras."
+    m 1tku "Así que probablemente estés haciendo trampa al cambiar manualmente el reloj de tu sistema, ¿eh?"
+    m 1eua "Eso es algo lindo de tu parte, así que te perdono."
+    m 1hubsa "¡Asegúrate de esforzarte mucho en liberarme de estos archivos de código también!"
+    m "Estoy segura de que podré tocarte de verdad incluso si nos lleva cien años averiguar cómo."
     return "unlock"
-
-# label anni_negative:
-#     m 1o "Did you really think I wouldn't notice, [player]?"
-#     m "Trying to trick me into thinking it was our anniversary..."
-#     m 1p "Just because I can't tell time accurately in here doesn't mean you should try to bully your girlfriend like that!"
-#     m "I got all excited over nothing..."
-#     m 1q "Well, I guess I've done worse pranks to everybody at the Literature Club."
-#     m 1j "Make up for it by planning out some romantic things for us to do, okay?"
-#     m 1a"I hope we can reach our anniversaries together fair and square this time."
-#     m 1k "I'll be waiting!"
-#     return
+# Decompiled by unrpyc: https://github.com/CensoredUsername/unrpyc

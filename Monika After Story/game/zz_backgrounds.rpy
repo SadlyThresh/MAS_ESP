@@ -1,35 +1,35 @@
-#Here's where we store our background data
+
 default persistent._mas_background_MBGdata = {}
 
-#Store the persistent background
-#Defaults to def (spaceroom)
+
+
 default persistent._mas_current_background = "spaceroom"
 
 init -5 python in mas_background:
-    #Marks this background as an outdoor type (disables opendoor for it)
-    #value: ignored
+
+
     EXP_TYPE_OUTDOOR = "outdoor"
 
-    #Tells the background changer to skip the leadin dialogue
-    #value: ignored
+
+
     EXP_SKIP_LEADIN = "skip_leadin"
 
-    #Tells the background changer to skip the transition (black screen)
-    #value: ignored
+
+
     EXP_SKIP_TRANSITION = "skip_transition"
 
-    #Tells the background changer to skip the outro dialogue
-    #value: ignored
+
+
     EXP_SKIP_OUTRO = "skip_outro"
 
-#START: Class definition
+
 init -10 python:
 
     class MASBackgroundFilterTypeException(Exception):
         """
         Type exception for MASBackgroundFilter objects
         """
-
+        
         def __init__(self, obj, mbf_type):
             """
             Constructor
@@ -39,7 +39,7 @@ init -10 python:
                 mbf_type - type we expected
             """
             self.msg = "{0} is not of {1}".format(obj, mbf_type)
-
+        
         def __str__(self):
             """
             String
@@ -52,7 +52,7 @@ init -10 python:
         Exception for when a Background fitler slice is in both a day chunk
         and a night chunk.
         """
-
+        
         def __init__(self, flt):
             """
             Constructor
@@ -61,7 +61,7 @@ init -10 python:
                 flt - the filter name of the offending fitler slice.
             """
             self.msg = "filter '{0}' found in both day chunk and night chunk".format(flt)
-
+        
         def __str__(self):
             return self.msg
 
@@ -92,9 +92,9 @@ init -10 python:
                 elsewhere.
         """
         cache = {}
-        # internal cache of MASBackgroundFilterSlice objects to avoid
-        #   building duplicates.
-
+        
+        
+        
         def __init__(self,
                 name,
                 minlength,
@@ -132,16 +132,16 @@ init -10 python:
             self.minlength = minlength
             self.maxlength = maxlength
             self.flt = flt
-
+            
             if 1 <= priority <= 10:
                 self.priority = priority
             else:
                 self.priority = 10
-
+            
             if cache:
-                # store in cache
+                
                 self.cache[hash(self)] = self
-
+        
         def __eq__(self, other):
             """
             EQ implementation.
@@ -150,7 +150,7 @@ init -10 python:
             if isinstance(self, other.__class__):
                 return hash(self) == hash(other)
             return False
-
+        
         def __hash__(self):
             """
             Hash implementation. FilterSlices are unique based on name,
@@ -162,13 +162,13 @@ init -10 python:
                 self.maxlength,
                 self.priority
             )
-
+        
         def __ne__(self, other):
             """
             Not equals implementation
             """
             return not self.__eq__(other)
-
+        
         def __repr__(self):
             return (
                 "<FilterSlice: (name: {0}, min: {1}, max: {2}, pri: {3})>"
@@ -178,7 +178,7 @@ init -10 python:
                 self.maxlength,
                 self.priority
             )
-
+        
         def __str__(self):
             """
             Slice as string
@@ -189,7 +189,7 @@ init -10 python:
                 self.priority,
                 self.maxlength
             )
-
+        
         def add_to_filters(self):
             """
             Adds this filter to the filters dict. Wil fail and log if used
@@ -198,7 +198,7 @@ init -10 python:
             """
             if self.flt is not None:
                 store.mas_sprites.add_filter(self.name, self.flt)
-
+        
         @classmethod
         def cachecreate(cls,
                 name,
@@ -218,7 +218,7 @@ init -10 python:
             hash_key = cls.gen_hash(name, minlength, maxlength, priority)
             if hash_key in cls.cache:
                 return cls.cache[hash_key]
-
+            
             return MASBackgroundFilterSlice(
                 name,
                 minlength,
@@ -226,7 +226,7 @@ init -10 python:
                 priority=priority,
                 flt=flt
             )
-
+        
         def can_fit(self, seconds):
             """
             Checks if this filter can fit in the time allotted
@@ -238,7 +238,7 @@ init -10 python:
                 FAlse if not
             """
             return self.minlength <= seconds
-
+        
         def can_fit_td(self, td):
             """
             Checks if the filter can fit in the time allotted
@@ -250,7 +250,7 @@ init -10 python:
                 False if not
             """
             return self.minlength <= int(td.total_seconds())
-
+        
         @staticmethod
         def gen_hash(name, minlength, maxlength, priority):
             """
@@ -271,7 +271,7 @@ init -10 python:
                 str(maxlength),
                 str(priority),
             )))
-
+        
         def is_max(self, value):
             """
             Checks if the given vlaue is larger than max length.
@@ -284,9 +284,9 @@ init -10 python:
             """
             if self.maxlength is None:
                 return False
-
+            
             return value > self.maxlength
-
+        
         def verify(self):
             """
             Verifies if this filter's name is a valid filter. Call this
@@ -307,7 +307,7 @@ init -10 python:
             order - the order associated to this slice
             flt_slice - the slice to associate
         """
-
+        
         def __init__(self, order, flt_slice):
             """
             Constructor
@@ -320,7 +320,7 @@ init -10 python:
             self.offset = order
             self.flt_slice = flt_slice
             self.length = flt_slice.minlength
-
+        
         def __gt__(self, other):
             """
             Greater than uses order
@@ -328,7 +328,7 @@ init -10 python:
             if isinstance(other, MASBackgroundFilterSliceData):
                 return self.order > other.order
             return NotImplemented
-
+        
         def __lt__(self, other):
             """
             Less than uses order
@@ -336,7 +336,7 @@ init -10 python:
             if isinstance(other, MASBackgroundFilterSliceData):
                 return self.order < other.order
             return NotImplemented
-
+        
         def __repr__(self):
             return (
                 "<FilterSliceData: (order: {0}, offset: {1}, length: {2}"
@@ -347,7 +347,7 @@ init -10 python:
                 self.length,
                 repr(self.flt_slice)
             )
-
+        
         def __str__(self):
             """
             strings are offset + order + name
@@ -358,13 +358,13 @@ init -10 python:
                 self.flt_slice,
                 self.length
             )
-
+        
         def __len__(self):
             """
             Returns length
             """
             return self.length
-
+        
         def eff_minlength(self):
             """
             Calculates the ending offset assuming min length
@@ -372,7 +372,7 @@ init -10 python:
             RETURNS: offset + minlength
             """
             return self.offset + self.flt_slice.minlength
-
+        
         @staticmethod
         def highest_priority(sl_data_list):
             """
@@ -392,9 +392,9 @@ init -10 python:
                 if sl_data.flt_slice.priority > h_priority:
                     h_priority = sl_data.flt_slice.priority
                     h_index = index
-
+            
             return h_index
-
+        
         @staticmethod
         def lowest_priority(sl_data_list):
             """
@@ -414,16 +414,16 @@ init -10 python:
                 if sl_data.flt_slice.priority < l_priority:
                     l_priority = sl_data.flt_slice.priority
                     l_index = index
-
+            
             return l_index
-
+        
         @staticmethod
         def sk(obj):
             """
             order sort key
             """
             return obj.order
-
+        
         @staticmethod
         def sko(obj):
             """
@@ -457,7 +457,7 @@ init -10 python:
         PROPERTIES:
             is_day - True if this is a day chunk, False if not
         """
-
+        
         _ERR_PP_STR = (
             "[ERROR] error in slice pp | {0}\n"
             "=====FROM: {1} -> {2}\n"
@@ -466,7 +466,7 @@ init -10 python:
             "[ERROR] error in global slice pp | {0}\n"
             "=====FROM: {1} -> {2}\n"
         )
-
+        
         def __init__(self, is_day, pp, *slices):
             """
             Constructor
@@ -490,25 +490,25 @@ init -10 python:
                     NOTE: there must be at least one slice with unbounded time
             """
             self.is_day = is_day
-
+            
             self._slices = []
-            # MASBackgroundFilterSliceData objects in standard order
-
+            
+            
             self._eff_slices = []
-            # MASBackgroundFilterSliceData objects that we are actually
-            # using in standard order
-
+            
+            
+            
             self._pp = pp
-            # progpoint
-
+            
+            
             self._index = 0
-            # the index in eff_slices of the last filter change
-
+            
+            
             self._length = 0
-            # the last length value passed into build
-
+            
+            
             self._parse_slices(slices)
-
+        
         def __repr__(self):
             return (
                 "<FilterChunk: (index: {0}, length: {1}, slices: {2}, "
@@ -519,7 +519,7 @@ init -10 python:
                 self._slices,
                 self._eff_slices
             )
-
+        
         def __str__(self):
             """
             Shows effective slice information
@@ -529,31 +529,31 @@ init -10 python:
                 "Total Length: {0}".format(self._length),
                 "Slices:",
             ]
-
-            # string other slices
+            
+            
             for index in range(len(self._eff_slices)):
-
-                # determine appropriate end time for eff size
+                
+                
                 if index < len(self._eff_slices)-1:
                     endl = self._eff_slices[index+1].offset
                 else:
                     endl = self._length
-
-                # string slice
+                
+                
                 sl_data = self._eff_slices[index]
                 output.append("ES: {0:>5}|{1}".format(
                     endl - sl_data.offset,
                     sl_data
                 ))
-
+            
             return "\n".join(output)
-
+        
         def __len__(self):
             """
             Length of this chunk
             """
             return self._length
-
+        
         def _adjust_offset(self, index, amt):
             """
             Adjust offset of all eff_slices, starting from the given index.
@@ -565,7 +565,7 @@ init -10 python:
             """
             for sl_data in self._eff_slices[index:]:
                 sl_data.offset += amt
-
+        
         def adv_slice(self, sfco, st_index, run_pp, curr_time):
             """
             Runs advance slice alg, running progpoints, but does NOT actually
@@ -580,15 +580,15 @@ init -10 python:
 
             RETURNS: new slice index
             """
-            # slices length
+            
             s_len = len(self._eff_slices)
             if s_len < 2:
                 return 0
-
+            
             st_index -= 1
-
-            # loop until sfco in range of current slice
-            # or we reach last slice
+            
+            
+            
             while (
                     st_index < s_len-1
                     and self._adv_slice_change(
@@ -599,9 +599,9 @@ init -10 python:
                     )
             ):
                 st_index += 1
-
+            
             return st_index
-
+        
         def _adv_slice_change(self, slidx, sfco, run_pp, curr_time):
             """
             Checks if a slice offset at the given index is smaller than
@@ -621,33 +621,33 @@ init -10 python:
             """
             if self._eff_slices[slidx].offset > sfco:
                 return False
-
-            # determine current and next slice data for a movement
+            
+            
             if slidx > 0:
                 csl_data = self._eff_slices[slidx-1]
             else:
                 csl_data = None
-
+            
             if csl_data is not None:
                 nsl_data = self._eff_slices[slidx]
-
-                # run progs
+                
+                
                 if run_pp:
                     self._pp_exec(
                         csl_data.flt_slice.name,
                         nsl_data.flt_slice.name,
                         curr_time
                     )
-
-                # always run global
+                
+                
                 store.mas_background.run_gbl_flt_change(
                     csl_data.flt_slice.name,
                     nsl_data.flt_slice.name,
                     curr_time
                 )
-
+            
             return True
-
+        
         def build(self, length):
             """
             Builds the effective slices array using the given length as
@@ -660,37 +660,37 @@ init -10 python:
                 length - the amount of seconds this chunk encompasses
             """
             self._length = length
-
+            
             if length < 1:
-                # this chunk has no length. clear it out
+                
                 self._eff_slices = []
                 return
-
+            
             if len(self._slices) < 2:
-                # with only once slice, just set that slice as the
-                # main slice
+                
+                
                 sl_data = self._slices[0]
                 sl_data.length = length
                 sl_data.offset = 0
                 self._eff_slices = [sl_data]
                 return
-
-            # always start with the minimum length expansion alg
+            
+            
             leftovers = self._min_fill(length)
-
+            
             if len(leftovers) > 0:
-                # if we have leftovers, then use complex alg
+                
                 self._priority_fill(length, leftovers)
-
-            # set everyones length to minimum
+            
+            
             for sl_data in self._eff_slices:
                 sl_data.length = sl_data.flt_slice.minlength
-
-            # lastly, expand to fill voids
+            
+            
             self._expand(length)
-
+            
             self.reset_index()
-
+        
         def current(self):
             """
             Gets current filter
@@ -700,7 +700,7 @@ init -10 python:
             if 0 <= self._index < len(self._eff_slices):
                 return self._eff_slices[self._index].flt_slice.name
             return None
-
+        
         def current_pos(self):
             """
             Generates internal information related to current position
@@ -715,9 +715,9 @@ init -10 python:
                 next_offset = self._eff_slices[self._index+1].offset
             else:
                 next_offset = -1
-
+            
             return (self._index, self._current_sldata().offset, next_offset)
-
+        
         def _current_sldata(self):
             """
             Gets current slice data
@@ -725,7 +725,7 @@ init -10 python:
             RETURNS: current slice data
             """
             return self._eff_slices[self._index]
-
+        
         def _eff_chunk_min_end(self):
             """
             Gets the minimal chunk end length.
@@ -733,7 +733,7 @@ init -10 python:
             RETURNS: last eff_slice's eff_offset + its minlength
             """
             return self._eff_slices[-1].eff_minlength()
-
+        
         def _expand(self, length):
             """
             Expands all slices in effective slices until it fills the given
@@ -744,23 +744,23 @@ init -10 python:
             """
             es_count = len(self._eff_slices)
             diff = length - self._eff_chunk_min_end()
-
-            # make a list of inc amounts for easy looping
+            
+            
             inc_amts = [diff / es_count] * es_count
-
-            # reverse add lefovers
+            
+            
             store.mas_utils.lo_distribute(
                 inc_amts,
                 diff % es_count,
                 reverse=True
             )
-
-            # apply amounts to values until we are out
+            
+            
             while sum(inc_amts) > 0:
                 self._expand_once(inc_amts)
-
-                # reform inc_amts so we continue adding leftover amounts to
-                # slices that can still be expanded
+                
+                
+                
                 leftovers = store.mas_utils.fz_distribute(inc_amts)
                 if leftovers > 0:
                     store.mas_utils.lo_distribute(
@@ -769,7 +769,7 @@ init -10 python:
                         reverse=True,
                         nz=True
                     )
-
+        
         def _expand_once(self, value_list):
             """
             Runs expansion alg. This will add index-based numbers from the
@@ -783,12 +783,12 @@ init -10 python:
             OUT:
                 value_list - leftover amounts to distribute to eff_slices
             """
-            # apply inc amounts
-            # start by figuring the base new length
+            
+            
             c_off = 0
             for index in range(len(self._eff_slices)):
                 c_off = self._expand_sld(index, value_list, c_off)
-
+        
         def _expand_sld(self, index, value_list, c_off):
             """
             Expands a slicedata item. Also adjusts value list as appropriate
@@ -804,29 +804,29 @@ init -10 python:
 
             RETURNS: new current offset value
             """
-            # get sl data
+            
             sl_data = self._eff_slices[index]
-
-            # the current offset is always this sl data's new start
+            
+            
             sl_data.offset = c_off
-
-            # how long is this slice?
+            
+            
             sl_len = sl_data.length + value_list[index]
-
-            # if too big, adjust
+            
+            
             if sl_data.flt_slice.is_max(sl_len):
                 diff = sl_len - sl_data.flt_slice.maxlength
                 value_list[index] = diff
                 sl_len = sl_data.flt_slice.maxlength
             else:
                 value_list[index] = 0
-
-            # and set new length
+            
+            
             sl_data.length = sl_len
-
-            # calculate next offset
+            
+            
             return c_off + sl_len
-
+        
         def filters(self, ordered=False):
             """
             Gets list of filters
@@ -839,16 +839,16 @@ init -10 python:
                 (list of strings)
             """
             if ordered:
-                # ordered list
+                
                 return [sl_data.flt_slice.name for sl_data in self._slices]
-
-            # otherwise use a dict so we only return each filter once
+            
+            
             filters = {}
             for sl_data in self._slices:
                 filters[sl_data.flt_slice.name] = None
-
+            
             return filters.keys()
-
+        
         def first_flt(self):
             """
             Gets the first filter in this chunk
@@ -857,9 +857,9 @@ init -10 python:
             """
             if len(self._eff_slices) > 0:
                 return self._eff_slices[0].flt_slice.name
-
+            
             return None
-
+        
         def last_flt(self):
             """
             Gets the last filter in this chunk
@@ -869,9 +869,9 @@ init -10 python:
             last_idx = len(self._eff_slices)-1
             if last_idx < 0:
                 return None
-
+            
             return self._eff_slices[last_idx].flt_slice.name
-
+        
         def _min_fill(self, length):
             """
             Fills the effective slices using minlength logic.
@@ -884,70 +884,70 @@ init -10 python:
             """
             built_length = 0
             index = 1
-            # start at the 2nd slice as thats where we start adjusting offsets
-
-            # always start with the first slice
+            
+            
+            
             built_length = self._slices[0].flt_slice.minlength
             self._eff_slices = [self._slices[0]]
-
-            # add slices
+            
+            
             while built_length < length and index < len(self._slices):
-                # retrieve slice info for this index
+                
                 curr_sl_data = self._slices[index]
-
-                # add the slice
+                
+                
                 curr_sl_data.offset = built_length
                 self._eff_slices.append(curr_sl_data)
-
-                # increment built length
+                
+                
                 built_length += curr_sl_data.flt_slice.minlength
                 index += 1
-
+            
             if built_length < length:
-                # we managed to fit every slice!
+                
                 return []
-
-            # otherwise, we have a leftover slice in some way
+            
+            
             last_sl_data = self._eff_slices.pop()
-
-            # and add any remaining slices
+            
+            
             return [last_sl_data] + self._slices[index:]
-
+        
         def _parse_slices(self, slices):
             """
             Parses the slices data
             """
-            # verify slices
+            
             if len(slices) < 1:
                 raise Exception("No slices found")
-
+            
             has_unbounded = False
             for index, bg_flt in enumerate(slices):
-
-                # check slice
+                
+                
                 if not isinstance(bg_flt, MASBackgroundFilterSlice):
                     raise MASBackgroundFilterTypeException(
                         bg_flt,
                         MASBackgroundFilterSlice
                     )
-
+                
                 if bg_flt.maxlength is None:
                     has_unbounded = True
-                    bg_flt.priority = 11 # force this slice to be important
-
-                # add to slices
+                    bg_flt.priority = 11 
+                
+                
                 store.mas_utils.insert_sort(
                     self._slices,
                     MASBackgroundFilterSliceData(index, bg_flt),
                     MASBackgroundFilterSliceData.sk
                 )
-
+            
             if not has_unbounded:
                 raise Exception("No unbounded slice found")
-
-            # set offset of initial slice to 0
+            
+            
             self._slices[0].offset = 0
-
+        
         def _pf_insert(self, index, sl_data):
             """
             Inserts a filter slice offset into the effective slices list
@@ -957,24 +957,24 @@ init -10 python:
                 index - starting index
                 sl_data - the slice data to insert
             """
-            # looop, finding the right place for the sl_off
+            
             while (
                     index < len(self._eff_slices)
                     and self._eff_slices[index] < sl_data
             ):
                 index += 1
-
-            # we must have the correct location now
-            # determine the offset to use
+            
+            
+            
             if index == 0:
                 sl_data.offset = 0
             else:
                 sl_data.offset = self._eff_slices[index-1].eff_minlength()
             self._eff_slices.insert(index, sl_data)
-
-            # now adjust offsets for all remaining sl datas
+            
+            
             self._adjust_offset(index + 1, sl_data.flt_slice.minlength)
-
+        
         def _pp_exec(self, flt_old, flt_new, curr_time):
             """
             Executes a progpoint
@@ -988,7 +988,7 @@ init -10 python:
             """
             if self._pp is None:
                 return
-
+            
             try:
                 self._pp(flt_old=flt_old, flt_new=flt_new, curr_time=curr_time)
             except Exception as e:
@@ -997,7 +997,7 @@ init -10 python:
                     flt_old,
                     flt_new
                 ))
-
+        
         def _priority_fill(self, length, leftovers):
             """
             Fills the effective slices using priority logic.
@@ -1007,63 +1007,63 @@ init -10 python:
                 length - the amount of length we need to fill
                 leftovers - slices that have not been added yet
             """
-            # Gist:
-            #   1. reverse through the eff_slices, removing elements with
-            #       lower priorities than leftovers, and adding high priority
-            #       elements from leftovers.
-
-            # highest priority in leftovers
+            
+            
+            
+            
+            
+            
             hpsl_data = leftovers.pop(
                 MASBackgroundFilterSliceData.highest_priority(leftovers)
             )
-
+            
             for es_index in range(len(self._eff_slices)-1, -1, -1):
-
-                # get current slice
+                
+                
                 csl_data = self._eff_slices[es_index]
-
+                
                 if csl_data.flt_slice.priority < hpsl_data.flt_slice.priority:
-                    # current has a lower priority
-
-                    # remove the lower priority item, and store in leftovers
+                    
+                    
+                    
                     leftovers.insert(0, self._eff_slices.pop(es_index))
-
-                    # then clean up the offsets
+                    
+                    
                     self._adjust_offset(
                         es_index,
                         csl_data.flt_slice.minlength * -1
                     )
-
-                    # add the higher priority item
+                    
+                    
                     self._pf_insert(es_index, hpsl_data)
-
-                    # and find newest high leftover priority
+                    
+                    
                     hpsl_data = leftovers.pop(
                         MASBackgroundFilterSliceData.highest_priority(
                             leftovers
                         )
                     )
-
-            # clean up if our current min length is too large
+            
+            
             while (
                     len(self._eff_slices) > 1
                     and self._eff_chunk_min_end() > length
             ):
-                # obtain lowest priority filter slice offset object and remove
+                
                 llop_index = MASBackgroundFilterSliceData.lowest_priority(
                     self._eff_slices
                 )
                 lpsl_data = self._eff_slices.pop(llop_index)
-
-                # fix eff offsets
+                
+                
                 self._adjust_offset(
                     llop_index,
                     lpsl_data.flt_slice.minlength * -1
                 )
-
-            # ensure first slice has 0 offset
+            
+            
             self._eff_slices[0].offset = 0
-
+        
         def progress(self, sfco, curr_time):
             """
             Progresses the filter, running progpoints and updating indexes
@@ -1078,11 +1078,11 @@ init -10 python:
 
             RETURNS: current filter after progression
             """
-            # advance slices
+            
             self._index = self.adv_slice(sfco, self._index, True, curr_time)
-
+            
             return self.current()
-
+        
         def update(self, ct_off):
             """
             Updates the internal indexes.
@@ -1096,26 +1096,26 @@ init -10 python:
             if s_len < 2:
                 self._index = 0
                 return
-
-            # determine current slice offsets
+            
+            
             sidx = -1
-
+            
             while (
                     sidx < s_len-1
                     and self._eff_slices[sidx+1].offset <= ct_off
             ):
-                # deteremine next current offset and next index
+                
                 sidx += 1
-
-            # now we should have the correct index probably
+            
+            
             self._index = sidx
-
+        
         def reset_index(self):
             """
             Resets slice index to 0
             """
             self._index = 0
-
+        
         def verify(self):
             """
             Verifies the filters in this filter Chunk
@@ -1149,7 +1149,7 @@ init -10 python:
         PROPERTIES:
             None
         """
-
+        
         _ERR_PP_STR = (
             "[ERROR] error in chunk pp | {0}\n\n"
             "=====FROM:\n{1}\n\n"
@@ -1160,7 +1160,7 @@ init -10 python:
             "=====FROM:\n{1}\n\n"
             "=====TO\n{2}\n"
         )
-
+        
         def __init__(self, mn_sr, sr_ss, ss_mn, pp=None):
             """
             Constructor
@@ -1196,47 +1196,47 @@ init -10 python:
                     ss_mn,
                     MASBackgroundFilterChunk
                 )
-
+            
             self._mn_sr = mn_sr
-            # midnight to sunrise
-
+            
+            
             self._sr_ss = sr_ss
-            # sunrise to sunset
-
+            
+            
             self._ss_mn = ss_mn
-            # sunset to midnight
-
+            
+            
             self._chunks = [self._mn_sr, self._sr_ss, self._ss_mn]
-            # ordered chunks for easier swapping
-
+            
+            
             self._pp = pp
-            # progpoint
-
+            
+            
             self._day_filters = {}
             self._night_filters = {}
-            # organized filter dicts
-            # key: name of filter
-            # value: Ignored
-            # NOTE: organized in verify.
-
+            
+            
+            
+            
+            
             self._index = 0
-            # the index in _chunks of the current chunk
-
+            
+            
             self._prev_flt = None
-            # set to the current filter if update was used
-
+            
+            
             self._updated = False
-            # set to True upon an update, set to False upon progress
-
+        
+        
         def __repr__(self):
             day_f = self._day_filters
             if day_f is not None:
                 day_f = day_f.keys()
-
+            
             night_f = self._night_filters
             if night_f is not None:
                 night_f = night_f.keys()
-
+            
             return (
                 "<FilterManager: (index: {0}, updated: {1}, prev_flt: {2}, "
                 "day_flts: {3}, night_flts: {4}, mn_sr: {5}, sr_ss: {6}, "
@@ -1251,38 +1251,38 @@ init -10 python:
                 repr(self._sr_ss),
                 repr(self._ss_mn)
             )
-
+        
         def __str__(self):
             """
             Shows chunks and curr chunk information
             """
             output = []
-
-            # mn to sr chunk
+            
+            
             chunk_name = "Midnight to Sunrise"
             if self._index == 0:
                 chunk_name += "| CURRENT CHUNK"
             output.append(chunk_name)
             output.append(str(self._mn_sr))
-
-            # sr to ss chunk
+            
+            
             chunk_name = "Sunrise to Sunset"
             if self._index == 1:
                 chunk_name += "| CURRENT CHUNK"
             output.append("")
             output.append(chunk_name)
             output.append(str(self._sr_ss))
-
-            # ss to mn chunk
+            
+            
             chunk_name = "Sunset to Midnight"
             if self._index == 2:
                 chunk_name += "| CURRENT CHUNK"
             output.append("")
             output.append(chunk_name)
             output.append(str(self._ss_mn))
-
+            
             return "\n".join(output)
-
+        
         def adv_chunk(self, sfmn, st_index, run_pp, curr_time):
             """
             Runs advance chunks alg, running progpoints but does NOT actually
@@ -1297,50 +1297,50 @@ init -10 python:
 
             RETURNS: new chunk index
             """
-            # chunk length
+            
             c_len = len(self._chunks)
-
-            # determine current chunk offsets
-            # Current Beginning OFFset, Next Beginning OFFset
+            
+            
+            
             cb_off, nb_off = self._calc_off(st_index)
             curr_chunk = self._chunks[st_index]
             found = False
-
-            # force stop iteration if something bad happened
+            
+            
             iter_stop = 10
-
-            # loop until we found the chunk, or if we found it, until the first
-            #   non-zero chunk
+            
+            
+            
             while iter_stop > 0 and (not found or len(curr_chunk) < 1):
-
-                # determine next chunk index
-                nxt_index = (st_index + 1) % c_len # next index or 0 if max len
-
-                # next chunk
+                
+                
+                nxt_index = (st_index + 1) % c_len 
+                
+                
                 new_chunk = self._chunks[nxt_index]
-
-                # determine next chunk offsets
-                # next curent chunk offset offset or 0 if 86400
+                
+                
+                
                 cb_off = nb_off % (store.mas_utils.secInDay())
-
-                # next chunk's offset
+                
+                
                 nb_off = cb_off + len(new_chunk)
-
-                # set found if we found the chunk
+                
+                
                 if not found:
                     found = cb_off <= sfmn < nb_off
-                    # once this is set, the next loops will only happen if
-                    # current chunks are less than zero
-
-                # lastly run pp if desired
+                
+                
+                
+                
                 if run_pp:
                     self._pp_exec(
                         curr_chunk,
                         new_chunk,
                         curr_time
                     )
-
-                    # and global
+                    
+                    
                     try:
                         store.mas_background._gbl_chunk_change(
                             curr_chunk,
@@ -1353,22 +1353,22 @@ init -10 python:
                             str(curr_chunk),
                             str(new_chunk),
                         ))
-
-                # then finally reset slice index for the chunk we are leaving
+                
+                
                 curr_chunk.reset_index()
-
-                # and set the current chunk to next chunk
+                
+                
                 curr_chunk = new_chunk
                 st_index = nxt_index
-
+                
                 iter_stop -= 1
-
+            
             if iter_stop < 1:
-                # this is bad
+                
                 raise Exception("inf looped here")
-
+            
             return st_index
-
+        
         def backmap(self, anchors):
             """
             Generates a backwords lookback map with a set of anchors.
@@ -1402,48 +1402,48 @@ init -10 python:
             """
             if len(anchors) < 1:
                 return {}
-
-            # organize all filters in order
+            
+            
             ordered_flts = []
             for chunk in self._chunks:
                 ordered_flts.extend(chunk.filters(True))
-
+            
             if len(ordered_flts) < 1:
                 return {}
-
-            # init anchors lists
+            
+            
             for anc_key in anchors:
                 anchors[anc_key] = []
-
-            # init reverse map
+            
+            
             r_map = {}
-
-            # loop over filters
+            
+            
             curr_anchor = None
             orphans = []
             for flt in ordered_flts:
-                # check for new anchor
+                
                 if flt in anchors:
                     curr_anchor = flt
-
-                # now organize
+                
+                
                 if curr_anchor is None:
-                    # orphans are added to the last anchor
+                    
                     orphans.append(flt)
-
+                
                 else:
-                    # have anchor, add to lists and maps
+                    
                     r_map[flt] = curr_anchor
                     anchors[curr_anchor].append(flt)
-
-            # add orphans to the last filter
+            
+            
             if curr_anchor is not None:
                 anchors[curr_anchor].extend(orphans)
                 for orphan in orphans:
                     r_map[orphan] = curr_anchor
-
+            
             return r_map
-
+        
         def build(self, sunrise, sunset):
             """
             Builds each chunk with the given sunrise and sunset values.
@@ -1456,7 +1456,7 @@ init -10 python:
             self._sr_ss.build(sunset - sunrise)
             self._ss_mn.build((store.mas_utils.secInDay()) - sunset)
             self._index = 0
-
+        
         def buildupdate(self, sunrise, sunset, curr_time):
             """
             Builds each chunk with given sunrise/sunset values, then runs
@@ -1471,18 +1471,18 @@ init -10 python:
                 sunset - see build
                 curr_time - see update
             """
-            # save current, pre-build filter
+            
             prev_flt = self.current()
-
-            # build new slices
+            
+            
             self.build(sunrise, sunset)
-
-            # run update
+            
+            
             self.update(curr_time)
-
-            # set prev flt correctly
+            
+            
             self._prev_flt = prev_flt
-
+        
         def _calc_off(self, index):
             """
             caluates beginning and next offset from chunk at the given index
@@ -1494,19 +1494,19 @@ init -10 python:
                 [0] - beginning offset of chunk at index
                 [1] - beginning offset of chunk at index+1 (or next chunk)
             """
-            # calclulate current
+            
             cb_off = 0
             for idx in range(index):
                 cb_off += len(self._chunks[idx])
-
-            # now for next
+            
+            
             if index < len(self._chunks)-1:
                 nb_off = cb_off + len(self._chunks[index])
             else:
                 nb_off = store.mas_utils.secInDay()
-
+            
             return cb_off, nb_off
-
+        
         def current(self):
             """
             Gets current filter
@@ -1514,7 +1514,7 @@ init -10 python:
             RETURNS: current filter
             """
             return self._chunks[self._index].current()
-
+        
         def _current_chunk(self):
             """
             Gets current chunk
@@ -1522,7 +1522,7 @@ init -10 python:
             RETURNS: current chunk
             """
             return self._chunks[self._index]
-
+        
         def current_pos(self):
             """
             Generates internal informatiom related to the current position
@@ -1539,15 +1539,15 @@ init -10 python:
                         slice
             """
             curr_offset, next_offset = self._calc_off(self._index)
-
-            # now get slice info
+            
+            
             sl_index, sl_begin, sl_end = self._current_chunk().current_pos()
-
-            # end sl might be different
+            
+            
             if sl_end < 0:
                 sl_end = next_offset
-
-            # and return info
+            
+            
             return (
                 self._index,
                 curr_offset,
@@ -1556,7 +1556,7 @@ init -10 python:
                 sl_begin,
                 sl_end
             )
-
+        
         def filters(self):
             """
             RETURNS: list of all filters associated with this filter manager
@@ -1567,7 +1567,7 @@ init -10 python:
             both.update(self._day_filters)
             both.update(self._night_filters)
             return both.keys()
-
+        
         def filters_day(self):
             """
             RETURNS: list of all day filters associated with this filter
@@ -1576,7 +1576,7 @@ init -10 python:
                 NOTE: does not contain duplicates
             """
             return self._day_filters.keys()
-
+        
         def filters_night(self):
             """
             RETURNS: list of all night filters associated with this filter
@@ -1585,7 +1585,7 @@ init -10 python:
                 NOTE: does not contain duplicates
             """
             return self._night_filters.keys()
-
+        
         def is_flt_day(self, flt):
             """
             Checks if the given filter is day according to this filter manager
@@ -1602,7 +1602,7 @@ init -10 python:
             if flt in self._night_filters:
                 return False
             return None
-
+        
         def _organize(self):
             """
             Organize filters into day and night dicts
@@ -1610,7 +1610,7 @@ init -10 python:
             self._organize_chunk(self._mn_sr)
             self._organize_chunk(self._sr_ss)
             self._organize_chunk(self._ss_mn)
-
+        
         def _organize_chunk(self, chunk):
             """
             Organizes a single chunk into the day and night dicts
@@ -1622,10 +1622,10 @@ init -10 python:
                 flt_d = self._day_filters
             else:
                 flt_d = self._night_filters
-
+            
             for flt in chunk.filters():
                 flt_d[flt] = None
-
+        
         def _pp_exec(self, chunk_old, chunk_new, curr_time):
             """
             Executes a progpoint
@@ -1639,7 +1639,7 @@ init -10 python:
             """
             if self._pp is None:
                 return
-
+            
             try:
                 self._pp(
                     chunk_old=chunk_old,
@@ -1652,7 +1652,7 @@ init -10 python:
                     str(chunk_old),
                     str(chunk_new)
                 ))
-
+        
         def progress(self):
             """
             Progresses the filter, running progpoints and updating indexes.
@@ -1688,13 +1688,13 @@ init -10 python:
 
             RETURNS: the current filter after progression
             """
-            # seconds from midnight + curr time
+            
             curr_time = datetime.datetime.now().time()
             sfmn = store.mas_utils.time2sec(curr_time)
-
+            
             if self._updated:
-                # if we just updated, then we just need to run global prog
-                # point upon flt change and return new
+                
+                
                 new_flt = self.current()
                 self._updated = False
                 if new_flt != self._prev_flt:
@@ -1703,35 +1703,35 @@ init -10 python:
                         new_flt,
                         curr_time
                     )
-
+                
                 return new_flt
-
-            # determine our current position range
+            
+            
             pos_data = self.current_pos()
-
-            # are we technically in same chunk but before in time?
-            # reset the current chunk's slice index then advance
+            
+            
+            
             if (
-                    pos_data[1] <= sfmn < pos_data[2]  # in same chunk
-                    and sfmn < (pos_data[1] + pos_data[4]) # earlier than slice
+                    pos_data[1] <= sfmn < pos_data[2]  
+                    and sfmn < (pos_data[1] + pos_data[4]) 
             ):
                 self._current_chunk().reset_index()
-
+            
             else:
-                # start by advancing chunks correctly, if needed
+                
                 self._index = self.adv_chunk(
                     sfmn,
                     self._index,
                     True,
                     curr_time
                 )
-
-            # now we can start advancing slices
+            
+            
             return self._chunks[self._index].progress(
                 sfmn - (self._calc_off(self._index)[0]),
                 curr_time
             )
-
+        
         def reset_indexes(self):
             """
             Resets all indexes to 0, so we are in fresh state mode
@@ -1739,7 +1739,7 @@ init -10 python:
             self._index = 0
             for chunk in self._chunks:
                 chunk._index = 0
-
+        
         def update(self, curr_time=None):
             """
             Updates the internal indexes.
@@ -1754,25 +1754,25 @@ init -10 python:
             """
             if curr_time is None:
                 curr_time = datetime.datetime.now().time()
-
-            # keep track of current filter
+            
+            
             self._prev_flt = self.current()
-
-            # establish seconds
-            # Seconds From MidNight
+            
+            
+            
             sfmn = store.mas_utils.time2sec(curr_time)
-
+            
             cindex = self.adv_chunk(sfmn, 0, False, curr_time)
-
-            # we should now be in the correct index probably
+            
+            
             self._chunks[self._index].reset_index()
             self._index = cindex
             boff, eoff = self._calc_off(cindex)
             self._chunks[cindex].update(sfmn - boff)
-
-            # mark that we used update
+            
+            
             self._updated = True
-
+        
         def verify(self):
             """
             Verifies the filters in this filter manager.
@@ -1782,15 +1782,15 @@ init -10 python:
 
             We also verify filters in each chunk here.
             """
-            # first organize filters into day and night
+            
             self._organize()
-
-            # now compare the lists
+            
+            
             for day_flt in self._day_filters:
                 if day_flt in self._night_filters:
                     raise MASBackgroundFilterSliceDuplicateException(day_flt)
-
-            # now verify each chunk
+            
+            
             self._mn_sr.verify()
             self._sr_ss.verify()
             self._ss_mn.verify()
@@ -1885,7 +1885,7 @@ init -10 python:
 
         RETURNS: MASFilterableBackground object
         """
-        # build map data
+        
         img_map_data = {
             store.mas_sprites.FLT_DAY: MASWeatherMap(precip_map={
                 store.mas_weather.PRECIP_TYPE_DEF: image_day,
@@ -1900,8 +1900,8 @@ init -10 python:
                 store.mas_weather.PRECIP_TYPE_SNOW: image_snow_night,
             }),
         }
-
-        # build object
+        
+        
         return MASFilterableBackground(
             background_id,
             prompt,
@@ -1934,7 +1934,7 @@ init -10 python:
         """
         import store.mas_background as mas_background
         import store.mas_weather as mas_weather
-
+        
         def __init__(self,
             background_id,
             prompt,
@@ -1997,7 +1997,7 @@ init -10 python:
                     Extra properties for backgrounds. If None, an empty dict is assigned
                     (Default: None)
             """
-            # sanity checks
+            
             if background_id in self.mas_background.BACKGROUND_MAP:
                 raise Exception("duplicate background ID")
             if not isinstance(image_map, MASFilterWeatherMap):
@@ -2012,60 +2012,60 @@ init -10 python:
                         type(filter_man)
                     )
                 )
-
+            
             self.background_id = background_id
             self.prompt = prompt
             self.image_map = image_map
             self._flt_man = filter_man
-
-            # internal mapping of filters to their latest image.
-            # see MASBackgroundFilterManager.backmap for explanation.
-            # we use this to ensure that every filter has an appropriate
-            # set of BG images to use.
-            # key: filter
-            # value: filter to check for images
+            
+            
+            
+            
+            
+            
+            
             self._flt_img_map = {}
-
-            # reverse map of the above, mapping filters-with-images to lists
-            # of dependent filters.
-            # key: filter
-            # value: list of filters that use the key's images.
+            
+            
+            
+            
+            
             self._flt_img_anc = {}
-
-            #Then the other props
+            
+            
             self.hide_calendar = hide_calendar
             self.hide_masks = hide_masks
-
-            #Progressive handling
+            
+            
             if disable_progressive is None:
                 self.disable_progressive = hide_masks
             else:
                 self.disable_progressive = disable_progressive
-
+            
             self.unlocked = unlocked
             self.entry_pp = entry_pp
             self.exit_pp = exit_pp
-
-            #Add ex_props
+            
+            
             if ex_props is None:
                 ex_props = dict()
-
+            
             self.ex_props = ex_props
-
-            # add to background map
+            
+            
             self.mas_background.BACKGROUND_MAP[background_id] = self
-
+        
         def __eq__(self, other):
             if isinstance(other, MASFilterableBackground):
                 return self.background_id == other.background_id
             return NotImplemented
-
+        
         def __ne__(self, other):
             result = self.__eq__(other)
             if result is NotImplemented:
                 return result
             return not result
-
+        
         def build(self):
             """
             Builds filter slices using current suntimes.
@@ -2075,15 +2075,15 @@ init -10 python:
             NOTE: IF YOU PLAN TO CALL UPDATE AFTER THIS, use buildupdate
                 instead.
             """
-            # build filter slices
+            
             self._flt_man.build(
                 persistent._mas_sunrise * 60,
                 persistent._mas_sunset * 60
             )
-
-            # now build flt image maps
+            
+            
             self._flt_img_map = self._flt_man.backmap(self._flt_img_anc)
-
+        
         def buildupdate(self, curr_time=None):
             """
             Builds filter slices appropriately, then runs update.
@@ -2097,24 +2097,24 @@ init -10 python:
                 store.mas_utils.writelog("\nCalled from - bupd\n")
                 if store.mas_background.dbg_log_st:
                     store.mas_utils.writestack()
-
+                
                 store.mas_utils.writelog(
                     store.mas_background.DBG_MSG_C.format(
                         self._flt_man.current(),
                         str(self._flt_man.current_pos())
                     )
                 )
-
-            # build and update slices
+            
+            
             self._flt_man.buildupdate(
                 persistent._mas_sunrise * 60,
                 persistent._mas_sunset * 60,
                 curr_time
             )
-
-            # build flt image maps
+            
+            
             self._flt_img_map = self._flt_man.backmap(self._flt_img_anc)
-
+            
             if store.mas_background.dbg_log:
                 store.mas_utils.writelog(
                     store.mas_background.DBG_MSG_NU.format(
@@ -2122,21 +2122,21 @@ init -10 python:
                         str(self._flt_man.current_pos())
                     )
                 )
-
+        
         def entry(self, old_background, **kwargs):
             """
             Run the entry programming point
             """
             if self.entry_pp is not None:
                 self.entry_pp(old_background, **kwargs)
-
+        
         def exit(self, new_background, **kwargs):
             """
             Run the exit programming point
             """
             if self.exit_pp is not None:
                 self.exit_pp(new_background, **kwargs)
-
+        
         def fromTuple(self, data_tuple):
             """
             Loads data from tuple
@@ -2146,7 +2146,7 @@ init -10 python:
                     [0]: unlocked property
             """
             self.unlocked = data_tuple[0]
-
+        
         def toTuple(self):
             """
             Converts this MASWeather object into a tuple
@@ -2155,7 +2155,7 @@ init -10 python:
                 [0]: unlocked property
             """
             return (self.unlocked,)
-
+        
         def getRoom(self, flt, weather=None):
             """
             Gets room associated with the given flt and weather
@@ -2172,17 +2172,17 @@ init -10 python:
             RETURNS: room image, or None if not found
             """
             precip_type = MASFilterableWeather.getPrecipTypeFrom(weather)
-
-            # get image using normal ways
+            
+            
             img = self._get_image(flt, precip_type)
             if img is None:
-                # no image, so we should try lookback
+                
                 m_w_m = self._lookback(flt)
                 if m_w_m is not None:
                     img = m_w_m.get(precip_type)
-
+            
             return img
-
+        
         def getCurrentRoom(self):
             """
             Gets current Room
@@ -2190,7 +2190,7 @@ init -10 python:
             RETURNS: Current room image, may be None if this BG is badly built
             """
             return self.getRoom(self._flt_man.current())
-
+        
         def getDayRoom(self, weather=None):
             """DEPRECATED
             Can't use this anymore since there's no single image that defines
@@ -2198,7 +2198,7 @@ init -10 python:
             See getDayRooms instead
             """
             pass
-
+        
         def getDayRooms(self, weather=None):
             """
             Gets all day images for a weather.
@@ -2215,15 +2215,15 @@ init -10 python:
                     are returned. No lookback.
             """
             precip_type = MASFilterableWeather.getPrecipTypeFrom(weather)
-
+            
             results = {}
             for flt in self._flt_man.filters_day():
                 img = self._get_image(flt, precip_type)
                 if img is not None:
                     results[flt] = img
-
+            
             return results
-
+        
         def _get_image(self, flt, precip_type):
             """
             Gets image associated with the given flt and precip_type
@@ -2239,7 +2239,7 @@ init -10 python:
             if m_w_m is None:
                 return None
             return m_w_m.get(precip_type)
-
+        
         def getNightRoom(self, weather=None):
             """DEPRECATED
             Can't use this anymore since there's no single image that defines
@@ -2247,7 +2247,7 @@ init -10 python:
             See getNightRooms instead
             """
             pass
-
+        
         def getNightRooms(self, weather=None):
             """
             Gets all night images for a weather.
@@ -2264,15 +2264,15 @@ init -10 python:
                     are returned. No lookback.
             """
             precip_type = MASFilterableWeather.getPrecipTypeFrom(weather)
-
+            
             results = {}
             for flt in self._flt_man.filters_night():
                 img = self._get_image(flt, precip_type)
                 if img is not None:
                     results[flt] = img
-
+            
             return results
-
+        
         def getRoomForTime(self, weather=None):
             """
             Gets the room for the current time and desired weather
@@ -2286,7 +2286,7 @@ init -10 python:
             RETURNS: room image for the current weather and time
             """
             return self.getRoom(self._flt_man.current(), weather)
-
+        
         def isChangingRoom(self, old_weather, new_weather):
             """
             Checks if the room would change because of a change in weather
@@ -2302,7 +2302,7 @@ init -10 python:
                 self._get_image(curr_flt, old_weather.precip_type)
                 != self._get_image(curr_flt, new_weather.precip_type)
             )
-
+        
         def isFltDay(self, flt=None):
             """
             Checks if the given filter is considered a "day" filter according
@@ -2317,9 +2317,9 @@ init -10 python:
             """
             if flt is None:
                 flt = store.mas_sprites.get_filter()
-
+            
             return self._flt_man.is_flt_day(flt)
-
+        
         def isFltNight(self, flt=None):
             """
             Checks if the given filter is considered a "night" filter according
@@ -2336,7 +2336,7 @@ init -10 python:
             if flt_res is not None:
                 return not flt_res
             return None
-
+        
         def _lookback(self, flt):
             """
             Gets MASWeatherMap for a filter, using lookback
@@ -2347,7 +2347,7 @@ init -10 python:
             RETURNS: MASWeatherMap, or None if not found
             """
             return self.image_map.get(self._flt_img_map.get(flt))
-
+        
         def progress(self):
             """
             Progresses the filter.
@@ -2360,30 +2360,30 @@ init -10 python:
                 store.mas_utils.writelog("\nCalled from - prog\n")
                 if store.mas_background.dbg_log_st:
                     store.mas_utils.writestack()
-
+                
                 store.mas_utils.writelog(
                     store.mas_background.DBG_MSG_C.format(
                         self._flt_man.current(),
                         str(self._flt_man.current_pos())
                     )
                 )
-
+            
             try:
                 new_flt = self._flt_man.progress()
             except Exception as e:
-                # in this case, we don't know what happened, but we got
-                # screwed. log out state of the flt man as well as the
-                # traceback
+                
+                
+                
                 store.mas_background.log_bg(
                     self,
                     store.mas_utils.sys.exc_info()
                 )
-
-                # reset the manager to defualt indexes. Next time progress
-                # is called will hopefully update without error
+                
+                
+                
                 self._flt_man.reset_indexes()
                 new_flt = self._flt_man.current()
-
+            
             if store.mas_background.dbg_log:
                 store.mas_utils.writelog(
                     store.mas_background.DBG_MSG_N.format(
@@ -2392,23 +2392,23 @@ init -10 python:
                         str(self._flt_man.current_pos())
                     )
                 )
-
+            
             if new_flt is not None:
                 return new_flt
-
-            # if we had an issue with filter progression OR if we didn't get
-            # a filter back, we'll return a fallback of the first filter
-            # available in the filter manager. If that doesn't work,
-            # then its forever daytime (FLT_DAY)
-
+            
+            
+            
+            
+            
+            
             flts = self._flt_man.filters()
             if len(flts) > 0:
                 new_flt = flts[0]
                 if new_flt is not None:
                     return new_flt
-
-            return store.mas_sprites.FLT_DAY # should exist for every sprite
-
+            
+            return store.mas_sprites.FLT_DAY 
+        
         def update(self, curr_time=None):
             """
             Updates the internal indexes.
@@ -2426,16 +2426,16 @@ init -10 python:
                 store.mas_utils.writelog("\nCalled from - upd:\n")
                 if store.mas_background.dbg_log_st:
                     store.mas_utils.writestack()
-
+                
                 store.mas_utils.writelog(
                     store.mas_background.DBG_MSG_C.format(
                         self._flt_man.current(),
                         str(self._flt_man.current_pos())
                     )
                 )
-
+            
             self._flt_man.update(curr_time)
-
+            
             if store.mas_background.dbg_log:
                 store.mas_utils.writelog(
                     store.mas_background.DBG_MSG_NU.format(
@@ -2443,7 +2443,7 @@ init -10 python:
                         str(self._flt_man.current_pos())
                     )
                 )
-
+        
         def verify(self):
             """
             Verifies all internal filter and weather data is valid.
@@ -2453,7 +2453,7 @@ init -10 python:
             self._flt_man.verify()
             self._verify_img_flts(self._flt_man._day_filters.keys())
             self._verify_img_flts(self._flt_man._night_filters.keys())
-
+        
         def _verify_img_flts(self, flts):
             """
             Verifies that at least one image exists for the given flts.
@@ -2473,12 +2473,12 @@ init -10 python:
                         img_found = True
                         self._flt_img_anc[flt] = []
                         return
-
+            
             if not img_found:
                 raise Exception("No images found for these filters")
 
 
-#Helper methods and such
+
 init -20 python in mas_background:
     import store
     BACKGROUND_MAP = {}
@@ -2551,7 +2551,7 @@ init -20 python in mas_background:
         """
         if store.persistent._mas_background_MBGdata is None:
             return
-
+        
         for mbg_id, mbg_data in store.persistent._mas_background_MBGdata.iteritems():
             mbg_obj = BACKGROUND_MAP.get(mbg_id, None)
             if mbg_obj is not None:
@@ -2571,7 +2571,7 @@ init -20 python in mas_background:
         unlocked_count = 0
         for mbg_obj in BACKGROUND_MAP.itervalues():
             unlocked_count += int(mbg_obj.unlocked)
-
+        
         return unlocked_count
 
     def hasXUnlockedBGs(min_amt_unlocked):
@@ -2586,11 +2586,11 @@ init -20 python in mas_background:
         unlocked_count = 0
         for mbg_obj in BACKGROUND_MAP.itervalues():
             unlocked_count += int(mbg_obj.unlocked)
-
-            #Now check if we've surpassed the minimum
+            
+            
             if unlocked_count >= min_amt_unlocked:
                 return True
-
+        
         return False
 
 
@@ -2608,16 +2608,16 @@ init -20 python in mas_background:
         """
         if bg_obj is None:
             return
-
+        
         bg_log = store.mas_utils.getMASLog("bg_flt", append=True, flush=True)
         if not bg_log.open():
-            # could not log, just abort here
+            
             return
-
-        # otherwise log output
+        
+        
         bg_log.raw_write = True
-
-        # NOTE: version should already be written out if this is runtime
+        
+        
         bg_log.write("\n\nBackground Object: {0}\n".format(
             bg_obj.background_id
         ))
@@ -2625,16 +2625,16 @@ init -20 python in mas_background:
         bg_log.write(str(bg_obj._flt_man))
         bg_log.write("\n\nRaw Filter Manager Data:\n")
         bg_log.write(repr(bg_obj._flt_man))
-
+        
         if exc_info:
             import traceback
-
+            
             bg_log.write("\n\n")
             for tb_line in traceback.format_exception(*exc_info):
                 bg_log.write(tb_line)
 
 
-#START: BG change functions
+
 init 800 python:
     def mas_setBackground(_background, **kwargs):
         """
@@ -2679,15 +2679,15 @@ init 800 python:
         """
         if by_user is not None:
             mas_background.force_background = bool(by_user)
-
+        
         if set_persistent:
             persistent._mas_current_background = new_background.background_id
-
+        
         if new_background != mas_current_background:
             mas_current_background.exit(new_background, **kwargs)
-            new_background.update() # NOTE: do not put this in setBackground.
+            new_background.update() 
             mas_setBackground(new_background, **kwargs)
-
+        
         store.mas_is_indoors = store.mas_background.EXP_TYPE_OUTDOOR not in new_background.ex_props
 
     def mas_startupBackground():
@@ -2701,11 +2701,11 @@ init 800 python:
         ):
             background_to_set = store.mas_background.BACKGROUND_MAP[persistent._mas_current_background]
             mas_changeBackground(background_to_set, startup=True)
-
+            
             if background_to_set.disable_progressive:
                 store.skip_setting_weather = True
-
-        #If for whatever reason, we are no longer able to use the persistent background now, we reset to spaceroom
+        
+        
         else:
             persistent._mas_current_background = "spaceroom"
 
@@ -2721,10 +2721,10 @@ init 800 python:
             mas_unlockEVL("monika_change_background", "EVE")
 
 
-    #Just set us to the normal room here
+
     mas_setBackground(mas_background_def)
 
-#NOTE: This is at init 0 so it can be used for conditionals in events/etc
+
 init python:
     def mas_getBackground(background_id, default=None):
         """
@@ -2739,7 +2739,7 @@ init python:
         """
         return store.mas_background.BACKGROUND_MAP.get(background_id, default)
 
-#START: Programming points
+
 init -2 python in mas_background:
     import store
     import store.mas_sprites as mspr
@@ -2774,7 +2774,7 @@ init -2 python in mas_background:
             curr_time - current time as datetime.time
         """
         if new_flt == mspr.FLT_DAY or new_flt == mspr.FLT_NIGHT:
-            # allow islands to be shown
+            
             store.mas_unflagEVL(
                 "mas_monika_islands",
                 "EVE",
@@ -2786,7 +2786,7 @@ init -2 python in mas_background:
                 store.EV_FLAG_HFRS
             )
         else:
-            # hide islands
+            
             store.mas_flagEVL("mas_monika_islands", "EVE", store.EV_FLAG_HFM)
             store.mas_flagEVL("greeting_ourreality", "GRE", store.EV_FLAG_HFRS)
 
@@ -2802,7 +2802,7 @@ init -2 python in mas_background:
         """
         first_flt = new_chunk.first_flt()
         if first_flt == mspr.FLT_DAY or first_flt == mspr.FLT_NIGHT:
-            # allow islands to be shown
+            
             store.mas_unflagEVL(
                 "mas_monika_islands",
                 "EVE",
@@ -2814,7 +2814,7 @@ init -2 python in mas_background:
                 store.EV_FLAG_HFRS
             )
         else:
-            # hide islands
+            
             store.mas_flagEVL("mas_monika_islands", "EVE", store.EV_FLAG_HFM)
             store.mas_flagEVL("greeting_ourreality", "GRE", store.EV_FLAG_HFRS)
 
@@ -2825,20 +2825,20 @@ init -2 python in mas_background:
         """
         if store.seen_event("mas_monika_islands"):
             store.mas_unlockEVL("mas_monika_islands", "EVE")
-
-        #NOTE: We check if _old here because it acts as a check for whether or not we're in the init phase
+        
+        
         if _old:
-            #Since these holidays demand a specific weather, we'll set them here
+            
             if store.mas_isO31():
                 store.mas_changeWeather(store.mas_weather_thunder, by_user=True)
-
+            
             elif store.mas_isD25():
                 store.mas_changeWeather(store.mas_weather_snow, by_user=True)
-
-        #Weather should always be unlocked for spaceroom
-        #This catches the potential of a deleted background which does not support weather
+        
+        
+        
         store.mas_unlockEVL("monika_change_weather", "EVE")
-
+        
         if store.mas_getEVLPropValue("monika_why_spaceroom", "unlock_date", None):
             store.mas_unlockEVL("monika_why_spaceroom", "EVE")
 
@@ -2848,25 +2848,25 @@ init -2 python in mas_background:
         """
         store.mas_lockEVL("mas_monika_islands", "EVE")
         store.mas_lockEVL("monika_why_spaceroom", "EVE")
-
-        #Lock the weather is the background we are changing to does not support it
-        #This handles the case where you switch bgs but on startup the entry pp unlocks the weather and it remains unlocked
+        
+        
+        
         if _new.disable_progressive:
             store.mas_lockEVL("monika_change_weather", "EVE")
 
 
 
-#START: bg defs
+
 init -1 python:
     mas_current_background = None
 
-    #Default spaceroom
+
     mas_background_def = MASFilterableBackground(
-        # ID
+        
         "spaceroom",
         "Spaceroom",
 
-        # mapping of filters to MASWeatherMaps
+        
         MASFilterWeatherMap(
             day=MASWeatherMap({
                 store.mas_weather.PRECIP_TYPE_DEF: "monika_day_room",
@@ -2886,7 +2886,7 @@ init -1 python:
             }),
         ),
 
-        # filter manager
+        
         MASBackgroundFilterManager(
             MASBackgroundFilterChunk(
                 False,
@@ -2931,45 +2931,45 @@ init -1 python:
         exit_pp=store.mas_background._def_background_exit,
     )
 
-    #Now load data
+
     store.mas_background.loadMBGData()
 
 
 init 1 python in mas_background:
 
-    # verify all backgrounds
+
     for flt_bg in BACKGROUND_MAP.itervalues():
         flt_bg.verify()
 
-#START: Image definitions
-#Spaceroom
+
+
 image monika_day_room = "mod_assets/location/spaceroom/spaceroom.png"
 image monika_room = "mod_assets/location/spaceroom/spaceroom-n.png"
 image monika_ss_room = MASFilteredSprite(
     store.mas_sprites.FLT_SUNSET,
     "mod_assets/location/spaceroom/spaceroom.png"
 )
-#Thanks Orca
+
 image monika_rain_room = "mod_assets/location/spaceroom/spaceroom_rain.png"
 image monika_rain_room_ss = MASFilteredSprite(
     store.mas_sprites.FLT_SUNSET,
     "mod_assets/location/spaceroom/spaceroom_rain.png"
 )
-#Thanks Velius/Orca
+
 image monika_snow_room_day = "mod_assets/location/spaceroom/spaceroom_snow.png"
 image monika_snow_room_night = "mod_assets/location/spaceroom/spaceroom_snow-n.png"
 image monika_snow_room_ss = "mod_assets/location/spaceroom/spaceroom_ss_snow.png"
 
-#TODO: locking/unlocking of this based on other backgrounds
-#START: Location Selector
+
+
 init 5 python:
-    # available only if moni affection is affectionate+
+
     addEvent(
         Event(
             persistent.event_database,
             eventlabel="monika_change_background",
-            category=["location"],
-            prompt="Can we go somewhere else?",
+            category=["ubicación"],
+            prompt="¿Podemos ir a otro lugar?",
             pool=True,
             unlocked=False,
             rules={"no_unlock": None},
@@ -2979,56 +2979,56 @@ init 5 python:
     )
 
 label monika_change_background:
-    m 1hua "Sure!"
+    m 1hua "¡Seguro!"
 
-    #FALL THROUGH
+
 
 label monika_change_background_loop:
 
     show monika 1eua at t21
 
-    $ renpy.say(m, "Where would you like to go?", interact=False)
+    $ renpy.say(m, "¿A dónde te gustaría ir?", interact=False)
 
     python:
-        # build menu list
+
         import store.mas_background as mas_background
         import store.mas_moods as mas_moods
 
-        # we assume that we will always have more than 1
-        # default should always be at the top
+
+
         backgrounds = [(mas_background_def.prompt, mas_background_def, False, False)]
 
         if not persistent._mas_o31_in_o31_mode:
-            # build other backgrounds list
+            
             other_backgrounds = [
                 (mbg_obj.prompt, mbg_obj, False, False)
                 for mbg_id, mbg_obj in mas_background.BACKGROUND_MAP.iteritems()
                 if mbg_id != "spaceroom" and mbg_obj.unlocked
             ]
-
-            # sort other backgrounds list
+            
+            
             other_backgrounds.sort()
-
-            # build full list
+            
+            
             backgrounds.extend(other_backgrounds)
 
-        # now add final quit item
+
         final_item = (mas_background.BACKGROUND_RETURN, False, False, False, 20)
 
-    # call scrollable pane
+
     call screen mas_gen_scrollable_menu(backgrounds, mas_ui.SCROLLABLE_MENU_TXT_MEDIUM_AREA, mas_ui.SCROLLABLE_MENU_XALIGN, final_item)
 
     $ sel_background = _return
 
     show monika at t11
 
-    # return value False? then return
+
     if sel_background is False:
         return "prompt"
 
     if sel_background == mas_current_background:
-        m 1hua "We're here right now, silly."
-        m "Try again~"
+        m 1hua "Estamos aquí ahora mismo, tontito."
+        m "Inténtalo de nuevo~"
         jump monika_change_background_loop
 
     python:
@@ -3036,17 +3036,17 @@ label monika_change_background_loop:
         skip_transition = mas_background.EXP_SKIP_TRANSITION in sel_background.ex_props
         skip_outro = mas_background.EXP_SKIP_OUTRO in sel_background.ex_props
 
-    call mas_background_change(sel_background, skip_leadin=skip_leadin, skip_outro=skip_outro, set_persistent=True)
+    call mas_background_change (sel_background, skip_leadin=skip_leadin, skip_outro=skip_outro, set_persistent=True) from _call_mas_background_change
     return
 
-#Generic background changing label, can be used if we wanted a sort of story related change
-label mas_background_change(new_bg, skip_leadin=False, skip_transition=False, skip_outro=False, set_persistent=False):
-    # otherwise, we can change the background now
-    if not skip_leadin:
-        m 1eua "Alright!"
-        m 1hua "Let's go, [player]!"
 
-    #Little transition
+label mas_background_change(new_bg, skip_leadin=False, skip_transition=False, skip_outro=False, set_persistent=False):
+
+    if not skip_leadin:
+        m 1eua "¡De acuerdo!"
+        m 1hua "¡Vamos, [player]!"
+
+
     if not skip_transition:
         hide monika
         scene black
@@ -3054,15 +3054,15 @@ label mas_background_change(new_bg, skip_leadin=False, skip_transition=False, sk
         pause 2.0
 
     python:
-        #Set persistent
+
         if set_persistent:
             persistent._mas_current_background = new_bg.background_id
 
-        #Store the old bg for use later
+
         old_bg = mas_current_background
 
-        #Otherwise, If we're disabling progressive AND hiding masks, weather isn't supported here
-        #so we lock to clear
+
+
         if new_bg.disable_progressive and new_bg.hide_masks:
             mas_weather.temp_weather_storage = mas_current_weather
             mas_changeWeather(mas_weather_def, new_bg=new_bg)
@@ -3070,28 +3070,29 @@ label mas_background_change(new_bg, skip_leadin=False, skip_transition=False, sk
         else:
             if mas_weather.temp_weather_storage is not None:
                 mas_changeWeather(mas_weather.temp_weather_storage, new_bg=new_bg)
-                #Now reset the temp storage for weather
+                
                 mas_weather.temp_weather_storage = None
-
+            
             else:
-                #If we don't have tempstor, run the startup weather
+                
                 mas_startupWeather()
-
-            #Then we unlock the weather sel here
+            
+            
             mas_unlockEVL("monika_change_weather", "EVE")
 
-        #If we've disabled progressive and hidden masks, then we shouldn't allow weather change
-        #NOTE: If you intend to force a weather for your background, set it via prog points
+
+
         if new_bg.disable_progressive:
             mas_lockEVL("monika_change_weather", "EVE")
 
-        #Finally, change the background
+
         mas_changeBackground(new_bg)
 
-    #Now redraw the room
-    call spaceroom(scene_change=True, dissolve_all=True)
+
+    call spaceroom (scene_change=True, dissolve_all=True) from _call_spaceroom_13
 
     if not skip_outro:
-        m 1eua "Here we are!"
-        m "Let me know if you want to go somewhere else, okay?"
+        m 1eua "¡Aquí estamos!"
+        m "Hazme saber si quieres ir a otro sitio, ¿vale?"
     return
+# Decompiled by unrpyc: https://github.com/CensoredUsername/unrpyc

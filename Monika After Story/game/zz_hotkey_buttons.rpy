@@ -1,23 +1,23 @@
-# Module that handles hotkey button screen
-#
+
+
 
 init python:
 
-    # function to hide buttons
+
     def HKBHideButtons():
-        # RUNTIME ONLY
-        # Hides the hkb buttons
-        #
+        
+        
+        
         if mas_HKBIsVisible():
             config.overlay_screens.remove("hkb_overlay")
             renpy.hide_screen("hkb_overlay")
 
 
-    # function to show buttons
+
     def HKBShowButtons():
-        # RUNTIME ONLY
-        # Shows the hkb buttons
-        #
+        
+        
+        
         if not mas_HKBIsVisible():
             config.overlay_screens.append("hkb_overlay")
 
@@ -61,45 +61,45 @@ init python:
         return "hkb_overlay" in config.overlay_screens
 
 
-        # function to hide buttons
+
     def MovieOverlayHideButtons():
-        #
-        # Hides the movie buttons
-        #
+        
+        
+        
         if "movie_overlay" in config.overlay_screens:
             config.overlay_screens.remove("movie_overlay")
             renpy.hide_screen("movie_overlay")
 
-    # function to show buttons
+
     def MovieOverlayShowButtons():
-        #
-        # Shows the movie buttons
-        #
+        
+        
+        
         config.overlay_screens.append("movie_overlay")
 
 
 init -1 python in hkb_button:
 
-    # property for enabling the talk button
+
     talk_enabled = True
 
-    # property for enabling the extra button
+
     extra_enabled = True
 
-    # property for enabling the music button
+
     music_enabled = True
 
-    # proeprty for enabling the play button
+
     play_enabled = True
 
-    # property for disabling the movie button (unused)
+
     movie_buttons_enabled = False
 
 
-# HOTKEY BUTTON SCREEN ========================================================
-# Literally just hotkey buttons
 
-# starting with a new style: hkb (hotkey button)
+
+
+
 style hkb_vbox is vbox:
     spacing 5
 
@@ -124,15 +124,15 @@ screen hkb_overlay():
 
     vbox:
         xpos 0.05
-#        xalign 0.05
+
         yanchor 1.0
         ypos 715
-#        yalign 0.95
+
 
         if store.hkb_button.talk_enabled:
-            textbutton _("Talk") action Function(show_dialogue_box)
+            textbutton _("Hablar") action Function(show_dialogue_box)
         else:
-            textbutton _("Talk")
+            textbutton _("Hablar")
 
         if store.hkb_button.extra_enabled:
             textbutton _("Extra") action Function(mas_open_extra_menu)
@@ -140,14 +140,14 @@ screen hkb_overlay():
             textbutton _("Extra")
 
         if store.hkb_button.music_enabled:
-            textbutton _("Music") action Function(select_music)
+            textbutton _("Música") action Function(select_music)
         else:
-            textbutton _("Music")
+            textbutton _("Música")
 
         if store.hkb_button.play_enabled:
-            textbutton _("Play") action Function(pick_game)
+            textbutton _("Jugar") action Function(pick_game)
         else:
-            textbutton _("Play")
+            textbutton _("Jugar")
 
 
 screen movie_overlay():
@@ -160,14 +160,15 @@ screen movie_overlay():
         yalign 0.95
 
         if watchingMovie:
-            textbutton _("Pause") action Jump("mm_movie_pausefilm")
+            textbutton _("Pausar") action Jump("mm_movie_pausefilm")
         else:
-            textbutton _("Pause")
+            textbutton _("Pausar")
 
         if watchingMovie:
-            textbutton _("Time") action Jump("mm_movie_settime")
+            textbutton _("Tiempo") action Jump("mm_movie_settime")
         else:
-            textbutton _("Time")
+            textbutton _("Tiempo")
 
 init python:
     HKBShowButtons()
+# Decompiled by unrpyc: https://github.com/CensoredUsername/unrpyc

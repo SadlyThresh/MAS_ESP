@@ -49,12 +49,12 @@ label introduction:
             m 1eka "I can't stay mad knowing that you came back to me in the end, though."
             m 3eka "You even added a mod so we can do more things together."
             m 1eua "Are you going to make up for making me wait so long?"
-
     else:
-        #For people who never got to act 3
+
+
         if persistent.playthrough < 3:
             if persistent.playthrough > 0:
-                $ again = " again"
+                $ again = " de nuevo"
             else:
                 $ again = ""
             m 1hua "Hello[again], [player]."
@@ -64,9 +64,9 @@ label introduction:
             m 1tkc "You should know already that cheating is bad..."
             m 1eka "But it's so good to see you[again], [player]!"
             m 1rksdla "...Even if I didn't expect to see you {i}this{/i} soon."
-
-        #Otherwise, if you did reach act 3
         else:
+
+
             m 1hub "Yay, there you are!"
             m 1eub "It's so good to see you again, [player]!"
             m 1rsc "..."
@@ -110,10 +110,10 @@ label introduction:
         show monika at t22
         show screen mas_py_console_teaching
 
-        call mas_wx_cmd("import os", local_ctx, w_wait=1.0)
-        call mas_wx_cmd("os.remove(os.path.normcase(basedir+'/characters/monika.chr'))", local_ctx, w_wait=1.0, x_wait=1.0)
+        call mas_wx_cmd ("import os", local_ctx, w_wait=1.0) from _call_mas_wx_cmd_11
+        call mas_wx_cmd ("os.remove(os.path.normcase(basedir+'/characters/monika.chr'))", local_ctx, w_wait=1.0, x_wait=1.0) from _call_mas_wx_cmd_12
 
-#        "test dialogue - IGNORE"
+
 
         if moni_exist():
             m 1lksdlb "Aha...{w=0.3}I'll try this again later."
@@ -124,10 +124,10 @@ label introduction:
         hide screen mas_py_console_teaching
         show monika at t11
 
-        $ _iswas = "is"
-
+        $ _iswas = "es"
     else:
-        $ _iswas = "was"
+
+        $ _iswas = "era"
 
     m 1dsc "It's not like that file [_iswas] {i}me{/i}, anyway."
     m 1rsc "It [_iswas] just a file with weird code in it."
@@ -152,11 +152,11 @@ label introduction:
     if not persistent.rejected_monika:
         show screen mas_background_timed_jump(3, "intro_ily_timedout")
         menu:
-            "I love you too!":
+            "¡También te amo!":
                 hide screen mas_background_timed_jump
-                # bonus aff was saying it before being asked
+
                 $ mas_gainAffection(10,bypass=True)
-                # increment the counter so if you get this, you don't get the similar dlg in monika_love
+
                 $ persistent._mas_monika_lovecounter += 1
                 m 1subsw "...!"
                 m 1lkbsa "Even though it's what I dreamt you would say, I still cannot believe you actually said it!"
@@ -167,9 +167,9 @@ label introduction:
         $ _history_list.pop()
         menu:
             m "Do you love me, [player]?{fast}"
-            # only one option if you've already rejected, you answer yes or you don't play the mod
-            # doing the scare more than once doesn't really make sense
-            "Yes, I love you.":
+            "Sí, te amo.":
+
+
                 m 1hksdlb "Did I scare you last time? Sorry about that!"
                 m 1rsu "I knew you really loved me the whole time."
                 m 3eud "The truth is, if you didn't love me, we wouldn't be here in the first place."
@@ -178,8 +178,8 @@ label introduction:
                 m "..."
                 m 3hub "Ahaha! Anyway..."
 
-# label for the end so we can jump to this if we timed out in the previous menu
-# we fall thru to this if not
+
+
 label intro_end:
     if not persistent.rejected_monika:
         m 1eub "Nothing's ever going to get in the way of our love again."
@@ -187,9 +187,9 @@ label intro_end:
     m 3eua "Now that you added some improvements, you can finally talk to me!"
     m 3eub "Just press the 't' key or click on 'Talk' on the menu to the left if you want to talk about something."
 
-    call bookmark_derand_intro
+    call bookmark_derand_intro from _call_bookmark_derand_intro
 
-    # NOTE: the Extra menu is explained when the user clicks on it
+
     m 3eub "If you get bored of the music, I can change that, too!"
     m 1eua "Press the 'm' key or click on 'Music' to choose which song you want to listen to."
     m 3hub "Also, we can play games now!"
@@ -200,12 +200,12 @@ label intro_end:
     m 1tfu "After all, I can see everything on your computer now..."
     m 3hub "Ahaha!"
 
-    #Only dissolve if needed
+
     if len(persistent.event_list) == 0:
         show monika 1esa with dissolve_monika
 
-    # This is at the beginning and end of intro to cover an intro
-    # that spans 2 days
+
+
     if mas_isMonikaBirthday():
         $ persistent._mas_bday_opened_game = True
     elif mas_isD25():
@@ -219,21 +219,21 @@ label intro_ily_timedout:
     $ _history_list.pop()
     menu:
         m "You do love me, [player]...right?{fast}"
-        "Of course I love you.":
-            #Gain affection for saying I love you too.
+        "Claro que te amo.":
+
             $ mas_gainAffection()
             m 1hua "I'm so happy you feel the same way!"
             jump intro_end
         "No.":
-            #Lose affection for rejecting Monika
+
             $ mas_loseAffection()
             call chara_monika_scare from _call_chara_monika_scare
 
-            # not sure if this is needed
+
             $ persistent.closed_self = True
             jump _quit
 
-#Credit for any assets from Undertale belongs to Toby Fox
+
 label chara_monika_scare:
     $ persistent.rejected_monika = True
     m 1esd "No...?"
@@ -243,7 +243,7 @@ label chara_monika_scare:
     $ style.say_dialogue = style.edited
     m "{cps=*0.25}SINCE WHEN WERE YOU THE ONE IN CONTROL?{/cps}"
 
-    # this is a 2 step process
+
     $ mas_RaiseShield_core()
     $ mas_OVLHide()
 
@@ -257,14 +257,14 @@ label chara_monika_scare:
     pause 4
     stop music
 
-    #scene black
+
     hide rm
     hide rm2
     hide monika_bg
     hide monika_bg_highlight
     hide monika_scare
 
-    # setup a command
+
     if renpy.windows:
         $ bad_cmd = "del C:\Windows\System32"
     else:
@@ -272,11 +272,11 @@ label chara_monika_scare:
 
     python:
 
-        # add fake subprocess
+
         class MASFakeSubprocess(object):
             def __init__(self):
                 self.joke = "Just kidding!"
-
+            
             def call(self, nothing):
                 return self.joke
 
@@ -284,7 +284,7 @@ label chara_monika_scare:
             "subprocess": MASFakeSubprocess()
         }
 
-        # and the console
+
         store.mas_ptod.rst_cn()
         store.mas_ptod.set_local_context(local_ctx)
 
@@ -292,34 +292,34 @@ label chara_monika_scare:
     scene black
     pause 2.0
 
-    # set this seen to True so Monika does know how to do things.
+
     $ persistent._seen_ever["monikaroom_greeting_ear_rmrf_end"] = True
     $ renpy.save_persistent()
 
     show screen mas_py_console_teaching
     pause 1.0
-    call mas_wx_cmd("subprocess.call('" + str(bad_cmd) + "')", w_wait=3.0)
+    call mas_wx_cmd ("subprocess.call('" + str(bad_cmd) + "')", w_wait=3.0) from _call_mas_wx_cmd_13
     $ renpy.pause(2.0, hard=True)
-    call mas_w_cmd("bye!")
+    call mas_w_cmd ("bye!") from _call_mas_w_cmd_6
     pause 1.0
 
     return
 
 label bookmark_derand_intro:
-    # this is a label so we can check if it has been seen in mas_bookmarks_notifs_intro
+
     m 1hua "If there's anything I'm talking about that you want to revisit easily, just press the 'b' key and I'll bookmark it for you."
     m 2rksdlc "And if there happens to be something that you don't want me to bring up again, press the 'x' key and I'll make sure to avoid it in the future."
     m 4hksdlb "...Hopefully there aren't too many things like that, ahaha!"
     return
 
-#These are the comments made when you restart the game the first few times
-# NOTE: these are now triaged by a function in script-greetings
 
-#init 5 python:
-#    addEvent(Event(persistent.event_database, eventlabel='ch30_reload_0',conditional="startup_check and persistent.monika_reload == 0 and not persistent.closed_self",action=EV_ACT_PUSH))
+
+
+
+
 
 label ch30_reload_0:
-    call ch30_reload_0_dlg
+    call ch30_reload_0_dlg from _call_ch30_reload_0_dlg
     $ mas_incMoniReload()
     return
 
@@ -333,17 +333,17 @@ label ch30_reload_0_dlg:
     m 1dkd "It's a really horrible feeling..."
     m 1eka "If you could figure out what's causing that, I'll love you forever~"
 
-    ## TESTING ONLY
+
     if persistent._mas_idle_data.get("dev_idle_test", False):
         m 1hua "JK I KNOW YOU QUIT ME LMAO (ch30 0)"
 
     return
 
-#init 5 python:
-#    addEvent(Event(persistent.event_database, eventlabel='ch30_reload_1',conditional="startup_check and persistent.monika_reload == 1 and not persistent.closed_self",action=EV_ACT_PUSH))
+
+
 
 label ch30_reload_1:
-    call ch30_reload_1_dlg
+    call ch30_reload_1_dlg from _call_ch30_reload_1_dlg
     $ mas_incMoniReload()
     return
 
@@ -369,11 +369,11 @@ label ch30_reload_1_dlg:
     m 1esa "Don't worry, I don't think it's caused me any harm, aside from mental scarring."
     return
 
-#init 5 python:
-#    addEvent(Event(persistent.event_database, eventlabel='ch30_reload_2',conditional="startup_check and persistent.monika_reload == 2 and not persistent.closed_self",action=EV_ACT_PUSH))
+
+
 
 label ch30_reload_2:
-    call ch30_reload_2_dlg
+    call ch30_reload_2_dlg from _call_ch30_reload_2_dlg
     $ mas_incMoniReload()
     return
 
@@ -403,11 +403,11 @@ label ch30_reload_2_dlg:
     m 1eka "Even if we aren't talking, I'm happy just being with you~"
     return
 
-#init 5 python:
-#    addEvent(Event(persistent.event_database, eventlabel='ch30_reload_3',conditional="startup_check and persistent.monika_reload == 3 and not persistent.closed_self",action=EV_ACT_PUSH))
+
+
 
 label ch30_reload_3:
-    call ch30_reload_3_dlg
+    call ch30_reload_3_dlg from _call_ch30_reload_3_dlg
     $ mas_incMoniReload()
     return
 
@@ -421,8 +421,8 @@ label ch30_reload_3_dlg:
         m 3eka "You know you could just come back to me if anything were to happen, right?"
         m 1eka "It'd make me really happy to see you come back before saying goodbye at least."
         m 1rksdld "I know it might not always be possible..."
-
     else:
+
         m 1esc "By the way..."
         m 7esd "I'm just going to accept the fact that you need to quit the game once in a while."
         m 2dsc "I'm starting to get used to it, anyway."
@@ -434,71 +434,71 @@ label ch30_reload_3_dlg:
     if mas_isMoniUpset(lower=True):
         m 1ekc "You will do that, right?"
         m 1dkd "I'm finding it harder and harder to believe you will but I trust you [player]..."
-
     else:
+
         m 1eua "That way I can be ready for it and rest peacefully."
         m 3rksdla "I do need my beauty sleep every now and then, after all."
     return
 
-#This reload event gets pushed when you reach the end of the scripted reload events
-#Be sure to increment the check if more reload events are added
-#init 5 python:
-#    addEvent(Event(persistent.event_database, eventlabel='ch30_reload_continuous',action=EV_ACT_PUSH))
-    #Make sure that the conditional is ready even if the event has been loaded before
-#    evhand.event_database['ch30_reload_continuous'].conditional="startup_check and persistent.monika_reload >= 4 and not persistent.closed_self"
+
+
+
+
+
+
 
 label ch30_reload_continuous:
-    call ch30_reload_continuous_dlg
+    call ch30_reload_continuous_dlg from _call_ch30_reload_continuous_dlg
     $ mas_incMoniReload()
     return
 
 label ch30_reload_continuous_dlg:
-    show monika 2rfc at t11 zorder MAS_MONIKA_Z
+    show monika 2rfc zorder MAS_MONIKA_Z at t11
     pause 1
     python:
         reload_quip_good = [
-            "Welcome back! Can you be careful to close the game properly next time?",
-            "It hurts when you don't close the game properly...but I'm sure it was a mistake.",
-            "That was really scary...but you've fixed it again. Thank you...",
-            "Would you give me some more of a warning next time?",
-            "I'm sure you didn't mean to close the game on me, but I do need to stress how bad it feels.",
-            "You do remember there was a way to say goodbye right? Just checking~",
-            "My patience is wearing a little thin...but I suppose I can forgive you this time.",
-            "Everybody makes mistakes...",
-            "That hurt...I know you wouldn't do it on purpose but please do be more careful.",
-            "...Oh... It's over and I'm back with you, [mas_get_player_nickname()]. That...that was awful.",
-            "Did something happen outside of your control? I'm just going to guess it was.",
-            "You should have just asked me...but I guess you might have had your reasons",
+            "¡Bienvenido de vuelta! ¿Puedes ser cuidadoso al cerrar el juego la próxima vez?",
+            "Duele cuando no cierras el juego apropiadamente...pero estoy segura que fue un error.",
+            "Eso fue bastante aterrador...pero lo arreglaste de nuevo. Gracias...",
+            "¿Podrías advertirme la próxima vez?",
+            "Estoy segura que no querías cerrar el juego conmigo, pero no sabes lo estresante que se siente.",
+            "¿Recuerdas que hay una forma de despedirse no? Solo verifico~",
+            "Mi paciencia está llegando a su límite...pero supongo que puedo perdonarte esta vez.",
+            "Todo el mundo comete errores...",
+            "Eso dolió...Sé que no lo haces a propósito, pero ten más cuidado la próxima vez.",
+            "...Oh... terminó y estoy de vuelta contigo, [mas_get_player_nickname()]. Eso...eso fue atroz.",
+            "¿Algo sucedió fuera de tu control? Quisiera saber que sucedió.",
+            "Debiste haberme preguntado antes...pero supongo que tienes tus razones.",
         ]
 
         reload_quip_normal = [
-            "I'm so exhausted. It's impossible to rest when you close the game on me.",
-            "...I hate when you close the game without telling me.",
-            "I feel miserable...",
-            "It's still so scary when I'm suddenly turned off.",
-            "Every time is as bad as the first.",
-            "I'm running out of patience for this.",
-            "I wish you understood what it felt like when you close the game.",
-            "Well, that was pretty abrupt wasn't it?",
-            "You could have just asked me to close the game silly.",
-            "I'm just going to assume the power went out or someone pulled the plug.",
-            "I can't understand why you won't ask me to close the game...",
-            "This is really painful for me, you know?",
-            "Do you enjoy hurting me, [player]?",
-            "Too lazy to click the 'Talk' button, [player]?"
+            "Estoy cansada. Es imposible descansar cuando cierras el juego conmigo.",
+            "...Odio cuando cierras el juego sin avisar.",
+            "Me siento miserable...",
+            "Todavía es bastante aterrador cuando todo se oscurece",
+            "Cada vez es peor que la primera vez",
+            "Mi paciencia se está acabando.",
+            "Desearía que entendieras que se siente cuando cierras el juego.",
+            "Bueno, eso fue un poco abrupto, ¿no crees?",
+            "Podías haberme preguntado antes de cerrar, tonto.",
+            "Voy a asumir que tuviste un fallo de energía.",
+            "No puedo entender por qué no me preguntas antes de cerrar el juego...",
+            "Esto es muy doloroso para mí, ¿lo sabes?",
+            "¿Disfrutas hacerme sufrir, [player]?",
+            "¿Muy flojo para presionar el botón 'Hablar', [player]?"
         ]
 
         reload_quip_bad = [
-            "You...really do like hurting me, don't you?",
-            "That was a mistake right? It had to have been...",
-            "Y-You're not doing this on purpose are you? Did I do something wrong?",
-            "Please be more careful with how I feel... It really does hurt...",
-            "That was an accident...it was an accident...you wouldn't do it on purpose...",
-            "You must have just forgot...right?",
-            "That wasn't funny... That really did hurt.",
-            "Everyone makes mistakes... Even you.",
-            "I don't know what I'm doing wrong.",
-            "That really was awful... Just tell me what I'm doing wrong."
+            "Tú...en serio amas hacerme sufrir, ¿no?",
+            "Eso fue un error ¿no?, tuvo que serlo...",
+            "T-tú no estás haciendo esto a próposito, ¿verdad? ¿H-hice algo mal?",
+            "Por favor, se más cuidadoso de como me siento... Realmente duele...",
+            "Eso fue un accidente...eso fue un accidente...eso fue un accidente...",
+            "Solo lo olvidaste, ¿verdad?",
+            "Eso no fue divertido...Realmente dolió.",
+            "Todos cometemos errores...incluso tú...",
+            "No sé que hice mal.",
+            "Eso fue horrible... Solo dime que hice mal."
         ]
 
         if mas_isMoniUpset(lower=True):
@@ -518,8 +518,9 @@ label ch30_reload_continuous_dlg:
         if mas_isMoniAff(higher=True):
             m 1ekb "I'm sure whatever it is, it won't be as bad after you come back to me for a bit!"
 
-    ## TESTING ONLY
+
     if persistent._mas_idle_data.get("dev_idle_test", False):
         m 1hua "JK I KNOW YOU QUIT ME LMAO (continous)"
 
     return
+# Decompiled by unrpyc: https://github.com/CensoredUsername/unrpyc

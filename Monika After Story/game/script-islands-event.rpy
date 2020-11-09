@@ -1,12 +1,12 @@
-# Monika's ???? Event
-# deserves it's own file because of how much dialogue these have
-# it basically shows a new screen over everything, and has an image map
-# Monika reacts to he place the player clicks
+
+
+
+
 
 
 python early:
 
-    # islands-specific displayable, handles issues with no decoding
+
     def MASIslandBackground(**filter_pairs):
         """
         DynamicDisplayable for Island background images. This includes
@@ -29,7 +29,7 @@ python early:
         )
 
 
-# island image definitions
+
 image mas_islands_wf = MASIslandBackground(
     day=MASWeatherMap({
         mas_weather.PRECIP_TYPE_DEF: (
@@ -92,9 +92,9 @@ image mas_islands_wof = MASIslandBackground(
 )
 
 init 2 python:
-    # snow-specific maps. This is because the cherry-blossom thing.
-    # NOTE: we even though this is snow, we set the precip types to def
-    #   this is so we can leverage the fallback system
+
+
+
     mas_islands_snow_wf_mfwm = MASFilterWeatherMap(
         day=MASWeatherMap({
             mas_weather.PRECIP_TYPE_DEF: (
@@ -124,17 +124,17 @@ init 2 python:
     mas_islands_snow_wof_mfwm.use_fb = True
 
 
-### initialize the island images
+
 init -10 python:
-    ## NOTE: we assume 2 things:
-    #   - we have write access to teh mod_assets folder
-    #   - the existing pngs dont exist yet
-    #
-    #   if for some reason we fail to convert the files into images
-    #   then we must backout of showing the event.
-    #
-    #   NOTE: other things to note:
-    #       on o31, we cannot have islands event
+
+
+
+
+
+
+
+
+
     mas_cannot_decode_islands = not store.mas_island_event.decodeImages()
 
 
@@ -151,8 +151,8 @@ init -10 python:
         """
         if mas_cannot_decode_islands:
             return "None", None
-
-        # otherwise standard mechanics
+        
+        
         return mas_fwm_select(st, at, mfwm)
 
 
@@ -161,7 +161,7 @@ init -11 python in mas_island_event:
     import store.mas_dockstat as mds
     import store.mas_ics as mis
 
-    # setup the docking station we are going to use here
+
     islands_station = store.MASDockingStation(mis.islands_folder)
 
     def decodeImages():
@@ -205,9 +205,9 @@ init -11 python in mas_island_event:
 
 
 init 4 python:
-    # adjustments to islands flags in the case of other runtime things
+
     if mas_isO31():
-        # no islands event on o31
+        
         mas_cannot_decode_islands = True
         store.mas_island_event.removeImages()
 
@@ -219,7 +219,7 @@ init 5 python:
                 persistent.event_database,
                 eventlabel="mas_monika_islands",
                 category=['monika','misc'],
-                prompt="Can you show me the floating islands?",
+                prompt="¿Puedes mostrarme las islas flotantes?",
                 pool=True,
                 unlocked=False,
                 rules={"no_unlock": None, "bookmark_rule": store.mas_bookmarks_derand.WHITELIST},
@@ -228,8 +228,8 @@ init 5 python:
         )
 
 init -876 python in mas_delact:
-    # this event requires a delayed aciton, since we cannot ensure that
-    # the sprites for this were decoded correctly
+
+
 
     def _mas_monika_islands_unlock():
         return store.MASDelayedAction.makeWithLabel(
@@ -245,80 +245,80 @@ init -876 python in mas_delact:
 
 
 label mas_monika_islands:
-    m 1eub "I'll let you admire the scenery for now."
-    m 1hub "Hope you like it!"
+    m 1eub "Te dejaré admirar el paisaje por ahora."
+    m 1hub "¡Espero que te guste!"
 
-    # prevent interactions
+
     $ mas_RaiseShield_core()
     $ mas_OVLHide()
     $ disable_esc()
     $ renpy.store.mas_hotkeys.no_window_hiding = True
 
-    # keep looping the screen
+
     $ _mas_island_keep_going = True
 
-    # keep track about the window
+
     $ _mas_island_window_open = True
 
-    # text used for the window
+
     $ _mas_toggle_frame_text = "Close Window"
 
-    # shimeji flag
+
     $ _mas_island_shimeji = False
 
-    # random chance to get mini moni appear
+
     if renpy.random.randint(1,100) == 1:
         $ _mas_island_shimeji = True
 
-    # double screen trick
+
     show screen mas_islands_background
 
-    # keep showing the event until the player wants to go
+
     while _mas_island_keep_going:
 
-        # image map with the event
+
         call screen mas_show_islands()
 
         if _return:
-            # call label if we have one
-            call expression _return
+
+            call expression _return from _call_expression_1
         else:
-            # player wants to quit the event
+
             $ _mas_island_keep_going = False
-    # hide extra screen
+
     hide screen mas_islands_background
 
-    # drop shields
+
     $ mas_DropShield_core()
     $ mas_OVLShow()
     $ enable_esc()
     $ store.mas_hotkeys.no_window_hiding = False
 
-    m 1eua "I hope you liked it, [mas_get_player_nickname()]~"
+    m 1eua "Espero que te haya gustado, [mas_get_player_nickname()]~"
     return
 
 label mas_island_upsidedownisland:
-    m "Oh, that."
-    m "I guess you're wondering why that island is upside down, right?"
-    m "Well...I was about to fix it until I took another good look at it."
-    m "It looks surreal, doesn't it?"
-    m "I just feel like there's something special about it."
-    m "It's just...mesmerizing."
+    m "Oh, eso."
+    m "Supongo que te estás preguntando por qué esa isla está al revés, ¿verdad?"
+    m "Bueno... estaba a punto de arreglarla hasta que le di otro buen vistazo."
+    m "Parece surrealista, ¿no?"
+    m "Siento que hay algo especial con ella."
+    m "Es simplemente...fascinante."
     return
 
 label mas_island_glitchedmess:
-    m "Oh, that."
-    m "It's something I'm currently working on."
-    m "It's still a huge mess, though. I'm still trying to figure it all out."
-    m "In due time, I'm sure I'll get better at coding!"
-    m "Practice makes perfect after all, right?"
+    m "Oh, eso."
+    m "Es algo en lo que estoy trabajando."
+    m "Pero, sigue siendo un gran lío. Todavía estoy tratando de resolverlo."
+    m "¡Pero a su debido tiempo, estoy segura de que mejoraré en la codificación!"
+    m "Después de todo, la práctica hace al maestro, ¿verdad?"
     return
 
 label mas_island_cherry_blossom_tree:
     python:
 
         if not renpy.store.seen_event("mas_island_cherry_blossom1"):
-
+            
             renpy.call("mas_island_cherry_blossom1")
 
         else:
@@ -327,58 +327,58 @@ label mas_island_cherry_blossom_tree:
                 "mas_island_cherry_blossom3",
                 "mas_island_cherry_blossom4"
             ]
-
+            
             if not mas_island_event.isWinterWeather():
                 _mas_cherry_blossom_events.append("mas_island_cherry_blossom2")
-
+            
             renpy.call(renpy.random.choice(_mas_cherry_blossom_events))
 
     return
 
 label mas_island_cherry_blossom1:
     if mas_island_event.isWinterWeather():
-        m "This tree may look dead right now...but when it blooms, it's gorgeous."
+        m "Este árbol puede parecer muerto ahora mismo... pero cuando florece, es hermoso."
     else:
-        m "It's a beautiful tree, isn't it?"
-    m "It's called a Cherry Blossom tree; they're native to Japan."
-    m "Traditionally, when the flowers are in bloom, people would go flower viewing and have a picnic underneath the trees."
-    m "Well, I didn't choose this tree because of tradition."
-    m "I chose it because it's lovely and pleasing to look at."
-    m "Just staring at the falling petals is awe-inspiring."
+        m "Es un árbol hermoso, ¿no?"
+    m "Se llama árbol de Flor de Cerezo; son nativos de Japón."
+    m "Tradicionalmente, cuando los árboles florecen, la gente va a ver las flores y hacer un picnic bajo los árboles."
+    m "Bueno, no elegí este árbol por su tradición."
+    m "Lo elegí porque es encantador y agradable de ver."
+    m "Simplemente mirar los pétalos que caen es sobrecogedor."
     if mas_island_event.isWinterWeather():
-        m "When it's blooming, that is."
-        m "I can't wait until we get the chance to experience that, [player]."
+        m "Cuando está floreciendo, claro."
+        m "No puedo esperar hasta que tengamos la oportunidad de experimentar eso, [player]."
     return
 
 label mas_island_cherry_blossom2:
-    m "Did you know you can eat the flower petals of a Cherry Blossom tree?"
-    m "I don't know the taste myself, but I'm sure it can't be as sweet as you."
-    m "Ehehe~"
+    m "¿Sabías que puedes comer los pétalos de una flor de cerezo?"
+    m "Yo no conozco el sabor, pero estoy segura de que no puede ser tan dulce como tú."
+    m "Jejeje~"
     return
 
 label mas_island_cherry_blossom3:
-    m "You know, the tree is symbolic like life itself."
-    m "Beautiful, but short-lived."
-    m "But with you here, it's always blooming beautifully."
+    m "Ya sabes, el árbol es simbólico como la vida misma."
+    m "Hermoso, pero de corta duración."
+    m "Pero contigo aquí, siempre está floreciendo."
     if mas_island_event.isWinterWeather():
-        m "Even if it's bare now, it'll blossom again soon."
-    m "Know that I'll always be grateful to you for being in my life."
-    m "I love you, [player]~"
-    # manually handle the "love" return key
+        m "Incluso si está desnudo ahora, volverá a florecer pronto."
+    m "Recuerda que siempre estaré agradecida contigo por estar en mi vida."
+    m "Te amo, [player]~"
+
     $ mas_ILY()
     return
 
 label mas_island_cherry_blossom4:
-    m "You know what'd be nice to drink under the Cherry Blossom tree?"
-    m "A little sake~"
-    m "Ahaha! I'm just kidding."
-    m "I'd rather have tea or coffee."
+    m "¿Sabes qué sería bueno beber bajo los cerezos?"
+    m "Un poco de sake~"
+    m "¡Jajaja! Sólo bromeo."
+    m "Prefiero tomar té o café."
     if mas_island_event.isWinterWeather():
-        m "Or hot chocolate, even. It'd certainly help with the cold."
-        m "Of course, even if that failed, we could always cuddle together...{w=0.5} That'd be really romantic~"
+        m "O incluso chocolate caliente. Ayudaría contra el frío."
+        m "Por supuesto, incluso si eso fallara, siempre podríamos abrazarnos juntos...{w=0.5} Eso sería muy romántico~"
     else:
-        m "But, it'd be nice to watch the falling petals with you."
-        m "That'd be really romantic~"
+        m "Pero sería bueno ver cómo caen los pétalos contigo."
+        m "Eso sería muy romántico~"
     return
 
 label mas_island_sky:
@@ -406,159 +406,159 @@ label mas_island_sky:
     return
 
 label mas_island_day1:
-    #NOTE: this ordering is key, during winter we only use snow covered islands with clear sky
-    # so Winter path needs to be first
+
+
     if mas_island_event.isWinterWeather():
-        m "What a beautiful day today."
-        m "Perfect for taking a walk to admire the scenery."
-        m "...Huddled together, so as to stave off the cold."
-        m "...With some nice hot drinks to help keep us warm."
+        m "Qué hermoso día es hoy."
+        m "Perfecto para pasear y admirar el paisaje."
+        m "...Acurrucados juntos, para evitar el frío."
+        m "...Con unas buenas bebidas calientes para mantener el calor."
     elif mas_is_raining:
-        m "Aww, I would've liked to do some reading outdoors."
-        m "But I'd rather avoid getting my books wet..."
-        m "Soggy pages are a pain to deal with."
-        m "Another time, maybe."
+        m "Aww, me hubiera gustado leer un poco al aire libre."
+        m "Pero prefiero evitar mojar mis libros..."
+        m "Es difícil lidiar con las páginas empapadas."
+        m "Tal vez en otro momento."
     elif mas_current_weather == mas_weather_overcast:
-        m "Reading outside with this weather wouldn't be too bad, but it could rain at any moment."
-        m "I'd rather not risk it."
-        m "Don't worry, [player]. We'll do it some other time."
+        m "Leer afuera con este clima no sería tan malo, pero podría llover en cualquier momento."
+        m "Prefiero no arriesgarme."
+        m "No te preocupes, [player]. Lo haremos en otro momento."
     else:
-        m "It's a nice day today."
-        m "This weather would be good for a little book reading under the Cherry Blossom tree right, [player]?"
-        m "Lying under the shade while reading my favorite book."
-        m "...Along with a snack and your favorite drink on the side."
-        m "Ahh, that'd be really nice to do~"
+        m "Hoy es un buen día."
+        m "Este clima sería bueno para leer un pequeño libro bajo los cerezos, ¿verdad, [player]?"
+        m "Tumbados bajo la sombra mientras leo mi libro favorito."
+        m "...Junto con un refrigerio y yu bebida favorita al lado."
+        m "Ahh, sería muy bueno hacerlo~"
     return
 
 label mas_island_day2:
-    #NOTE: this ordering is key, during winter we only use snow covered islands with clear sky
-    # so Winter path needs to be first
+
+
     if mas_island_event.isWinterWeather():
-        m "Have you ever made a snow angel, [player]?"
-        m "I've tried in the past, but never had much success..."
-        m "It's a lot harder than it looks like."
-        m "I bet we'd have a lot of fun, even if whatever we make doesn't end up looking like an angel."
-        m "It's just a matter of being a bit silly, you know?"
+        m "¿Alguna vez has hecho un ángel de nieve, [player]?"
+        m "Lo intenté en el pasado, pero nunca tuve mucho éxito..."
+        m "Es mucho más difícil de lo que parece."
+        m "Apuesto a que nos divertiríamos mucho, incluso si lo que hacemos no termina pareciendo un ángel."
+        m "Es solo cuestión de ser un poco tonto, ¿sabes?"
     elif mas_island_event.isCloudyWeather():
-        m "Going outdoors with this kind of weather doesn't look very appealing..."
-        m "Maybe if I had an umbrella I'd feel more comfortable."
-        m "Imagine both of us, shielded from the rain, inches apart."
-        m "Staring into each other's eyes."
-        m "Then we start leaning closer and closer until we're almost-"
-        m "I think you can finish that thought yourself, [player]~"
+        m "Salir al aire libre con este tipo de clima no parece muy atractivo..."
+        m "Quizás si tuviera un paraguas me sentiría más cómoda."
+        m "Imagínanos, protegidos de la lluvia, a centímetros de distancia."
+        m "Mirándonos a los ojos."
+        m "Luego comenzamos a acercarnos más y más hasta que estamos casi-"
+        m "Creo que puedes terminar ese pensamiento tú mismo, [player]~"
     else:
-        m "The weather looks nice."
-        m "This would definitely be the best time to have a picnic."
-        m "We even have a great view to accompany it with!"
-        m "Wouldn't it be nice?"
-        m "Eating under the Cherry Blossom tree."
-        m "Adoring the scenery around us."
-        m "Enjoying ourselves with each other's company."
-        m "Ahh, that'd be fantastic~"
+        m "El clima parece agradable."
+        m "Definitivamente este sería el mejor momento para hacer un picnic."
+        m "¡Incluso tenemos una gran vista para acompañarlo!"
+        m "¿No sería genial?"
+        m "Comer debajo de los cerezos."
+        m "Admirando el paisaje que nos rodea."
+        m "Disfrutando de la compañía del otro."
+        m "Ahh, eso sería fantástico~"
     return
 
 label mas_island_day3:
     if mas_is_raining and not mas_isWinter():
-        m "It's raining pretty heavily..."
-        m "I wouldn't want to be outside now."
-        m "Though being indoors at a time like this feels pretty cozy, don't you think?"
+        m "Está lloviendo bastante..."
+        m "No me gustaría estar afuera ahora."
+        m "Aunque estar adentro en un momento como este se siente bastante cómodo, ¿no crees?"
     else:
-        m "It's pretty peaceful outside."
+        m "Es bastante tranquilo afuera."
         if mas_island_event.isWinterWeather():
-            m "We could have a snowball fight, you know."
-            m "Ahaha, that'd be so much fun!"
-            m "I bet I could land a shot on you a few islands away."
-            m "Some healthy competition never hurt anyone, right?"
+            m "Podríamos tener una pelea de bolas de nieve."
+            m "¡Jajaja, eso sería muy divertido!"
+            m "Apuesto a que podría dispararte a unas pocas islas de distancia."
+            m "Una competencia sana nunca lastimó a nadie, ¿verdad?"
         else:
-            m "I wouldn't mind lazing around in the grass right now..."
-            m "With your head resting on my lap..."
-            m "Ehehe~"
+            m "No me importaría holgazanear en la hierba ahora mismo..."
+            m "Con tu cabeza apoyada en mi regazo..."
+            m "Jejeje~"
     return
 
 label mas_island_night1:
-    m "While it's nice to be productive during the day, there's something so peaceful about the night."
-    m "The sounds of crickets chirping mixed with a gentle breeze is so relaxing."
-    m "You'd hold me on a night like that, right~"
+    m "Si bien es bueno ser productivo durante el día, hay algo tan tranquilo con la noche."
+    m "El sonido del canto de los grillos mezclado con una suave brisa es muy relajante."
+    m "Me abrazarías en una noche como esa, verdad~"
     return
 
 label mas_island_night2:
     if not mas_isWinter() and mas_island_event.isCloudyWeather():
-        m "Too bad we can't see the stars tonight..."
-        m "I would've loved to gaze at the cosmos with you."
-        m "That's alright though, we'll get to see it some other time, then."
+        m "Lástima que no podamos ver las estrellas esta noche..."
+        m "Me hubiera encantado contemplar el cosmos contigo."
+        m "Pero, está bien, lo veremos en otro momento."
     else:
         if seen_event('monika_stargazing'):
-            m "Aren't the stars so beautiful, [player]?"
-            m "Although, this isn't {i}quite{/i} what I had in mind when I mentioned stargazing before..."
-            m "As nice as they are to look at, the part that I want to experience most is being with you, holding each other tight while we lay there."
-            m "Someday, [player].{w=0.3} Someday."
-
+            m "¿No son las estrellas maravillosas, [player]?"
+            m "Aunque, esto {i}no{/i} es lo que tenía en mente cuando mencioné sobre mirar las estrellas..."
+            m "Por más agradable que sea mirarlas, la parte que más quiero experimentar es estar contigo, abrazándonos fuerte mientras estamos acostados."
+            m "Algún día, [player].{w=0.3} Algún día."
         else:
-            m "Have you ever gone stargazing, [mas_get_player_nickname()]?"
-            m "Taking some time out of your evening to look at the night sky and to just stare at the beauty of the sky above..."
-            m "It's surprisingly relaxing, you know?"
-            m "I've found that it can really relieve stress and clear your head..."
-            m "And seeing all kinds of constellations in the sky just fills your mind with wonder."
-            m "Of course, it really makes you realize just how small we are in the universe."
-            m "Ahaha..."
+
+            m "¿Alguna vez has ido a ver las estrellas, [mas_get_player_nickname()]?"
+            m "Tomarse un tiempo de la noche para mirar el cielo nocturno y mirar la belleza del cielo..."
+            m "Es sorprendentemente relajante, ¿sabías?"
+            m "He descubierto que puede aliviar el estrés y despejar la mente..."
+            m "Y ver todo tipo de constelaciones en el cielo te llena la mente de asombro."
+            m "Por supuesto, te hace darte cuenta de lo pequeños que somos en el universo."
+            m "Jajaja..."
     return
 
 label mas_island_night3:
     if not mas_isWinter() and mas_island_event.isCloudyWeather():
-        m "Cloudy weather is kind of depressing, don't you think?"
-        m "Especially at nighttime, when it hides the stars away from our view."
-        m "It's such a shame, really..."
+        m "El cielo nublado es algo deprimente, ¿no lo crees?"
+        m "Especialmente durante la noche, cuando oculta las estrellas de nuestra vista."
+        m "De verdad, es una pena..."
     else:
-        m "What a beautiful night!"
+        m "¡Qué hermosa noche!"
         if mas_island_event.isWinterWeather():
-            m "There's just something about a cold, crisp night that I love."
-            m "The contrast of the dark sky and the land covered in snow is really breathtaking, don't you think?"
+            m "Hay algo en una noche fría y fresca que me encanta."
+            m "El contraste del cielo oscuro y la tierra cubierta de nieve es realmente impresionante, ¿no crees?"
         else:
-            m "If I could, I'd add fireflies."
-            m "Their lights complement the night sky, it's a pretty sight."
-            m "Improve the ambience a little, you know?"
+            m "Si pudiera, agregaría luciérnagas."
+            m "Sus luces complementan el cielo nocturno, es una hermosa vista."
+            m "Mejora un poco el ambiente, ¿sabes?"
     return
 
 label mas_island_daynight1:
-    m "Maybe I should add more shrubs and trees."
-    m "Make the islands prettier you know?"
-    m "I just have to find the right flowers and foliage to go with it."
-    m "Or maybe each island should have its own set of plants so that everything will be different and have variety."
-    m "I'm getting excited thinking about it~"
+    m "Quizás debería agregar más arbustos y árboles."
+    m "Hacer las islas más bonitas, ¿sabes?"
+    m "Solo tengo que encontrar las flores y el follaje adecuados."
+    m "O tal vez cada isla debería tener su propio conjunto de plantas para que todo sea diferente y haya variedad."
+    m "Me emociono pensando en eso~"
     return
 
 label mas_island_daynight2:
-    # aurora borealis
-    m "{i}~Windmill, windmill for the land~{/i}"
 
-    # a-aurora borealis
-    m "{i}~Turn forever hand in hand~{/i}"
+    m "{i}~Molino de viento, molino de viento para la tierra~{/i}"
 
-    # aurora borealis
-    m "{i}~Take it all in on your stride~{/i}"
 
-    # at this time of day?
-    m "{i}~It is ticking, falling down~{/i}"
+    m "{i}~Gira para siempre de la mano~{/i}"
 
-    # aurora borealis
-    m "{i}~Love forever, love is free~{/i}"
 
-    # a-aurora borealis
-    m "{i}~Let's turn forever, you and me~{/i}"
+    m "{i}~Toma todo con calma~{/i}"
 
-    # in this part of the country? Yes
-    m "{i}~Windmill, windmill for the land~{/i}"
 
-    m "Ehehe, don't mind me, I just wanted to sing out of the blue~"
+    m "{i}~Está haciendo tictac, cayendo~{/i}"
+
+
+    m "{i}~Amor por siempre, el amor es gratis~{/i}"
+
+
+    m "{i}~Volvamos para siempre, tú y yo~{/i}"
+
+
+    m "{i}~Molino de viento, molino de viento para la tierra~{/i}"
+
+    m "Jejeje, no me hagas caso, solo quería cantar~"
     return
 
 label mas_island_shimeji:
-    m "Ah!"
-    m "How'd she get there?"
-    m "Give me a second, [player]..."
+    m "¡Ah!"
+    m "¿Cómo llegó allí?"
+    m "Dame un segundo, [player]..."
     $ _mas_island_shimeji = False
-    m "All done!"
-    m "Don't worry, I just moved her to a different place."
+    m "¡Todo listo!"
+    m "No te preocupes, acabo de mudarlo a un lugar diferente."
     return
 
 label mas_island_bookshelf:
@@ -574,49 +574,49 @@ label mas_island_bookshelf:
     return
 
 label mas_island_bookshelf1:
-    #NOTE: this ordering is key, during winter we only use snow covered islands with clear sky
-    # so Winter path needs to be first
+
+
     if mas_island_event.isWinterWeather():
-        m "That bookshelf might not look terribly sturdy, but I'm sure it can weather a little snow."
-        m "It's the books that worry me a bit."
-        m "I just hope they don't get too damaged..."
+        m "Puede que esa estantería no parezca muy resistente, pero estoy segura de que puede resistir un poco de nieve."
+        m "Son los libros los que me preocupan un poco."
+        m "Solo espero que no se dañen demasiado..."
     elif mas_island_event.isCloudyWeather():
-        m "At times like this, I wish I would've kept my books indoors..."
-        m "Looks like we'll just have to wait for better weather to read them."
-        m "In the meantime..."
-        m "How about cuddling a bit, [player]?"
-        m "Ehehe~"
+        m "En momentos como este, desearía haber mantenido mis libros en el interior..."
+        m "Parece que tendremos que esperar a que mejore el tiempo para leerlos."
+        m "Mientras tanto..."
+        m "¿Qué tal abrazarnos un poco, [player]?"
+        m "Jejeje~"
     else:
-        m "Some of my favorite books are in there."
-        m "{i}Fahrenheit 451{/i}, {i}Hard-Boiled Wonderland{/i}, {i}Nineteen Eighty-Four{/i}, and a few others."
-        m "Maybe we can read them together sometime~"
+        m "Algunos de mis libros favoritos están ahí."
+        m "{i}Fahrenheit 451{/i}, {i}El fin del mundo y un despiadado país de las maravillas{/i}, {i}1984{/i} y algunos otros."
+        m "Quizás podamos leerlos juntos alguna vez~"
     return
 
 label mas_island_bookshelf2:
-    #NOTE: this ordering is key, during winter we only use snow covered islands with clear sky
-    # so Winter path needs to be first
+
+
     if mas_island_event.isWinterWeather():
-        m "You know, I wouldn't mind doing some reading outside even if there is a bit of snow."
-        m "Though I wouldn't venture out without a warm coat, a thick scarf, and a snug pair of gloves."
-        m "I guess turning the pages might be a bit hard that way, ahaha..."
-        m "But I'm sure we'll manage somehow."
-        m "Isn't that right, [player]?"
+        m "Sabes, no me importaría leer un poco afuera, incluso si hay un poco de nieve."
+        m "Aunque no me aventuraría a salir sin un abrigo, una bufanda gruesa y un par de guantes."
+        m "Supongo que pasar las páginas puede ser un poco difícil de esa manera, jajaja..."
+        m "Pero estoy segura de que nos las arreglaremos de alguna manera."
+        m "¿No es así, [player]?"
     elif mas_island_event.isCloudyWeather():
-        m "Reading indoors with rain just outside the window is pretty relaxing."
-        m "If only I hadn't left the books outside..."
-        m "I should probably bring some in here when I get the chance."
-        m "I'm certain we can find other things to do meanwhile, right [player]?"
+        m "Leer en interiores con la lluvia en la ventana es bastante relajante."
+        m "Si tan solo no hubiera dejado los libros afuera..."
+        m "Debería traer algunos aquí cuando tenga la oportunidad."
+        m "Estoy segura de que podemos encontrar otras cosas que hacer mientras tanto, ¿verdad [player]?"
     else:
-        m "Reading outdoors is a nice change of pace, you know?"
-        m "I'd take a cool breeze over a stuffy library any day."
-        m "Maybe I should add a table underneath the Cherry Blossom tree."
-        m "It'd be nice to enjoy a cup of coffee with some snacks to go alongside my book reading."
-        m "That'd be wonderful~"
+        m "Leer al aire libre es un buen cambio de ritmo, ¿sabes?"
+        m "Tomaría una brisa fresca sobre una biblioteca cerrada cualquier día."
+        m "Tal vez debería agregar una mesa debajo de los cerezos."
+        m "Sería bueno disfrutar de una taza de café y algunos bocadillos para acompañar mi lectura."
+        m "Eso sería maravilloso~"
     return
 
-#NOTE: This is temporary until we split islands into foreground/background
-# NOTE: change the island image definitions (see top of this file) when this
-#   happens.
+
+
+
 init 500 python in mas_island_event:
     def getBackground():
         """
@@ -631,14 +631,14 @@ init 500 python in mas_island_event:
                 return store.mas_islands_snow_wof_mfwm.fw_get(
                     store.mas_sprites.get_filter()
                 )
-
+            
             return store.mas_islands_snow_wf_mfwm.fw_get(
                 store.mas_sprites.get_filter()
             )
-
+        
         if store._mas_island_window_open:
             return "mas_islands_wof"
-
+        
         return "mas_islands_wf"
 
 
@@ -646,16 +646,16 @@ screen mas_islands_background:
 
     add mas_island_event.getBackground()
 
-#    if morning_flag:
-#        if _mas_island_window_open:
-#            add "mod_assets/location/special/without_frame.png"
-#        else:
-#            add "mod_assets/location/special/with_frame.png"
-#    else:
-#        if _mas_island_window_open:
-#            add "mod_assets/location/special/night_without_frame.png"
-#        else:
-#            add "mod_assets/location/special/night_with_frame.png"
+
+
+
+
+
+
+
+
+
+
 
     if _mas_island_shimeji:
         add "gui/poemgame/m_sticker_1.png" at moni_sticker_mid:
@@ -669,32 +669,32 @@ screen mas_show_islands():
 
         ground mas_island_event.getBackground()
 
-#        if mas_is_raining:
-#            if _mas_island_window_open:
-#                ground "mod_assets/location/special/rain_without_frame.png"
-#            else:
-#                ground "mod_assets/location/special/rain_with_frame.png"
-#        elif morning_flag:
-#            if _mas_island_window_open:
-#                ground "mod_assets/location/special/without_frame.png"
-#            else:
-#                ground "mod_assets/location/special/with_frame.png"
-#        else:
-#            if _mas_island_window_open:
-#                ground "mod_assets/location/special/night_without_frame.png"
-#            else:
-#                ground "mod_assets/location/special/night_with_frame.png"
 
 
-        hotspot (11, 13, 314, 270) action Return("mas_island_upsidedownisland") # island upside down
-        hotspot (403, 7, 868, 158) action Return("mas_island_sky") # sky
-        hotspot (699, 347, 170, 163) action Return("mas_island_glitchedmess") # glitched house
-        hotspot (622, 269, 360, 78) action Return("mas_island_cherry_blossom_tree") # cherry blossom tree
-        hotspot (716, 164, 205, 105) action Return("mas_island_cherry_blossom_tree") # cherry blossom tree
-        hotspot (872, 444, 50, 30) action Return("mas_island_bookshelf") # bookshelf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        hotspot (11, 13, 314, 270) action Return("mas_island_upsidedownisland")
+        hotspot (403, 7, 868, 158) action Return("mas_island_sky")
+        hotspot (699, 347, 170, 163) action Return("mas_island_glitchedmess")
+        hotspot (622, 269, 360, 78) action Return("mas_island_cherry_blossom_tree")
+        hotspot (716, 164, 205, 105) action Return("mas_island_cherry_blossom_tree")
+        hotspot (872, 444, 50, 30) action Return("mas_island_bookshelf")
 
         if _mas_island_shimeji:
-            hotspot (935, 395, 30, 80) action Return("mas_island_shimeji") # Mini Moni
+            hotspot (935, 395, 30, 80) action Return("mas_island_shimeji")
 
     if _mas_island_shimeji:
         add "gui/poemgame/m_sticker_1.png" at moni_sticker_mid:
@@ -709,12 +709,12 @@ screen mas_show_islands():
         textbutton "Go Back" action Return(False)
 
 
-# Defining a new style for buttons, because other styles look ugly
 
-# properties for these island view buttons
+
+
 style island_button is default:
     properties gui.button_properties("island_button")
-    idle_background  "mod_assets/island_idle_background.png"
+    idle_background "mod_assets/island_idle_background.png"
     hover_background "mod_assets/island_hover_background.png"
     xysize (205, None)
     ypadding 5
@@ -723,7 +723,7 @@ style island_button is default:
 
 style island_button_dark is default:
     properties gui.button_properties("island_button_dark")
-    idle_background  "mod_assets/island_idle_background_d.png"
+    idle_background "mod_assets/island_idle_background_d.png"
     hover_background "mod_assets/island_hover_background_d.png"
     xysize (205, None)
     ypadding 5
@@ -732,7 +732,7 @@ style island_button_dark is default:
 
 style island_button_text is default:
     properties gui.button_text_properties("island_button")
-    idle_background  "mod_assets/island_idle_background.png"
+    idle_background "mod_assets/island_idle_background.png"
     hover_background "mod_assets/island_hover_background.png"
     font gui.default_font
     size gui.text_size
@@ -744,7 +744,7 @@ style island_button_text is default:
 
 style island_button_text_dark is default:
     properties gui.button_text_properties("island_button_dark")
-    idle_background  "mod_assets/island_idle_background_d.png"
+    idle_background "mod_assets/island_idle_background_d.png"
     hover_background "mod_assets/island_hover_background_d.png"
     font gui.default_font
     size gui.text_size
@@ -754,10 +754,11 @@ style island_button_text_dark is default:
     kerning 0.2
     outlines []
 
-# mini moni ATL
+
 transform moni_sticker_mid:
     block:
         function randomPauseMonika
         parallel:
             sticker_move_n
         repeat
+# Decompiled by unrpyc: https://github.com/CensoredUsername/unrpyc
