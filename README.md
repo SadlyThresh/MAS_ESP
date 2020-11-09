@@ -41,19 +41,18 @@ Para más ayuda de la instalación, por favor vea nuestro [Frequently Asked Ques
 ## Contribuyendo a Monika After Story
 
 ### ¿Cómo reportar un error? 
-Si has encontrado un error de traducción, bug, o cualquier problema que afecte tu experiencia de juego, (usando el parche al español), puedes enviarnos un reporte por esta vía para resolverlo lo más pronto posible. 
+Si has encontrado un error de traducción, bug, o cualquier problema que afecte tu experiencia de juego, (usando el parche al español), puedes ayudarnos a corregirlo lo más pronto posible.
 
 ### Requisitos
 * Tener una cuenta en Github.
+* Encontrar el texto que esté causando el error y de querer contribuir enviar la versión corregida para su revisión.
 
 ### Procedimiento
-1. Haz click en este [enlace](https://github.com/SadlyThresh/MAS_ESP/issues)
+1. Haz click [aquí](https://github.com/SadlyThresh/MAS_ESP/pulls)
 
-2. Escribe la situación que presentas y adjunta un screenshot del error, trata de ser específico en los detalles que causaron el problema, (puedes arrastrar una imagen al cuadro de texto) como en el ejemplo: ![Ejemplo1](https://github.com/SadlyThresh/MAS_ESP/raw/master/images/bug/bug.jpg)
+2. Haz click en el botón "New pull request"
 
-3. Luego de terminar la redacción, haz click en "Submit new issue":
-
-![Ejemplo2](https://github.com/SadlyThresh/MAS_ESP/raw/master/images/bug/bug2.jpg)
+3. Busca el texto entre los archivos que he traducido, hazme un comentario al respecto sobre el error o puedes ayudarme a corregirlo con su respectivo cambio.
 
 4. ¡Listo!, trataré de ponerme en contacto contigo.
 
