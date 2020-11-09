@@ -50,7 +50,7 @@ Si has encontrado un error de traducción, bug, o cualquier problema que afecte 
 ### Procedimiento
 1. Haz click [aquí](https://github.com/SadlyThresh/MAS_ESP/pulls)
 
-2. Haz click en el botón "New pull request"
+2. Haz click en el botón `New pull request`
 
 3. Busca el texto entre los archivos que he traducido, hazme un comentario al respecto sobre el error o puedes ayudarme a corregirlo con su respectivo cambio.
 
