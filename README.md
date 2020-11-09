@@ -58,7 +58,7 @@ Si has encontrado un error de traducción, bug, o cualquier problema que afecte 
 4. ¡Listo!, trataré de ponerme en contacto contigo.
 
 #### Añadiendo Contenido
-¿Quieres añadir contenido a MAS? Aquí hay una lista de archivos importantes .RPY que el juego usa.
+¿Quieres añadir contenido a MAS? Aquí hay una lista de importantes archivos .RPY que el juego usa.
 
 - **script-ch30.rpy**: Flujo principal para el MAS. Aquí es donde ocurre la magia.
 - **script-topics.rpy**: Todos los temas **al azar** usados por Monika están escritos aquí. ¡Puedes añadir tu propio diálogo comprobando la información de abajo!
