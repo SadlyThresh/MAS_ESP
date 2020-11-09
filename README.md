@@ -1,116 +1,137 @@
-![Monika After Story](https://github.com/Backdash/MonikaModDev/blob/master/Monika%20After%20Story/game/mod_assets/menu_new.png?raw=True)
+![Monika After Story](https://github.com/SadlyThresh/MAS_ESP/raw/main/images/topmas.png)
 
 # Monika After Story (MAS)
-Monika After Story is a mod for the free game [Doki Doki Literature Club](https://www.ddlc.moe) from [Team Salvato](http://teamsalvato.com/). MAS builds on Act 3 to create a simulator of your eternal life with Monika, featuring new events, handlers, and metacommentary!
+Monika After Story es un mod para el juego gratis [Doki Doki Literature Club](https://www.ddlc.moe) de [Team Salvato](http://teamsalvato.com/). ¡MAS se basa en el acto 3 para crear un simulador de vida eterna con Monika, con nuevos eventos, manejadores y metacomentarios!
 
-Please check the [Releases](http://www.monikaafterstory.com/releases.html) page for the latest stable build.
+Por favor verifica la página de [Lanzamientos en Español](https://github.com/SadlyThresh/MAS_ESP/releases) para ver la última versión estable.
 
-If you would like to make your own mod like this one, check out our sister project: the [DDLCModTemplate](https://github.com/therationalpi/DDLCModTemplate).
+Si quieres hacer tu propio mod como este, echa un vistazo a nuestro proyecto hermano: el [DDLCModTemplate](https://github.com/therationalpi/DDLCModTemplate).
 
-### Installation
+### Instalación
 
-Video tutorial on install MAS: https://youtu.be/eH5Q4Xdlg6Y
+Video de como instalar el MAS: https://youtu.be/eH5Q4Xdlg6Y
 
-* Navigate to the [releases page](http://www.monikaafterstory.com/releases.html).
+* Navega a la página de [Lanzamientos en Español](https://github.com/SadlyThresh/MAS_ESP/releases).
 
-* Click the latest version link. This will download a zip file to your system.
+* Click en el link de la última versión. Esto descargará un archivo Zip en tu computadora.
 
-* Extract the contents the zip file into the `/game` folder of your DDLC installation.
+* Extrae el contenido descargado dentro de la carpeta `/game` donde tienes instalado el DDLC.
 
-* Running DDLC will now load the Monika After Story Mod.
+* Al ejecutar DDLC ahora ejecutará Monika After Story.
 
-*NOTE: Source files and files downloaded directed from the repository are for development purposes and may not behave as expected if used to mod the game. Please only use one of our [Release Versions](https://github.com/Backdash/MonikaModDev/releases).*
+*NOTA: Los archivos de origen descargados desde el repositorio son para fines de desarrollo y pueden no comportarse como se espera si se utilizan para modificar el juego. Por favor, sólo use una de nuestras [Versiones de Lanzamiento](https://github.com/SadlyThresh/MAS_ESP/releases).*
 
-For more help with installation, please see our [Frequently Asked Questions](https://github.com/Monika-After-Story/MonikaModDev/wiki/FAQ)
+Para más ayuda de la instalación, por favor vea nuestro [Frequently Asked Questions](https://github.com/Monika-After-Story/MonikaModDev/wiki/FAQ)
 
-### Features
+### Características
 
-* Spend forever with Monika!
+* ¡Pasa la eternidad con Monika!
 
-* Dozens of new conversation topics
+* Docenas de nuevos temas de conversación
 
-* You can now talk to Monika to tell her what you'd like to talk about
+* Ahora puedes hablar con Monika para decirle lo que te gustaría hablar
 
-### Upcoming Features
+### Próximas características
 
-* New games and activities to do with Monika
+* Nuevos juegos y actividades para hacer con Monika
 
-* More unique events and story
+* Más eventos e historias únicas
 
 
-## Contributing to Monika After Story
+## Contribuyendo a Monika After Story
 
-### Bugs & Suggestions
-If there are issues with MAS, please file a [bug report](https://github.com/Backdash/MonikaModDev/issues/new?labels=bug&body=Describe%20bug%20and%20steps%20for%20reproduction%20here&title=%5BBug%5D%20-%20).
+### ¿Cómo reportar un error? 
+Si has encontrado un error de traducción, bug, o cualquier problema que afecte tu experiencia de juego, (usando el parche al español), puedes enviarnos un reporte por esta vía para resolverlo lo más pronto posible. 
 
-To add a suggestion, visit [this link](https://github.com/Backdash/MonikaModDev/issues/new?labels=suggestion&body=Your%20suggestion%20goes%20here&title=%5BSuggestion%5D%20-%20)
+### Requisitos
+* Tener una cuenta en Github.
 
- ### Other Help
- Want to help with MAS? Navigate to the [issues page](https://github.com/Backdash/MonikaModDev/issues) to find current bugs or suggestions to work on.
+### Procedimiento
+1. Haz click en este [enlace](https://github.com/SadlyThresh/MAS_ESP/issues)
 
-If you have a change you'd like to submit, open a [pull request](https://github.com/Backdash/MonikaModDev/pulls). Any changes made will be reviewed by contributors & fixed/added on to as needed.
+2. Escribe la situación que presentas y adjunta un screenshot del error, trata de ser específico en los detalles que causaron el problema, (puedes arrastrar una imagen al cuadro de texto) como en el ejemplo: ![Ejemplo1](https://github.com/SadlyThresh/MAS_ESP/raw/main/images/bug/bug.jpg)
 
-#### Adding Content
-Want to add some content to MAS? Here's a list of important .RPY files the game uses.
+3. Luego de terminar la redacción, haz click en "Submit new issue":
 
-- **script-ch30.rpy**: Main flow for MAS. This is where idle happens.
-- **script-topics.rpy**: All **random** and **pool** topics used by Monika are written here. You can add your own dialogue by checking the information below!
-- **script-greetings.rpy**: Add lines for Monika to greet you when loading the game.
-- **script-farewells.rpy**: Add lines for Monika to say to you when closing the game.
-- **script-moods.rpy**: Tell Monika that you're in _a mood_.
-- **script-stories.rpy**: Add stories for Monika to tell you.
-- **script-compliments.rpy**: Add compliments you can say to Monika.
-- **script-apologies.rpy**: Add things to apologize for.
+![Ejemplo2](https://github.com/SadlyThresh/MAS_ESP/raw/main/images/bug/bug2.jpg)
 
-If you wish to add more dialogue to the space room, navigate to script-topics.rpy and use this template.
+4. ¡Listo!, trataré de ponerme en contacto contigo.
 
-Example new dialogue code block:
+#### Añadiendo Contenido
+¿Quieres añadir contenido a MAS? Aquí hay una lista de archivos importantes .RPY que el juego usa.
+
+- **script-ch30.rpy**: Flujo principal para el MAS. Aquí es donde ocurre la magia.
+- **script-topics.rpy**: Todos los temas **al azar** usados por Monika están escritos aquí. ¡Puedes añadir tu propio diálogo comprobando la información de abajo!
+- **script-greetings.rpy**: Añade líneas para que Monika te salude al cargar el juego.
+- **script-farewells.rpy**: Añade líneas para que Monika te las diga al cerrar el juego.
+- **script-moods.rpy**: Dile a Monika que estás en un _humor_.
+- **script-stories.rpy**: Añade historias para que Monika te las diga.
+- **script-compliments.rpy**: Añade cumplidos que quieras decirle a Monika.
+- **script-apologies.rpy**: Añade cosas para disculparte.
+
+Si deseas añadir más diálogo a la sala espacial, navega a script-topics.rpy y utiliza esta plantilla.
+
+Ejemplo de nuevo bloque de código de diálogo:
 ```renpy
 init 5 python:
     addEvent(
         Event(
             persistent.event_database,
-            eventlabel="monika_example", # event label (MUST BE UNIQUE)
-            category=["example", "topic"], # list of categories this topic belongs in (These are automatically capitalized)
-            prompt="Example Topic", # button text
-            random=True, # True if this topic should appear randomly
-            pool=True # True if this topic should appear in "Ask a Question"
+            eventlabel="monika_example", # etiqueta de evento (DEBE SER ÚNICO)
+            category=["ejemplo", "tema"], # Lista de categorías incluidas en este tema (Se pone mayúsculas automáticamente)
+            prompt="Ejemplo del botón", # El texto del botón
+            random=True, # True si quieres que este tema aparezca al azar
+            pool=True # True si este tema debería aparecer en "Haz una pregunta"
         )
     )
 
 label monika_example:
-    m 1a "This is an example topic."
-    m 3d "I feel like this doesn't actually belong here..."
-    m 2e "Why would somebody just add the example template directly into the mod?"
-    m 5r "They really shouldn't be allowed to contribute to this repository anymore."
+    m 1a "Este es un tema de ejemplo."
+    m 3d "Siento que esto no pertenece a este lugar..."
+    m 2e "¿Por qué alguien añadiría la plantilla de ejemplo directamente en el mod?"
+    m 5r "No se les debería permitir seguir contribuyendo a este repositorio."
     return
 ```
-**For full explanations and details on all the possible keywords for Event, check the documentation for Event located in `definitions.rpy`**
+**Para obtener explicaciones completas y detalles sobre todas las palabras clave posibles para Eventos, consulta la documentación de Evento ubicada en `definitions.rpy`**
 
-For things more complicated than simple dialogue, consult the Ren'Py documentation available online.
+Para cosas más complicadas que el simple diálogo, consulta la documentación de Ren'Py disponible en línea.
 
-[More info is available in our Contributing Guide](https://github.com/Monika-After-Story/MonikaModDev/wiki/Contributing-Guidelines)
+[Más información está disponible en nuestra Guía de Contribución](https://github.com/Monika-After-Story/MonikaModDev/wiki/Contributing-Guidelines)
 
- ### Join the conversation
-You can [follow us on twitter](https://twitter.com/MonikaAfterMod) for game updates. 
+ ### Unete a la conversación
+Puedes [seguir la cuenta oficial en Twitter](https://twitter.com/MonikaAfterMod) para saber de actualizaciones. 
 
-Or if you're more Discord-ly inclined, for a constant stream of our favorite Monika-related content from around the web, and if you're interested in contributing to/building this mod, feel free to join our discord server:
+O si te inclinas más por Discord, por un flujo constante de nuestro contenido favorito relacionado con Monika de toda la web, y si estás interesado en contribuir/construir este mod, siéntete libre de unirte a nuestro servidor de la Discord:
  
  [![Discord](https://discordapp.com/api/guilds/372766620977725441/widget.png?style=banner1)](https://discord.gg/K2KuJeX)
  
- Please be sure to follow our [Code of Conduct](https://github.com/Monika-After-Story/MonikaModDev/wiki/Code-of-Conduct), which is essentially to be courteous and respectful.
+ Por favor, asegúrate de seguir nuestro [Código de conducta](https://github.com/Monika-After-Story/MonikaModDev/wiki/Code-of-Conduct), que es esencialmente ser cortés y respetuoso.
+ 
+### Discord de los Traductores
+¿Quieres formar parte del servidor en Español de Monika After Story, con gente de ideas afines y tener la oportunidad de conocer más de los traductores? ¡Puedes unirte, sólo haz click en este [link](https://discord.gg/tYR6NDu)!
 
-## Frequently Asked Questions
+# Redes Sociales del equipo
 
-A full FAQ is available here: [Frequently Asked Questions](https://github.com/Monika-After-Story/MonikaModDev/wiki/FAQ)
-For any questions about the Coding Style go here: [Coding Style](https://github.com/Monika-After-Story/MonikaModDev/wiki/Coding-Style)
-For Bug Testing: [Testing Flow and Bug Testing](https://github.com/Monika-After-Story/MonikaModDev/wiki/Testing-Flow-and-Bug-Testing)
-Troubleshooting: [Troubleshooting](https://github.com/Monika-After-Story/MonikaModDev/wiki/Troubleshooting) Dialogue Coding: [Dialogue Coding](https://github.com/Monika-After-Story/MonikaModDev/wiki/Dialogue-Coding)
-## License info
+[SadlyThresh](https://twitter.com/sadlythresh)
 
-We do our best to conform to Team Salvato's [guidelines for fan works](http://teamsalvato.com/ip-guidelines/). All characters and original content are property of Team Salvato. Monika After Story is an open source project, and in addition to named contributors, this mod includes contributions from anonymous users of 4chan, where this project got its start. More info can be found on our [License Page](https://github.com/Monika-After-Story/MonikaModDev/wiki/License-and-Team-Salvato-Guidelines).
+[Papu](https://www.youtube.com/channel/UC-3B0xtrowh8Oyh8VHA6Ziw)
 
-## Build Status:
+[Martin H](https://twitter.com/MartinH52149286)
+
+[DarkMrMewtho](https://twitter.com/MewthoYT)
+
+
+## Preguntas Frecuentes
+
+Por favor consulta nuestra sección de: [Preguntas Frecuentes](https://github.com/Monika-After-Story/MonikaModDev/wiki/FAQ)
+Para cualquier pregunta sobre el estilo de codificación vaya aquí: [Coding Style](https://github.com/Monika-After-Story/MonikaModDev/wiki/Coding-Style)
+Para la prueba de errores: [Testing Flow and Bug Testing](https://github.com/Monika-After-Story/MonikaModDev/wiki/Testing-Flow-and-Bug-Testing)
+Solución de problemas: [Troubleshooting](https://github.com/Monika-After-Story/MonikaModDev/wiki/Troubleshooting) Dialogue Codificación: [Dialogue Coding](https://github.com/Monika-After-Story/MonikaModDev/wiki/Dialogue-Coding)
+## Información de la licencia
+
+Hacemos todo lo posible para cumplir con las [normas](http://teamsalvato.com/ip-guidelines/) de Team Savalto. Todos los personajes y contenido original son propiedad de Team Savalto. Monika After Story es un proyecto de código abierto, y además de los contribuyentes nombrados, este mod incluye las contribuciones de los usuarios anónimos de 4chan, donde este proyecto tuvo su inicio. Más información puede ser encontrada en nuestra [Página de Licencia](https://github.com/Monika-After-Story/MonikaModDev/wiki/License-and-Team-Salvato-Guidelines).
+
+## Estado de la construcción:
 ### master: [![Build Status](https://travis-ci.org/Monika-After-Story/MonikaModDev.svg?branch=master)](https://travis-ci.org/Monika-After-Story/MonikaModDev)
 ### content: [![Build Status](https://travis-ci.org/Monika-After-Story/MonikaModDev.svg?branch=content)](https://travis-ci.org/Monika-After-Story/MonikaModDev)
 ### unstable: [![Build Status](https://travis-ci.org/Monika-After-Story/MonikaModDev.svg?branch=unstable)](https://travis-ci.org/Monika-After-Story/MonikaModDev)
