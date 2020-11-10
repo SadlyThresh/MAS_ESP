@@ -128,7 +128,7 @@ Para la prueba de errores: [Testing Flow and Bug Testing](https://github.com/Mon
 Solución de problemas: [Troubleshooting](https://github.com/Monika-After-Story/MonikaModDev/wiki/Troubleshooting) Dialogue Codificación: [Dialogue Coding](https://github.com/Monika-After-Story/MonikaModDev/wiki/Dialogue-Coding)
 ## Información de la licencia
 
-Hacemos todo lo posible para cumplir con las [normas](http://teamsalvato.com/ip-guidelines/) de Team Savalto. Todos los personajes y contenido original son propiedad de Team Savalto. Monika After Story es un proyecto de código abierto, y además de los contribuyentes nombrados, este mod incluye las contribuciones de los usuarios anónimos de 4chan, donde este proyecto tuvo su inicio. Más información puede ser encontrada en nuestra [Página de Licencia](https://github.com/Monika-After-Story/MonikaModDev/wiki/License-and-Team-Salvato-Guidelines).
+Hacemos todo lo posible para cumplir con las [normas](http://teamsalvato.com/ip-guidelines/) de Team Salvato. Todos los personajes y contenido original son propiedad de Team Salvato. Monika After Story es un proyecto de código abierto, y además de los contribuyentes nombrados, este mod incluye las contribuciones de los usuarios anónimos de 4chan, donde este proyecto tuvo su inicio. Más información puede ser encontrada en nuestra [Página de Licencia](https://github.com/Monika-After-Story/MonikaModDev/wiki/License-and-Team-Salvato-Guidelines).
 
 ## Estado de la construcción:
 ### master: [![Build Status](https://travis-ci.org/Monika-After-Story/MonikaModDev.svg?branch=master)](https://travis-ci.org/Monika-After-Story/MonikaModDev)
