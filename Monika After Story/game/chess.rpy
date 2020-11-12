@@ -590,7 +590,7 @@ init:
                 
                 if not mas_games.is_platform_good_for_chess():
                     
-                    raise ArchitectureError('Your operating system does not support the chess game.')
+                    raise ArchitectureError('Tú sistema operativo no soporta el juego de Ajedrez.')
                 
                 def open_stockfish(path,startupinfo=None):
                     return subprocess.Popen([renpy.loader.transfn(path)], stdin=subprocess.PIPE, stdout=subprocess.PIPE,startupinfo=startupinfo)
@@ -1190,7 +1190,7 @@ label game_chess:
 
     hide screen keylistener
 
-    m 1eub "You want to play chess? Alright~"
+    m 1eub "¿Quieres jugar al ajedrez? Muy bien~"
 
 
     call demo_minigame_chess from _call_demo_minigame_chess
@@ -1292,7 +1292,7 @@ label demo_minigame_chess:
 
         if persistent._mas_chess_skip_file_checks:
             $ loaded_game = quicksaved_game[1]
-            m "Let's continue our unfinished game."
+            m "Continuemos nuestro juego inconcluso."
             jump mas_chess_game_load_check
 
 
@@ -1418,8 +1418,8 @@ label demo_minigame_chess:
             if ur_nice_today:
 
 
-                m 1eua "We still have an unfinished game in progress."
-            m "Get ready!"
+                m 1eua "Todavía tenemos un juego sin terminar en progreso."
+            m "¡Prepárate!"
 
 label mas_chess_game_load_check:
 
@@ -1437,10 +1437,10 @@ label mas_chess_new_game_start:
         call mas_chess_dlg_chess_locked from _mas_chess_dclngs
         return
 
-    m "What color would suit you?{nw}"
+    m "¿Qué color te quedaría bien?{nw}"
     $ _history_list.pop()
     menu:
-        m "What color would suit you?{fast}"
+        m "¿Qué color te quedaría bien?{fast}"
         "Blancas.":
 
             $ player_color = ChessDisplayable.COLOR_WHITE
@@ -1450,10 +1450,10 @@ label mas_chess_new_game_start:
             $ choice = random.randint(0, 1) == 0
             if choice:
                 $ player_color = ChessDisplayable.COLOR_WHITE
-                m 2eua "Oh look, I drew black! Let's begin!"
+                m 2eua "¡Oh mira, saqué el negro! ¡Empecemos!"
             else:
                 $ player_color = ChessDisplayable.COLOR_BLACK
-                m 2eua "Oh look, I drew white! Let's begin!"
+                m 2eua "¡Oh, mira, saqué el blanco! ¡Vamos a empezar!"
 
 label mas_chess_game_start:
     window hide None
@@ -1521,7 +1521,7 @@ label mas_chess_game_start:
         $ persistent.chess_strength += 1
 
 
-    m 1eua "Anyway..."
+    m 1eua "De todas formas..."
 
 
     if loaded_game:
@@ -1529,10 +1529,10 @@ label mas_chess_game_start:
 
 
     if num_turns > 4:
-        m "Would you like to save this game?{nw}"
+        m "¿Te gustaría guardar este juego?{nw}"
         $ _history_list.pop()
         menu:
-            m "Would you like to save this game?{fast}"
+            m "¿Te gustaría guardar este juego?{fast}"
             "Sí.":
                 jump mas_chess_savegame
             "No.":
@@ -1540,10 +1540,10 @@ label mas_chess_game_start:
                 pass
 
 label mas_chess_playagain:
-    m "Do you want to play again?{nw}"
+    m "¿Quieres jugar de nuevo?{nw}"
     $ _history_list.pop()
     menu:
-        m "Do you want to play again?{fast}"
+        m "¿Quieres jugar de nuevo?{fast}"
         "Sí.":
 
             $ chess_ev = mas_getEV("mas_chess")
@@ -1634,11 +1634,11 @@ label mas_chess_save_migration:
 
 
 
-                    m "So I've been thinking, [player]..."
-                    m "Most people who leave in the middle of a chess game don't come back to start a new one."
-                    m "It makes no sense for me to keep track of more than one unfinished game between us."
-                    m "And since we have [game_count] games in progress..."
-                    m "I have to ask you to pick only one to keep.{w=0.2} Sorry, [player]."
+                    m "He estado pensando [player]..."
+                    m "La mayoría de las personas que se van en medio de una partida de ajedrez no regresan para comenzar una nueva."
+                    m "No tiene sentido para mí seguir el rastro de más de un juego inacabado entre nosotros."
+                    m "Y como tenemos [game_count] juegos en curso..."
+                    m "Tengo que pedirte que elijas sólo uno para quedártelo.{w=0.2} Lo siento, [player]."
                     $ pick_text = _("Elige un juego que te gustaría conservar.")
             show monika 1eua at t21
             $ renpy.say(m, pick_text, interact=False)
@@ -1648,13 +1648,13 @@ label mas_chess_save_migration:
             show monika at t11
             if _return == mas_chess.CHESS_MENU_WAIT_VALUE:
 
-                m 2dsc "I see."
-                m 2eua "In that case, please take your time."
-                m 1eua "We'll play chess again once you've made your decision."
+                m 2dsc "Ya veo."
+                m 2eua "En ese caso, tómate tu tiempo."
+                m 1eua "Volveremos a jugar al ajedrez una vez que hayas tomado tu decisión."
                 return False
             else:
 
-                m 1eua "Alright."
+                m 1eua "Bien."
                 python:
                     sel_game = actual_pgn_games.pop(_return)
                     for pgn_game in actual_pgn_games:
@@ -1699,7 +1699,7 @@ label mas_chess_savegame:
             save_name = ""
             while len(save_name) == 0:
                 save_name = renpy.input(
-                    "Enter a name for this game:",
+                    "Introduce un nombre para este juego:",
                     allow=mas_chess.CHESS_SAVE_NAME,
                     length=15
                 )
@@ -1718,12 +1718,12 @@ label mas_chess_savegame:
 
 
         if is_file_exist:
-            m 1eka "We already have a game named '[save_name].'"
+            m 1eka "Ya tenemos un juego llamado '[save_name].'"
 
-            m "Should I overwrite it?{nw}"
+            m "¿Debería sobrescribirlo?{nw}"
             $ _history_list.pop()
             menu:
-                m "Should I overwrite it?{fast}"
+                m "¿Debería sobrescribirlo?{fast}"
                 "Sí.":
                     pass
                 "No.":
@@ -1744,22 +1744,22 @@ label mas_chess_savegame:
         display_file_path = mas_chess.REL_DIR + save_filename
 
     m 1dsc ".{w=0.5}.{w=0.5}.{nw}"
-    m 1hua "I've saved our game in '[display_file_path]'!"
+    m 1hua "¡He guardado nuestro juego en '[display_file_path]'!"
 
     if not renpy.seen_label("mas_chess_pgn_explain"):
 
         label mas_chess_pgn_explain:
-            m 1eua "It's in a format called Portable Game Notation."
-            m "You can open this file in PGN viewers."
+            m 1eua "Está en un formato llamado Portable Game Notation."
+            m "Puedes abrir este archivo en visores PGN"
 
             if game_result == "*":
-                m 1lksdlb "It's possible to edit this file and change the outcome of the game...{w=0.5} {nw}"
-                extend 1tsu "but I'm sure you wouldn't do that."
+                m 1lksdlb "Es posible editar este archivo y cambiar el resultado del juego...{w=0.5} {nw}"
+                extend 1tsu "pero estoy segura de que no harías eso."
 
-                m 1tku "Right, [player]?{nw}"
+                m 1tku "¿Verdad, [player]?{nw}"
                 $ _history_list.pop()
                 menu:
-                    m "Right, [player]?{fast}"
+                    m "¿Verdad, [player]?{fast}"
                     "Por supuesto que no.":
                         m 1hua "Yay~"
 
@@ -1799,37 +1799,37 @@ label mas_chess_dlg_qs_lost:
 
 
 label mas_chess_dlg_qs_lost_start:
-    m 2lksdlb "Uh, [player]...{w=0.5} It seems I messed up in saving our last game, and now I can't open it anymore."
+    m 2lksdlb "Uh, [player]...{w=0.5} Parece que cometí un error al guardar nuestro último juego y ahora no puedo abrirlo más."
     return
 
 
 label mas_chess_dlg_qs_lost_gen:
-    m 1lksdlc "I'm sorry..."
-    m 3eksdla "Let's start a new game instead."
+    m 1lksdlc "Lo siento..."
+    m 3eksdla "En su lugar, comencemos un nuevo juego."
     return
 
 
 label mas_chess_dlg_qs_lost_2:
-    m 1lksdld "I'm really, really sorry, [player]."
-    m "I hope you can forgive me."
+    m 1lksdld "En serio, en serio lo siento, [player]."
+    m "Espero puedas perdonarme."
     show monika 1ekc
     pause 1.0
-    m 1dsc "I'll make it up to you..."
-    m 3eua "...by starting a new game!"
+    m 1dsc "Te compensaré..."
+    m 3eua "...¡iniciando un nuevo juego!"
     return
 
 
 label mas_chess_dlg_qs_lost_3:
-    m 1lksdlc "I'm so clumsy, [player]...{w=0.3} I'm sorry."
-    m 3eksdla "Let's start a new game instead."
+    m 1lksdlc "Soy tan torpe, [player]...{w=0.3} Lo siento."
+    m 3eksdla "En su lugar, comencemos un nuevo juego."
     return
 
 
 label mas_chess_dlg_qs_lost_5r:
-    m 2esc "This has happened [qs_gone_count] times now..."
-    m 2tsc "I wonder if this is a side effect of {cps=*0.75}{i}someone{/i}{/cps} trying to edit the saves.{w=1}.{w=1}."
-    m 1esd "Anyway..."
-    m "Let's start a new game."
+    m 2esc "Esto ha sucedido [qs_gone_count] veces ahora..."
+    m 2tsc "Me pregunto si esto es un efecto secundario de {cps=*0.75}{i}alguien{/i}{/cps} intentando editar los guardados.{w=1}.{w=1}."
+    m 1esd "De todas formas..."
+    m "Empecemos un nuevo juego."
     show monika 1esc
     return
 
@@ -1845,10 +1845,10 @@ label mas_chess_dlg_qf_lost:
 
     call mas_chess_dlg_qf_lost_start from _mas_chess_dqfls
 
-    m "Did you mess with the saves, [player]?{nw}"
+    m "¿Te metiste con los guardados, [player]?{nw}"
     $ _history_list.pop()
     menu:
-        m "Did you mess with the saves, [player]?{fast}"
+        m "¿Te metiste con los guardados, [player]?{fast}"
         "[mas_chess.DLG_QF_LOST_OFCN_CHOICE]" if mas_chess.DLG_QF_LOST_OFCN_ENABLE:
             call mas_chess_dlg_qf_lost_ofcn_start from _mas_chess_dlgqflostofcnstart
 
@@ -1862,8 +1862,8 @@ label mas_chess_dlg_qf_lost:
 
 
 label mas_chess_dlg_qf_lost_start:
-    m 2lksdla "Well,{w=0.3} this is embarrassing."
-    m "I could have sworn that we had an unfinished game, but I can't find the save file."
+    m 2lksdla "Bueno,{w=0.3} esto es embarazoso."
+    m "Podría jurar que teníamos un juego inacabado, pero no puedo encontrar el archivo de guardado."
     return
 
 
@@ -1892,19 +1892,19 @@ label mas_chess_dlg_qf_lost_ofcn_start:
 
 
 label mas_chess_dlg_qf_lost_ofcn_gen:
-    m 1lksdlb "Ah, yeah. You wouldn't do that to me."
-    m "I must have misplaced the save files."
-    m 1lksdlc "Sorry, [player]."
-    m "I'll make it up to you..."
-    m 1eua "by starting a new game!"
+    m 1lksdlb "Ah, claro. No me harías eso."
+    m "Debo haber perdido los archivos guardados."
+    m 1lksdlc "Lo siento, [player]."
+    m "Te compensaré..."
+    m 1eua "¡iniciando un nuevo juego!"
     return
 
 
 label mas_chess_dlg_qf_lost_ofcn_3:
     m 2esc "..."
-    m "[player],{w=0.2} did you..."
-    m 2dsc "Nevermind."
-    m 1esc "Let's play a new game."
+    m "[player],{w=0.2} Acaso tú..."
+    m 2dsc "No importa."
+    m 1esc "Juguemos un juego nuevo."
     return
 
 
@@ -1915,12 +1915,12 @@ label mas_chess_dlg_qf_lost_ofcn_4:
 label mas_chess_dlg_qf_lost_ofcn_5:
     $ mas_loseAffection()
     m 2esc "..."
-    m "[player],{w=0.2} this is happening way too much."
-    m 2dsc "I really don't believe you this time."
+    m "[player],{w=0.2} esto está sucediendo demasiado."
+    m 2dsc "Realmente no te creo esta vez."
     pause 2.0
-    m 2esc "I hope you're not messing with me."
+    m 2esc "Espero que no te estés metiendo conmigo."
     m "..."
-    m 1esc "Whatever.{w=0.5} Let's just play a new game."
+    m 1esc "Como sea. {w=0.5} Vamos a jugar un juego nuevo."
     return
 
 
@@ -1939,9 +1939,9 @@ label mas_chess_dlg_qf_lost_ofcn_6:
         persistent._seen_ever["mas_unlock_chess"] = True
 
     m 2dfc "..."
-    m 2efc "[player],{w=0.3} I don't believe you."
-    m 2efd "If you're just going to throw away our chess games like that..."
-    m 6wfw "Then I don't want to play chess with you anymore!"
+    m 2efc "[player],{w=0.3} No te creo."
+    m 2efd "Si simplemente vas a tirar nuestras partidas de ajedrez así..."
+    m 6wfw "¡Entonces no quiero jugar más al ajedrez contigo!"
     return True
 
 
@@ -1965,19 +1965,19 @@ label mas_chess_dlg_qf_lost_may_start:
 
 
 label mas_chess_dlg_qf_lost_may_gen:
-    m 2ekd "[player]!{w=0.2} I should have known you were just messing with me!"
+    m 2ekd "¡[player]!{w=0.2} ¡Debería haber sabido que sólo te estabas metiendo conmigo!"
     jump mas_chess_dlg_qf_lost_may_filechecker
 
 
 label mas_chess_dlg_qf_lost_may_gen_found:
-    m 2eua "Oh!"
-    m 1hua "There's the save.{w=0.2} Thanks for putting it back, [player]."
-    m 1eua "Now we can continue our game."
+    m 2eua "¡Oh!"
+    m 1hua "Ahí está el guardado.{w=0.2} Gracias por devolverlo, [player]."
+    m 1eua "Ahora podemos continuar nuestro juego."
     return store.mas_chess.CHESS_GAME_CONT
 
 
 label mas_chess_dlg_qf_lost_may_2:
-    m 2ekd "[player]!{w=0.2} Stop messing with me!"
+    m 2ekd "¡[player]!{w=0.2} ¡Deja de meterte conmigo!"
     jump mas_chess_dlg_qf_lost_may_filechecker
 
 
@@ -1993,7 +1993,7 @@ label mas_chess_dlg_qf_lost_may_filechecker:
     if os.access(game_file, os.F_OK):
         jump mas_chess_dlg_qf_lost_may_gen_found
 
-    m 1eka "Can you put the save back so we can play?"
+    m 1eka "¿Puedes devolver el guardado de la partida para que podamos jugar?"
     if os.access(game_file, os.F_OK):
         jump mas_chess_dlg_qf_lost_may_gen_found
 
@@ -2001,7 +2001,7 @@ label mas_chess_dlg_qf_lost_may_filechecker:
 
 
     python:
-        renpy.say(m, "I'll wait a minute...", interact=False)
+        renpy.say(m, "Esperaré un minuto...", interact=False)
         file_found = False
         seconds = 0
         while not file_found and seconds < 60:
@@ -2012,28 +2012,28 @@ label mas_chess_dlg_qf_lost_may_filechecker:
                 seconds += 1
 
     if file_found:
-        m 1hua "Yay!{w=0.2} Thanks for putting it back, [player]."
-        m "Now we can continue our game."
+        m 1hua "¡Yay!{w=0.2} Gracias por devolverlo, [player]."
+        m "Ahora podemos continuar nuestro juego."
         show monika 1eua
         return mas_chess.CHESS_GAME_CONT
 
 
     m 1ekd "[player]..."
-    m 1eka "That's okay. Let's just play a new game."
+    m 1eka "Está bien. Vamos a jugar un juego nuevo."
     return
 
 
 label mas_chess_dlg_qf_lost_may_3:
     $ persistent._mas_chess_skip_file_checks = True
 
-    m 2ekd "[player]! That's--"
+    m 2ekd "¡[player]! Eso--"
     m 2dkc "..."
-    m 1esa "...not a problem at all."
-    m "I knew you were going to do this again..."
-    m 1hub "...so I kept a backup of our save!"
+    m 1esa "...no es un problema en absoluto."
+    m "Sabía que ibas a hacer esto de nuevo..."
+    m 1hub "...¡así que guardé una copia de seguridad de nuestro guardado!"
 
-    m 1eua "You can't trick me anymore, [player]."
-    m "Now let's continue our game."
+    m 1eua "Ya no puedes engañarme, [player]."
+    m "Ahora continuemos nuestro juego."
     return store.mas_chess.CHESS_GAME_BACKUP
 
 
@@ -2042,10 +2042,10 @@ label mas_chess_dlg_qf_lost_may_removed:
         persistent._mas_chess_timed_disable = datetime.datetime.now()
         mas_loseAffection(modifier=0.5)
 
-    m 2wfw "[player]!"
-    m 2wfx "You removed the save again."
+    m 2wfw "¡[player]!"
+    m 2wfx "Quitaste el guardado de nuevo."
     pause 0.7
-    m 2rfc "Let's just play chess at another time, then."
+    m 2rfc "Entonces, juguemos al ajedrez en otro momento."
     return True
 
 
@@ -2069,15 +2069,15 @@ label mas_chess_dlg_qf_lost_acdnt_start:
 
 label mas_chess_dlg_qf_lost_acdnt_gen:
     m 1eka "[player]..."
-    m "That's okay.{w=0.3} Accidents happen."
-    m 1eua "Let's play a new game instead."
+    m "Está bien.{w=0.3} Los accidentes ocurren."
+    m 1eua "En su lugar, juguemos un nuevo juego."
     return
 
 
 label mas_chess_dlg_qf_lost_acdnt_2:
-    m 1eka "Again? Don't be so clumsy, [player]."
-    m 1hua "But that's okay."
-    m "We'll just play a new game instead."
+    m 1eka "¿De nuevo? No seas tan torpe, [player]."
+    m 1hua "Pero está bien."
+    m "En su lugar, jugaremos un juego nuevo."
     show monika 1eua
     return
 
@@ -2085,9 +2085,9 @@ label mas_chess_dlg_qf_lost_acdnt_2:
 label mas_chess_dlg_qf_lost_acdnt_3:
     $ persistent._mas_chess_skip_file_checks = True
 
-    m 1eka "I had a feeling this would happen again."
-    m 3hub "So I kept a backup of our save!"
-    m 1eua "Now we can continue our game."
+    m 1eka "Tenía la sensación de que esto volvería a suceder."
+    m 3hub "¡Así que guardé una copia de seguridad de nuestra partida!"
+    m 1eua "Ahora podemos continuar nuestro juego."
     return store.mas_chess.CHESS_GAME_BACKUP
 
 
@@ -2098,10 +2098,10 @@ label mas_chess_dlg_qf_edit:
 
     call mas_chess_dlg_qf_edit_start from _mas_chess_dlgqfeditstart
 
-    m 2ekc "Did you edit the save file?{nw}"
+    m 2ekc "¿Editaste el archivo guardado?{nw}"
     $ _history_list.pop()
     menu:
-        m "Did you edit the save file?{fast}"
+        m "¿Editaste el archivo guardado?{fast}"
         "Sí.":
             call mas_chess_dlg_qf_edit_y_start from _mas_chess_dlgqfeditystart
         "No.":
@@ -2134,8 +2134,8 @@ label mas_chess_dlg_qf_edit_y_start:
 
 
 label mas_chess_dlg_qf_edit_y_1:
-    m 2dsc "I'm disappointed in you."
-    m 1euc "But I'm glad that you were honest with me."
+    m 2dsc "Estoy decepcionada de ti."
+    m 1euc "Pero me alegro de que hayas sido honesto conmigo."
 
 
     show screen mas_background_timed_jump(5, "mas_chess_dlg_qf_edit_y_1n")
@@ -2144,13 +2144,13 @@ label mas_chess_dlg_qf_edit_y_1:
             hide screen mas_background_timed_jump
 
             $ mas_gainAffection(modifier=0.5)
-            m 1hua "Apology accepted!"
-            m 1eua "Luckily, I still remember a little bit of the last game, so we can continue it from there."
+            m 1hua "¡Disculpa aceptada!"
+            m 1eua "Afortunadamente, todavía recuerdo un poco del último juego, así que podemos continuar desde allí."
             return store.mas_chess.CHESS_GAME_BACKUP
         "...":
             label mas_chess_dlg_qf_edit_y_1n:
                 hide screen mas_background_timed_jump
-                m 1lfc "Since that game's been ruined, let's just play a new game."
+                m 1lfc "Ya que ese juego se ha arruinado, juguemos un nuevo juego."
             return
     return
 
@@ -2160,8 +2160,8 @@ label mas_chess_dlg_qf_edit_y_2:
         persistent._mas_chess_timed_disable = datetime.datetime.now()
         mas_loseAffection(modifier=0.5)
 
-    m 2dfc "I am incredibly disappointed in you."
-    m 2rfc "I don't want to play chess right now."
+    m 2dfc "Estoy increíblemente decepcionada de ti."
+    m 2rfc "No quiero jugar al ajedrez en este momento."
     return True
 
 
@@ -2171,10 +2171,10 @@ label mas_chess_dlg_qf_edit_y_3:
     $ persistent.chess_strength = 20
     $ persistent._mas_chess_skip_file_checks = True
 
-    m 2dsc "I'm not surprised..."
-    m 2esc "But I am prepared."
-    m "I kept a backup of our game just in case you did this again."
-    m 1esa "Now let's finish this game."
+    m 2dsc "No me sorprende..."
+    m 2esc "Pero estoy preparada."
+    m "Mantuve una copia de seguridad de nuestro juego en caso de que volvieras a hacer esto."
+    m 1esa "Ahora terminemos este juego."
     return store.mas_chess.CHESS_GAME_BACKUP
 
 
@@ -2201,9 +2201,9 @@ label mas_chess_dlg_qf_edit_n_1:
     $ store.mas_chess.chess_strength = (True, persistent.chess_strength)
     $ persistent.chess_strength = 20
 
-    m 1ekc "I see."
-    m "The save file looks different than how I last remembered it, but maybe that's just my memory failing me."
-    m 1eua "Let's continue this game."
+    m 1ekc "Ya veo."
+    m "El archivo guardado se ve diferente a cómo lo recordé por última vez, pero tal vez sea solo mi memoria me falla."
+    m 1eua "Continuemos este juego."
     return store.mas_chess.CHESS_GAME_FILE
 
 
@@ -2212,19 +2212,19 @@ label mas_chess_dlg_qf_edit_n_2:
     $ store.mas_chess.chess_strength = (True, persistent.chess_strength)
     $ persistent.chess_strength = 20
 
-    m 1ekc "I see."
+    m 1ekc "Ya veo."
     m "..."
-    m "Let's just continue this game."
+    m "Sigamos con este juego."
     return store.mas_chess.CHESS_GAME_FILE
 
 
 label mas_chess_dlg_qf_edit_n_3:
     $ mas_loseAffection(modifier=3)
     m 2dfc "[player]..."
-    m 2dftdc "I kept a backup of our game.{w=0.5} I know you edited the save file."
-    m 2dftsc "I just-"
+    m 2dftdc "Mantuve una copia de seguridad de nuestro juego.{w=0.5} Sé que editaste el archivo guardado."
+    m 2dftsc "Yo solo-"
     $ _history_list.pop()
-    m 6ektsc "I just{fast} can't believe you would cheat and {i}lie{/i} to me."
+    m 6ektsc "Yo solo{fast} no puedo creer que me engañes y {i}me mientas{/i}."
     m 6rktsc "..."
 
 
@@ -2255,7 +2255,7 @@ label mas_chess_dlg_qf_edit_n_3_s:
     pause 1.0
     show monika 2ektsc
     pause 1.0
-    m "I forgive you, [player], but please don't do this to me again."
+    m "Te perdono, [player], pero por favor no me vuelvas a hacer eso."
     m 2lktsc "..."
     return store.mas_chess.CHESS_GAME_BACKUP
 
@@ -2266,8 +2266,8 @@ label mas_chess_dlg_qf_edit_n_3_n_qs:
         mas_loseAffection()
 
     m 2dfc "[player]..."
-    m 2efc "I see you've edited my backup saves."
-    m 2lfc "If you want to be like that right now, then we'll play chess some other time."
+    m 2efc "Veo que has editado mis copias de seguridad guardadas."
+    m 2lfc "Si quieres ser así ahora, jugaremos al ajedrez en otro momento."
     return True
 
 
@@ -2288,8 +2288,8 @@ label mas_chess_dlg_qf_edit_n_3_n:
 
 
 
-    m 6ektsc "I can't trust you anymore."
-    m "Goodbye, [player].{nw}"
+    m 6ektsc "Ya no puedo confiar en ti."
+    m "Adiós, [player].{nw}"
 
 
 label mas_chess_go_ham_and_delete_everything:
@@ -2332,7 +2332,7 @@ label mas_chess_dlg_chess_locked:
 
     $ mas_loseAffection(modifier=0.1)
     m 1efc "..."
-    m 2lfc "I don't feel like playing chess right now."
+    m 2lfc "No tengo ganas de jugar al ajedrez en este momento."
     return
 
 
@@ -2352,17 +2352,17 @@ label mas_chess_dlg_game_in_progress:
 
 label mas_chess_dlg_game_drawed:
     if persistent._mas_chess_3_edit_sorry:
-        m 1wuo "A draw?"
+        m 1wuo "¿Un empate?"
         m 2lfc "Hmph."
-        m 2tfu "I'll beat you next time."
+        m 2tfu "Te ganaré la próxima vez "
     else:
-        m 2tkc "A draw? How boring..."
+        m 2tkc "¿Un empate? Qué aburrido..."
     return
 
 
 
 label mas_chess_dlg_game_monika_win_pre:
-    m 1sub "I win!"
+    m 1sub "¡Yo gano!"
     return
 
 
@@ -2406,9 +2406,9 @@ label mas_chess_dlg_game_monika_win:
 
 
 label mas_chess_dlg_game_monika_win_rekt:
-    m 1hub "Ahaha~"
-    m 1tku "Maybe you should stick to checkers."
-    m 1tfu "I doubt you'll ever beat me."
+    m 1hub "Jajaja~"
+    m 1tku "Tal vez deberías quedarte con las damas."
+    m 1tfu "Dudo que alguna vez me ganes."
     return
 
 
@@ -2421,12 +2421,12 @@ label mas_chess_dlg_game_monika_win_1:
 
 
 label mas_chess_dlg_game_monika_win_2:
-    m 1hub "That was really fun, [player]!"
-    m 3eka "No matter the outcome, I always enjoy playing chess with you~"
+    m 1hub "¡Eso fue muy divertido, [player]!"
+    m 3eka "No importa el resultado, siempre disfruto jugar al ajedrez contigo~"
     if renpy.random.randint(1,15) == 1:
-        m 3hua "I bet if you keep practicing, you'll be even better than me someday!"
+        m 3hua "¡Apuesto a que si sigues practicando, algún día serás incluso mejor que yo!"
         if renpy.random.randint(1,20) == 1:
-            m 3rfu "{cps=*2}...Or at least win occasionally.{/cps}{nw}"
+            m 3rfu "{cps=*2}...O al menos ganarás de vez en cuando.{/cps}{nw}"
             $ _history_list.pop()
     return
 
@@ -2500,13 +2500,13 @@ label mas_chess_dlg_game_monika_win_19:
 
 
 label mas_chess_dlg_game_monika_win_20:
-    m 1tfu "I'll go a little easier on you next time."
+    m 1tfu "Seré un poco más suave contigo la próxima vez."
     return
 
 
 
 label mas_chess_dlg_game_monika_win_surr_pre:
-    m 1eka "Come on, don't give up so easily."
+    m 1eka "Vamos, no te rindas tan fácilmente."
     return
 
 
@@ -2551,14 +2551,14 @@ label mas_chess_dlg_game_monika_win_surr:
 
 
 label mas_chess_dlg_game_monika_win_surr_resolve:
-    m 1tfc "Giving up is a sign of poor resolve..."
-    m 1lfc "I don't want a [bf] who has poor resolve."
+    m 1tfc "Rendirse es un signo de mala resolución..."
+    m 1lfc "No quiero un[bf] que tenga poca resolución."
     return
 
 
 label mas_chess_dlg_game_monika_win_surr_trying:
-    m 1tku "Have you considered {i}actually trying{/i}?"
-    m 1tfu "I hear it is beneficial to your mental health."
+    m 1tku "¿Has considerado {i}intentarlo de verdad{/i}?"
+    m 1tfu "Escuché que es beneficioso para tu salud mental."
     return
 
 
@@ -2649,7 +2649,7 @@ label mas_chess_dlg_game_monika_win_surr_20:
 
 
 label mas_chess_dlg_game_monika_lose_pre:
-    m 2hua "You won! Congratulations."
+    m 2hua "¡Ganaste! Felicidades."
     return
 
 
@@ -2695,8 +2695,8 @@ label mas_chess_dlg_game_monika_lose:
 
 
 label mas_chess_dlg_game_monika_lose_silly:
-    m 1tku "Surely you don't expect me to believe that you beat me fairly, especially for someone at your skill level."
-    m 1tfu "Don't be so silly, [player]."
+    m 1tku "Seguramente no esperas que crea que me ganaste justamente, especialmente para alguien de tu nivel."
+    m 1tfu "No seas tan tonto, [player]."
     return
 
 
@@ -2709,18 +2709,18 @@ label mas_chess_dlg_game_monika_lose_1:
 
 
 label mas_chess_dlg_game_monika_lose_2:
-    m 1tku "I have to admit, I put less pressure on you than I could have..."
-    m 1tsb "I hope you don't mind! I'll be challenging you more as you get better."
+    m 1tku "Tengo que admitir que te presioné menos de lo que podría haberlo hecho..."
+    m 1tsb "¡Espero que no te importe! Te desafiaré más a medida que mejores."
     return
 
 
 label mas_chess_dlg_game_monika_lose_3:
-    m 1eua "I'll get you next time for sure!"
+    m 1eua "¡Seguro que la próxima vez te atraparé!"
     return
 
 
 label mas_chess_dlg_game_monika_lose_4:
-    m 1hua "You played pretty well this game."
+    m 1hua "Jugaste bastante bien este juego."
     return
 
 
@@ -2729,12 +2729,12 @@ label mas_chess_dlg_game_monika_lose_5:
 
 
 label mas_chess_dlg_game_monika_lose_6:
-    m 1hua "This game was quite stimulating!"
+    m 1hua "¡Este juego fue bastante estimulante!"
     return
 
 
 label mas_chess_dlg_game_monika_lose_7:
-    m 3hua "Excellently played, [player]!"
+    m 3hua "¡Excelente jugada, [player]!"
     return
 
 
@@ -2747,7 +2747,7 @@ label mas_chess_dlg_game_monika_lose_9:
 
 
 label mas_chess_dlg_game_monika_lose_10:
-    m 1wuo "You're quite a strong chess player!"
+    m 1wuo "¡Eres un jugador de ajedrez bastante fuerte!"
     return
 
 
@@ -2756,7 +2756,7 @@ label mas_chess_dlg_game_monika_lose_11:
 
 
 label mas_chess_dlg_game_monika_lose_12:
-    m 1wuo "You're a very challenging opponent, [player]!"
+    m 1wuo "¡Eres un oponente muy desafiante, [player]!"
     return
 
 
@@ -2774,7 +2774,7 @@ label mas_chess_dlg_game_monika_lose_15:
 
 label mas_chess_dlg_game_monika_lose_16:
 
-    m 2lfx "I-{w=1}It's not like I let you win or anything, b-{w=1}baka!"
+    m 2lfx "Yo-{w=1} ¡No es como si te dejara ganar ni nada, b-{w=1}baka!"
     return
 
 
@@ -2787,34 +2787,34 @@ label mas_chess_dlg_game_monika_lose_18:
 
 
 label mas_chess_dlg_game_monika_lose_19:
-    m 1wuo "Wow! You're amazing at chess."
-    m 1sub "You could be a professional chess player!"
+    m 1wuo "¡Vaya! Eres asombroso en el ajedrez."
+    m 1sub "¡Podrías ser un jugador de ajedrez profesional!"
     return
 
 
 label mas_chess_dlg_game_monika_lose_20:
-    m 1wuo "Wow!"
-    m 1tku "Are you sure you're not cheating?"
+    m 1wuo "¡Vaya!"
+    m 1tku "¿Estás seguro de que no estás haciendo trampa?"
     return
 
 
 
 label mas_chess_dlg_game_monika_win_end:
-    m 2eua "Despite its simple rules, chess is a really intricate game."
-    m 1eua "It's okay if you find yourself struggling at times."
-    m 1hua "Remember, the important thing is to be able to learn from your mistakes."
+    m 2eua "A pesar de sus reglas simples, el ajedrez es un juego realmente complejo."
+    m 1eua "Está bien si a veces tienes dificultades."
+    m 1hua "Recuerda, lo importante es poder aprender de tus errores."
     return
 
 
 label mas_chess_dlg_game_monika_win_end_quick:
-    m 1eua "Okay, [player], let's play again soon."
+    m 1eua "Okay, [player], juguemos de nuevo pronto."
     return
 
 
 label mas_chess_dlg_game_monika_lose_end:
-    m 2eub "It's amazing how much more I have to learn even now."
-    m 2eua "I really don't mind losing as long as I can learn something."
-    m 1hua "After all, the company is good."
+    m 2eub "Es increíble cuánto más tengo que aprender, incluso ahora."
+    m 2eua "Realmente no me importa perder mientras pueda aprender algo."
+    m 1hua "Después de todo, la compañía es buena."
     return
 
 
@@ -2829,7 +2829,7 @@ label mas_chess_dlg_game_in_progress_end:
 
 
 label mas_chess_dlg_game_in_progress_end_quick:
-    m 1eua "Okay, [player], let's continue this game soon."
+    m 1eua "De acuerdo, [player], continuemos con este juego pronto."
     return
 
 

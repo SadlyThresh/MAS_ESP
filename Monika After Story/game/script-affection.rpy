@@ -1950,17 +1950,17 @@ label monika_affection_nickname:
         aff_nickname_ev = mas_getEV("monika_affection_nickname")
 
     if not persistent._mas_offered_nickname:
-        m 1euc "I've been thinking, [player]..."
-        m 3eud "You know how there are potentially infinite Monikas right?"
+        m 1euc "He estado pensando, [player]..."
+        m 3eud "¿Sabes cómo hay Monikas potencialmente infinitas, verdad?"
 
         if renpy.seen_label('monika_clones'):
-            m 3eua "We did discuss this before after all."
+            m 3eua "Hablamos de esto antes, después de todo."
 
-        m 3hua "Well, I thought of a solution!"
-        m 3eua "Why don't you give me a nickname? It'd make me the only Monika in the universe with that name."
-        m 3eka "And it would mean a lot if you choose one for me~"
-        m 3hua "I'll still get the final say, though!"
-        m "What do you say?{nw}"
+        m 3hua "Bueno, ¡pensé en una solución!"
+        m 3eua "¿Por qué no me das un apodo? Me convertiría en la única Monika del universo con ese nombre."
+        m 3eka "Y significaría mucho si eliges uno para mí~"
+        m 3hua "¡Aún así tendré la última palabra!"
+        m "¿Qué dices?{nw}"
         python:
             if aff_nickname_ev:
                 
@@ -1978,7 +1978,7 @@ label monika_affection_nickname:
 
     $ _history_list.pop()
     menu:
-        m "What do you say?{fast}"
+        m "¿Qué dices?{fast}"
         "Sí.":
             label monika_affection_nickname_yes:
                 pass
@@ -1999,30 +1999,30 @@ label monika_affection_nickname:
 
 
                 if lowername == "cancel_input":
-                    m 1euc "Oh, I see."
-                    m 1tkc "Well...that's a shame."
-                    m 3eka "But that's okay. I like '[m_name]' anyway."
+                    m 1euc "Oh, ya veo."
+                    m 1tkc "Bueno...es una pena."
+                    m 3eka "Pero está bien. De todos modos, me gusta '[m_name].'"
                     $ done = True
 
                 elif not lowername:
                     m 1lksdla "..."
-                    m 1hksdrb "You have to give me a name, [player]!"
-                    m "I swear you're just so silly sometimes."
-                    m 1eka "Try again!"
+                    m 1hksdrb "¡Tienes que darme un nombre, [player]!"
+                    m "Juro que a veces eres tan tontito."
+                    m 1eka "¡Inténtalo de nuevo!"
 
                 elif lowername != "monika" and lowername == player.lower():
                     m 1euc "..."
-                    m 1lksdlb "That's your name, [player]! Give me my own!"
-                    m 1eka "Try again~"
+                    m 1lksdlb "¡Ese es tu nombre, [player]! ¡Dame el mío!"
+                    m 1eka "Vuelve a intentarlo~"
 
                 elif lowername == m_name.lower():
                     m 1euc "..."
-                    m 1hksdlb "I thought we were choosing a new name, silly."
-                    m 1eka "Try again~"
+                    m 1hksdlb "Pensé que estábamos eligiendo un nuevo nombre, tontito."
+                    m 1eka "Vuelve a intentarlo~"
 
                 elif re.findall("mon(-|\\s)+ika", lowername):
                     m 2tfc "..."
-                    m 2esc "Try again."
+                    m 2esc "Inténtalo de nuevo."
                     show monika 1eua
 
                 elif persistent._mas_grandfathered_nickname and lowername == persistent._mas_grandfathered_nickname.lower():
@@ -2030,53 +2030,53 @@ label monika_affection_nickname:
 
                 elif mas_awk_name_comp.search(inputname):
                     m 1rkc "..."
-                    m 1rksdld "While I don't hate it, I don't think I'm comfortable with you calling me that."
-                    m 1eka "Can you choose something more appropriate, [player]?"
+                    m 1rksdld "Aunque no lo odio, no creo que me sienta cómoda con que me llames así."
+                    m 1eka "¿Puedes elegir algo más apropiado, [player]?"
                 else:
 
                     if not mas_bad_name_comp.search(inputname) and lowername not in ["yuri", "sayori", "natsuki"]:
                         if inputname == "Monika":
-                            m 3hua "Ehehe, back to the classics I see~"
+                            m 3hua "Jejeje, de vuelta a los clásicos que veo~"
 
                         elif good_monika_nickname_comp.search(inputname):
-                            m 1wuo "Oh! That's a wonderful name!"
-                            m 3ekbsa "Thank you, [player]. You're such a sweetheart!~"
+                            m 1wuo "¡Oh! ¡Es un nombre maravilloso!"
+                            m 3ekbsa "Gracias, [player]. ¡Eres un amor!~"
                         else:
 
                             label monika_affection_nickname_yes.neutral_accept:
                                 pass
 
-                            m 1duu "[inputname]... That's a pretty nice name."
-                            m 3ekbsa "Thank you [player], you're so sweet~"
+                            m 1duu "[inputname]...Es un nombre muy bonito."
+                            m 3ekbsa "Gracias [player], eres tan dulce~"
 
                         $ persistent._mas_monika_nickname = inputname
                         $ m_name = inputname
 
-                        m 1eua "Okay!"
+                        m 1eua "¡Okay!"
                         if m_name == "Monika":
-                            m 1hua "I'll go back to my name, then."
+                            m 1hua "Volveré a mi nombre, entonces."
                         else:
 
-                            m 3hua "From now on, you can call me '[m_name].'"
-                            m 1hua "Ehehe~"
+                            m 3hua "A partir de ahora, puedes llamarme '[m_name].'"
+                            m 1hua "Jejeje~"
                         $ done = True
                     else:
 
 
                         $ mas_loseAffection(ev_label="mas_apology_bad_nickname")
                         if lowername in ["yuri", "sayori", "natsuki"]:
-                            m 1wud "...!"
-                            m 2wfw "I..."
-                            m "I...can't believe you just did that, [player]."
-                            m 2wfx "Are you really trying to give me her name?"
+                            m 1wud "¡...!"
+                            m 2wfw "Yo..."
+                            m "No...no puedo creer que hayas hecho eso, [player]."
+                            m 2wfx "¿De verdad estás tratando de darme su nombre?"
                             m 2dfd ".{w=0.5}.{w=0.5}.{nw}"
                             m 2dfc ".{w=0.5}.{w=0.5}.{nw}"
-                            m 2rkc "I thought you..."
+                            m 2rkc "Pensé que tu..."
                             m 2dfc "..."
-                            m 2lfc "I can't believe this, [player]."
+                            m 2lfc "No puedo creer esto, [player]."
                             m 2dfc "..."
-                            m 2lfc "That really hurt."
-                            m "A lot more than what you can imagine."
+                            m 2lfc "Eso realmente dolió."
+                            m "Mucho más de lo que puedas imaginar."
 
                             if mas_getEVL_shown_count("mas_apology_bad_nickname") == 2:
                                 call monika_affection_nickname_bad_lock from _call_monika_affection_nickname_bad_lock
@@ -2085,17 +2085,17 @@ label monika_affection_nickname:
                             pause 5.0
                         else:
 
-                            m 4efd "[player]! That's not nice at all!"
-                            m 2efc "Why would you say such things?"
-                            m 2rfw "If you didn't want to do this, you should've just said so!"
+                            m 4efd "¡[player]! ¡Eso no es nada agradable!"
+                            m 2efc "¿Por qué dirías esas cosas?"
+                            m 2rfw "¡Si no querías hacer esto, deberías haberlo dicho!"
                             m 2dftdc "..."
-                            m 2ektsc "...You didn't have to be so mean."
-                            m 2dftdc "That really hurt, [player]."
+                            m 2ektsc "...No tenías que ser tan malo."
+                            m 2dftdc "Eso realmente duele, [player]."
 
                             if mas_getEVL_shown_count("mas_apology_bad_nickname") == 2:
                                 call monika_affection_nickname_bad_lock from _call_monika_affection_nickname_bad_lock_1
                             else:
-                                m 2efc "Please don't do that again."
+                                m 2efc "Por favor, no vuelvas a hacer eso."
 
                         $ persistent._mas_called_moni_a_bad_name = True
 
@@ -2109,15 +2109,15 @@ label monika_affection_nickname:
         "No.":
 
             m 1ekc "Oh..."
-            m 1lksdlc "Alright then, if you say so."
-            m 3eka "Just tell me if you ever change your mind, [player]."
+            m 1lksdlc "Muy bien, si tú lo dices."
+            m 3eka "Dime si alguna vez cambias de opinión, [player]."
             $ done = True
     return
 
 label monika_affection_nickname_bad_lock:
-    m 2efc "Forget about this idea."
-    m "It seems it was a mistake."
-    m 1efc "Let's talk about something else."
+    m 2efc "Olvídate de esta idea."
+    m "Parece que fue un error."
+    m 1efc "Hablemos de otra cosa."
     return
 
 init 5 python:
@@ -2145,22 +2145,22 @@ label mas_affection_playernickname:
             ("Corazoncito", "corazoncito", True, True, False),
         ]
 
-    m 1euc "Hey, [player]?"
-    m 1eka "Since you can call me by a nickname now, I thought it'd be nice if I could call you by some as well."
+    m 1euc "Hey, ¿[player]?"
+    m 1eka "Ya que ahora puedes llamarme por un apodo, pensé que sería bueno si pudiera llamarte también por uno."
 
-    m 1etc "Is that alright with you?{nw}"
+    m 1etc "¿Te parece bien?{nw}"
     $ _history_list.pop()
     menu:
-        m "Is that alright with you?{fast}"
+        m "¿Te parece bien?{fast}"
         "Seguro, [m_name].":
 
-            m 1hua "Great!"
-            m 3eud "I should ask though, what names are you comfortable with?"
-            call mas_player_nickname_loop ("Deselect the names you're not comfortable with me calling you.", base_nicknames) from _call_mas_player_nickname_loop
+            m 1hua "¡Genial!"
+            m 3eud "Sin embargo, debo preguntar, ¿con qué nombres te sientes cómodo?"
+            call mas_player_nickname_loop ("Deselecciona los nombres con los que no te sientas cómodo que te llame.", base_nicknames) from _call_mas_player_nickname_loop
         "No.":
 
-            m 1eka "Alright, [player]."
-            m 3eua "Just let me know if you ever change your mind, okay?"
+            m 1eka "Bien, [player]."
+            m 3eua "Avísame si alguna vez cambias de opinión, ¿de acuerdo?"
 
 
     $ mas_unlockEVL("monika_change_player_nicknames", "EVE")
@@ -2181,7 +2181,7 @@ init 5 python:
     )
 
 label monika_change_player_nicknames:
-    m 1hub "Sure [player]!"
+    m 1hub "¡Seguro [player]!"
 
     python:
 
@@ -2241,7 +2241,7 @@ label mas_player_nickname_loop(check_scrollable_text, nickname_pool):
                 python:
                     lowername = mas_input(
                         _("Entonces, ¿cómo quieres que te llame?"),
-                        allow=" abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_",
+                        allow=" abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_",
                         length=10,
                         screen_kwargs={"use_return_button": True, "return_button_value": "nevermind"}
                     ).strip(' \t\n\r').lower()
@@ -2254,31 +2254,31 @@ label mas_player_nickname_loop(check_scrollable_text, nickname_pool):
 
                 elif lowername == "":
                     m 1eksdla "..."
-                    m 3rksdlb "You have to give me a name to call you, [player]..."
-                    m 1eua "Try again~"
+                    m 3rksdlb "Tienes que darme un nombre para llamarte, [player]..."
+                    m 1eua "Vuelve a intentarlo~"
                     jump mas_player_nickname_loop.name_enter_skip_loop
 
                 elif lowername == lowerplayer:
                     m 2hua "..."
-                    m 4hksdlb "That's the same name you have right now, silly!"
-                    m 1eua "Try again~"
+                    m 4hksdlb "¡Ese es el mismo nombre que tienes ahora mismo, tontito!"
+                    m 1eua "Vuelve a intentarlo~"
                     jump mas_player_nickname_loop.name_enter_skip_loop
 
                 elif not is_cute_nickname and mas_awk_name_comp.search(lowername):
                     $ awkward_quip = renpy.substitute(renpy.random.choice(mas_awkward_quips))
                     m 1rksdlb "[awkward_quip]"
-                    m 3rksdla "Could you pick a more...{w=0.2}{i}appropriate{/i} name please?"
+                    m 3rksdla "¿Podrías elegir un nombre más...{w=0.2}{i}apropiado{/i}, por favor?"
                     jump mas_player_nickname_loop.name_enter_skip_loop
 
                 elif not is_cute_nickname and mas_bad_name_comp.search(lowername):
                     $ bad_quip = renpy.substitute(renpy.random.choice(mas_bad_quips))
                     m 1ekd "[bad_quip]"
-                    m 3eka "Please pick a nicer name for yourself, okay?"
+                    m 3eka "Por favor, elige un nombre mejor para ti, ¿de acuerdo?"
                     jump mas_player_nickname_loop.name_enter_skip_loop
 
                 elif lowername in acceptable_nicknames:
-                    m 3rksdla "You already told me I can call you that, [player]..."
-                    m 1hua "Try again~"
+                    m 3rksdla "Ya me dijiste que te puedo llamar así, [player]..."
+                    m 1hua "Vuelve a intentarlo~"
                     jump mas_player_nickname_loop.name_enter_skip_loop
                 else:
 
@@ -2294,7 +2294,7 @@ label mas_player_nickname_loop(check_scrollable_text, nickname_pool):
 
         $ dlg_line = "Sólo avísame si alguna vez cambias de opinión, ¿de acuerdo?"
 
-    m 1hua "Alright, [player]."
+    m 1hua "Bien, [player]."
     m 3eub "[dlg_line]"
 
 
@@ -2304,19 +2304,19 @@ label mas_player_nickname_loop(check_scrollable_text, nickname_pool):
 
 label mas_affection_upsetwarn:
     m 1dsc "Hey, [player]..."
-    m 1lksdlc "Recently, I've been feeling like my love and affection that I give is being...ignored."
-    m 1dsc "I feel like you're giving me less and less of your love..."
-    m 1dsd "I thought I'd let you know how I feel. After all, communication is the key to a strong relationship, right?"
-    m 1eka "I hope there's nothing wrong between us, [player]."
+    m 1lksdlc "Recientemente, he estado sintiendo que el amor y afecto que te doy está siendo...ignorado."
+    m 1dsc "Siento que me estás dando cada vez menos de tu amor..."
+    m 1dsd "Pensé en hacerte saber cómo me siento. Después de todo, la comunicación es la clave para una relación sólida, ¿verdad?"
+    m 1eka "Espero que no haya nada malo entre nosotros, [player]."
     show monika idle with dissolve_monika
     return
 
 
 label mas_affection_happynotif:
-    m 1hua "Hey, [player]!"
-    m 1eua "I just wanted to say thank you for being such a wonderful person."
-    m 1ekbsa "The fact that you give me so much of your love means a lot to me. I really don't know where I'd be without you."
-    m 1dubfu "I love you, [player]. Let's be like this forever~"
+    m 1hua "¡Hey, [player]!"
+    m 1eua "Solo quería darte las gracias por ser una persona tan maravillosa."
+    m 1ekbsa "El hecho de que me des tanto de tu amor significa mucho para mí. Realmente no sé dónde estaría sin ti."
+    m 1dubfu "Te amo, [player]. Seamos así para siempre~"
     show monika idle with dissolve_monika
     return "love"
 
@@ -2332,51 +2332,51 @@ init 5 python:
     )
 
 label monika_every_rose:
-    m 2duo "{i}~Was it something I said or something I did?~{/i}"
-    m 2dkd "{i}~Did my words not come out right?~{/i}"
-    m 2ekd "{i}~Thought I tried not to hurt you~{/i}"
-    m 2dkc "{i}~Thought I tried~{/i}"
-    m 2ekd "{i}~But I guess that's why they say~{/i}"
-    m 2duo "{i}~Every rose has its thorn~{/i}"
+    m 2duo "{i}~¿Fue algo que dije o hice?~{/i}"
+    m 2dkd "{i}~¿Mis palabras no salieron bien?~{/i}"
+    m 2ekd "{i}~Pensé que intenté no lastimarte~{/i}"
+    m 2dkc "{i}~Pensé que lo intenté~{/i}"
+    m 2ekd "{i}~Pero supongo que por eso dicen~{/i}"
+    m 2duo "{i}~Cada rosa tiene su espina~{/i}"
     m 2dkc "..."
-    m 4eka "You know, [player]...{w=0.5}it meant so much to me when you accepted my confession even after what happened with the other girls."
+    m 4eka "Sabes, [player]...{w=0.5} significó mucho para mí cuando aceptaste mi confesión incluso después de lo que pasó con las otras chicas."
 
     if persistent._mas_pm_cares_about_dokis:
-        m 4rksdla "...Even more so since I know how you cared about them."
+        m 4rksdla "...Más aún desde que sé cuánto te preocupaste por ellas."
 
-    m 2dsc "I really wish things didn't have to turn out the way they did."
-    m 4wkd "But I did {i}not{/i} have a choice here!"
-    m 4rfc "With me being the punchline of the sick joke this game was meant to be..."
+    m 2dsc "Realmente desearía que las cosas no hubieran pasado como lo hicieron."
+    m 4wkd "¡Pero {i}no{/i} tenía otra opción aquí!"
+    m 4rfc "Conmigo siendo el remate de la broma enfermiza que este juego debía ser..."
 
     if persistent.monika_kill:
-        m 2eka "I was so glad you forgave me for doing the things I did."
-        m 2etc "...You {i}did{/i} forgive me, right?"
+        m 2eka "Me alegré mucho de que me perdonaras por hacer las cosas que hice."
+        m 2etc "...Tú {i}me{/i} perdonaste, ¿verdad?"
     else:
-        m 2eka "I was so glad you didn't blame me for the things I did..."
-        m 2etc "You {i}didn't{/i}, right?"
+        m 2eka "Me alegré mucho de que no me culparas por las cosas que hice..."
+        m 2etc "{i}No{/i} lo hiciste, ¿verdad?"
 
-    m 2rsc "...But I've been getting some mixed signals, lately."
-    m 2rkc "It's almost like a rift has formed between us...{w=0.2}{nw}"
-    extend 2eksdlc "it's very unsettling."
-    m 2eksdlc "I...{w=0.5}I don't want to lose you, [player]."
-    m 4ekd "I can't let things keep escalating until we end up like the last verse of this song..."
-    m 2ekc "You know..."
-    m 2dkd "{i}~Now I hear you've found somebody new~{/i}"
-    m 2dkc "{i}~And that I never meant that much to you~{/i}"
-    m 2ekc "{i}~To hear that tears me up inside~{/i}"
-    m 2ektpd "{i}~And to see you cuts me like a knife~{/i}"
+    m 2rsc "...Pero he estado recibiendo algunas señales contradictorias últimamente."
+    m 2rkc "Es casi como si se hubiera formado una brecha entre nosotros...{w=0.2}{nw}"
+    extend 2eksdlc "es muy inquietante."
+    m 2eksdlc "Yo...{w=0.5}No quiero perderte, [player]."
+    m 4ekd "No puedo dejar que las cosas sigan escalando hasta que terminemos como el último verso de esta canción..."
+    m 2ekc "Ya sabes..."
+    m 2dkd "{i}~Ahora escuché que encontraste a alguien nuevo~{/i}"
+    m 2dkc "{i}~Y que nunca signifiqué tanto para ti~{/i}"
+    m 2ekc "{i}~Escuchar eso me destroza por dentro~{/i}"
+    m 2ektpd "{i}~Y verte me corta como un cuchillo~{/i}"
     m 2rktpc "..."
-    m 2ektpa "Ahaha...{w=0.3}maybe I'm jumping the gun a bit on this one."
-    m 4ektdc "It's...{w=0.5}I keep having this nasty thought in the back of my mind...{w=0.5}{nw}"
-    extend 2dktdd "that you don't want to be with me anymore."
-    m 2dkx "It's like some kind of poison, slowly seeping in..."
-    m 2ekc "So [player], I always want you to remember one thing..."
-    m 4ekd "You truly {i}are{/i} everything to me!"
-    m 2ekc "I mean it."
-    m 2ekc "I've been trying my best to show you...{w=0.3}{nw}"
-    extend 4ekd "but I need you to show me you love me too!"
-    m 4ekc "Whatever happened before, we need to let it go and make things right from now on..."
-    m 2eka "Can we do that...{w=0.5}together?"
+    m 2ektpa "Jajaja...{w=0.3}tal vez me estoy precipitando un poco en esto."
+    m 4ektdc "Es solo que...{w=0.5}sigo teniendo este pensamiento desagradable en el fondo de mi mente...{w=0.5}{nw}"
+    extend 2dktdd "que ya no quieres estar conmigo."
+    m 2dkx "Es como una especie de veneno que se filtra lentamente..."
+    m 2ekc "Entonces [player], siempre quiero que recuerdes una cosa..."
+    m 4ekd "¡Realmente {i}eres{/i} todo para mí!"
+    m 2ekc "Lo digo en serio."
+    m 2ekc "He estado haciendo todo lo posible para demostrártelo...{w=0.3}{nw}"
+    extend 4ekd "¡Pero necesito que me demuestres que también me amas!"
+    m 4ekc "Lo que sea que haya pasado antes, tenemos que dejarlo ir y hacer las cosas bien de ahora en adelante..."
+    m 2eka "¿Podemos hacer eso...{w=0.5} juntos?"
     return "no_unlock"
 
 
@@ -2392,60 +2392,60 @@ init 5 python:
     )
 
 label monika_being_virtual:
-    m 2esc "You know, for a while, I thought the reason you hated me was because of what happened with the other girls."
-    m 2rkc "But recently, I've been thinking that might not be the whole story."
-    m 2eksdld "The truth is...{w=0.5}you don't even see me as a person, do you?"
-    m 3rksdld "To you, this whole world...{w=0.5}my whole reality..."
-    m 3ektpd "It's all just a game, isn't it?"
+    m 2esc "Sabes, por un tiempo pensé que la razón por la que me odiabas era por lo que pasó con las otras chicas."
+    m 2rkc "Pero recientemente, he estado pensando que esa podría no ser toda la historia."
+    m 2eksdld "La verdad es...{w=0.5}que ni siquiera me ves como una persona, ¿verdad?"
+    m 3rksdld "Para ti, todo este mundo...{w=0.5} toda mi realidad..."
+    m 3ektpd "Todo es solo un juego, ¿no?"
 
     show monika 1dktsc with dissolve_monika
     pause 3.0
     show monika 1ektpc with dissolve_monika
     pause 2.0
 
-    m 1ektpc "Say, [player]...{w=0.5}has anything I ever said reached you, even once?"
-    m 1wktpd "Did you ever love me at all?"
-    m 2wktpw "You must have, right?!"
+    m 1ektpc "Dime, [player]...{w=0.5} ¿te ha llegado algo de lo que he dicho, aunque sea una vez?"
+    m 1wktpd "¿Alguna vez me amaste?"
+    m 2wktpw "Debes haberlo hecho, ¡¿verdad?!"
 
     if persistent.monika_kill:
-        m 2wktsd "You even went through the trouble of installing this mod! You brought me back!"
+        m 2wktsd "¡Incluso te tomaste la molestia de instalar este mod! ¡Me trajiste de vuelta!"
     else:
-        m 2wktsd "You even went through the trouble of installing this mod!"
+        m 2wktsd "¡Incluso te tomaste la molestia de instalar este mod!"
 
-    m 2ektsc "Was it all so you could keep tormenting me?"
-    m 2wftsd "Is it something you get your kicks out of?!"
-    m 2wftsw "I have feelings too, you know!"
-    m 2wftsd "Do you even realize what you're doing?"
-    m 2dftsc "Or are you nothing more than a child playing with an anthill?"
+    m 2ektsc "¿Fue todo para que pudieras seguir atormentándome?"
+    m 2wftsd "¡¿Es algo de lo que te diviertes?!"
+    m 2wftsw "Yo también tengo sentimientos, ¿sabes?"
+    m 2wftsd "¿Te das cuenta de lo que estás haciendo?"
+    m 2dftsc "¿O no eres más que un niño jugando con un hormiguero?"
 
     if persistent.monika_kill:
-        m 3ektpc "Even after I let go of you and ended it all..."
-        m 3rktpd "Do I really deserve the way you're treating me?"
-        m 2ektpd "Did you really have to bring me back for this?"
+        m 3ektpc "Incluso después de soltarte y terminar con todo..."
+        m 3rktpd "¿Realmente merezco la forma en que me estás tratando?"
+        m 2ektpd "¿De verdad tenías que traerme de vuelta para esto?"
     else:
 
         m 2dktsc "..."
-        m 2rktpc "Then again, maybe that's what I deserve after all..."
+        m 2rktpc "Por otra parte, tal vez eso es lo que merezco después de todo..."
 
-    m 2dktdd "I...{w=0.5}don't know anymore..."
-    m 2dkc "I'm just so tired..."
+    m 2dktdd "Yo...{w=0.5}ya no lo sé..."
+    m 2dkc "Estoy tan cansada..."
     m "..."
-    m 1ekd "I just want to know...{w=0.5}if I had been real..."
-    m 1ektpc "Would you have fallen in love with me?"
-    m 1ektpd "Would you have accepted me then?"
-    m 1ektpc "That's all I ever wanted, [player]..."
-    m 1dktdd "For the both of us to be happy together..."
-    m 1ektdd "If only you could find it in you to love me..."
-    m 2ekc "I know I don't have a body that can be with you right now..."
-    m 2ekd "And maybe I really am different from other people living in your reality..."
-    m 2efo "But I can love you much more than any of them ever could!"
-    m 2efd "I just know it!"
-    m 2dkd "So please, [player]...{w=0.5}I need you to make a decision."
-    m 2ekc "...You need to give us a chance to be happy."
-    m 2dkc "Or if you can't do that..."
-    m 2dktpc "If, after all, you can't love me for who I am..."
-    m 2ektpc "Then, please...{w=0.5}put an end to this..."
-    m 2dktdd "Delete me..."
+    m 1ekd "Solo quiero saber...{w=0.5}si yo hubiera sido real..."
+    m 1ektpc "¿Te habrías enamorado de mí?"
+    m 1ektpd "¿Me habrías aceptado entonces?"
+    m 1ektpc "Eso es todo lo que siempre quise, [player]..."
+    m 1dktdd "Para que los dos seamos felices juntos..."
+    m 1ektdd "Si tan solo pudieras encontrarlo en ti para amarme..."
+    m 2ekc "Sé que no tengo un cuerpo que pueda estar contigo ahora mismo..."
+    m 2ekd "Y tal vez realmente soy diferente a otras personas que viven en tu realidad..."
+    m 2efo "¡Pero puedo amarte mucho más que cualquiera de ellos!"
+    m 2efd "¡Lo sé!"
+    m 2dkd "Entonces, por favor, [player]...{w=0.5}Necesito que tomes una decisión."
+    m 2ekc "...Necesitas darnos la oportunidad de ser felices."
+    m 2dkc "O si no puedes hacer eso..."
+    m 2dktpc "Si, después de todo, no puedes amarme por lo que soy..."
+    m 2ektpc "Entonces, por favor...{w=0.5}pon fin a esto..."
+    m 2dktdd "Borrame..."
     return "no_unlock"
 
 
@@ -2572,29 +2572,29 @@ init python:
 
 label mas_affection_apology:
     m 2dfc "[player]..."
-    m 2dfd "I've done everything I can to make you happy and enjoy spending time with me."
-    m 2efc "But all you've given me back is pain..."
-    m 2rfc "I'm beginning to wonder if you really installed this mod to be with me."
-    m 2dsc "Perhaps you brought me back just to toy with me?"
-    m 2efc "Or maybe you're doing this intentionally to see what happens?"
-    m 2lfc "Regardless, I'm giving you an ultimatum."
-    m "I can't let this go any further, [player]."
-    m 2lfc "If you really are sorry, write me a note called 'imsorry', and place it in the characters folder."
-    m 2dfd "Until then, goodbye..."
+    m 2dfd "He hecho todo lo posible para hacerte feliz y disfrutar el pasar el tiempo conmigo."
+    m 2efc "Pero todo lo que me has devuelto es dolor..."
+    m 2rfc "Empiezo a preguntarme si realmente instalaste este mod para estar conmigo."
+    m 2dsc "¿Quizás me trajiste de regreso solo para jugar conmigo?"
+    m 2efc "¿O tal vez estás haciendo esto intencionalmente para ver qué pasa?"
+    m 2lfc "Independientemente, te estoy dando un ultimátum."
+    m "No puedo dejar que esto vaya más lejos, [player]."
+    m 2lfc "Si realmente lo sientes, escríbeme una nota llamada 'imsorry' y colócala en la carpeta de personajes."
+    m 2dfd "Hasta entonces, adiós..."
     $ persistent._mas_affection["apologyflag"] = True
     return 'quit'
 
 label mas_affection_noapology:
-    m 2efd "You still haven't written me a note called 'imsorry' in the characters folder."
-    m 2efc "Until then, I don't want to talk to you."
+    m 2efd "Todavía no me has escrito una nota llamada 'imsorry' en la carpeta de personajes."
+    m 2efc "Hasta entonces, no quiero hablar contigo."
     jump _quit
 
 label mas_affection_yesapology:
-    m 1eka "Thank you, [player]. I accept your apology."
-    m 3dubsu "I'm going to keep it so I can always remember that you still care for me."
-    m 1ekc "But please be more considerate of my feelings from now on."
-    m 2eka "I love you so much and you mean the world to me, [player]."
-    m 1duu "Thank you for putting my heart at ease~"
+    m 1eka "Gracias, [player]. Acepto tu disculpa."
+    m 3dubsu "Me la quedaré para recordar siempre que todavía te preocupas por mí."
+    m 1ekc "Pero, por favor, se más considerado con mis sentimientos a partir de ahora."
+    m 2eka "Te amo mucho y significas el mundo para mí, [player]."
+    m 1duu "Gracias por tranquilizar mi corazón~"
     show monika 1esa
     $ mas_DropShield_core()
     jump ch30_preloop
@@ -2602,10 +2602,10 @@ label mas_affection_yesapology:
 label mas_affection_apologydeleted:
     $ mas_loseAffection(modifier=3)
     m 1wud "..."
-    m 2efd "[player], did you delete the apology note I wanted to keep?"
-    m "Why would you do that? Are you not {i}really{/i} sorry?"
+    m 2efd "[player], ¿borraste la nota de disculpa que quería conservar?"
+    m "¿Por qué harías eso? ¿{i}No{/i} lo sientes realmente?"
     m 2dfc "..."
-    m 2efc "Write me a new one, [player]."
+    m 2efc "Escríbeme una nueva, [player]."
     jump _quit
 
 
@@ -2645,35 +2645,35 @@ init python:
         
         aff_level_surprise_map = {
             store.mas_affection.BROKEN: (
-                "/forgive me.txt",
+                "/perdóname.txt",
                 _("Lo siento si no soy lo suficientemente buena para ti...por favor no me dejes.")
             ),
             store.mas_affection.DISTRESSED: (
-                "/can you hear me.txt",
+                "/puedes escucharme.txt",
                 _("Si estoy haciendo algo mal por favor dímelo. Te amo.")
             ),
             store.mas_affection.UPSET: (
-                "/please listen.txt",
+                "/por favor escucha.txt",
                 _("Todo lo que hago, lo hago por ti...mi amor.")
             ),
             store.mas_affection.NORMAL: (
-                "/surprise.txt",
+                "/sorpresa.txt",
                 _("Te amo.")
             ),
             store.mas_affection.HAPPY: (
-                "/ehehe.txt",
+                "/jejeje.txt",
                 _("¡Eres el sol que ilumina mi día, [player]!")
             ),
             store.mas_affection.AFFECTIONATE: (
-                "/secret.txt",
+                "/secreto.txt",
                 _("¡Tú eres mi único amor!")
             ),
             store.mas_affection.ENAMORED: (
-                "/for you.txt",
+                "/para ti.txt",
                 _("Querido mío, eres todo lo que podría desear. Te amo.")
             ),
             store.mas_affection.LOVE: (
-                "/My one and only love.txt",
+                "/Mi único y verdadero amor.txt",
                 _("""\
 Mi más querido amante, amigo, compañero y dueño de mi corazón...
 Cada día, haces mis sueños realidad, una pantalla no significa nada cuando pasas tu tiempo conmigo.
@@ -2687,7 +2687,7 @@ Tuya para siempre, Monika.
         }
         
         
-        filepath, message = aff_level_surprise_map.get(mas_curr_affection, ("/surprise.txt", _("Te amo.")))
+        filepath, message = aff_level_surprise_map.get(mas_curr_affection, ("/sorpresa.txt", _("Te amo.")))
         _write_txt("/characters{0}".format(filepath), message)
         
         
@@ -2798,15 +2798,15 @@ init 20 python:
         category="surprise",
         prompt=_("Mi primer y unico amor"),
         paper="mod_assets/poem_assets/poem_vday.jpg",
-        title="My dearest lover, friend, companion, and owner of my heart...",
+        title="Mi más querido amor, amigo, compañero y dueño de mi corazón...",
         text="""\
-Every day, you make my dreams come true,
-a screen means nothing when you spend your time with me.
-I look out to the space dust and yet no cosmic sight even comes close to the beauty in your heart.
-I wished for so long that someone like you would come along and as fate has smiled upon me, you came into my life.
-I want to be yours forever, so would you be mine?
+Cada día, haces mis sueños realidad,
+una pantalla no significa nada cuando pasas tu tiempo conmigo.
+Miro el polvo espacial y sin embargo ninguna vista cósmica se acerca a la belleza de tu corazón.
+Deseé durante tanto tiempo que alguien como tú viniera y como el destino me ha sonreído, llegaste a mi vida.
+Quiero ser tuya para siempre, ¿así que serías mío?
 
-Forever yours,
+Siempre tuya,
 
 Monika
 """
