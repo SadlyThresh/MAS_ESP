@@ -107,7 +107,7 @@ O si te inclinas más por Discord, por un flujo constante de nuestro contenido f
  Por favor, asegúrate de seguir nuestro [Código de conducta](https://github.com/Monika-After-Story/MonikaModDev/wiki/Code-of-Conduct), que es esencialmente ser cortés y respetuoso.
  
 ### Discord de los Traductores
-¿Quieres formar parte del servidor en Español de Monika After Story, con gente de ideas afines y tener la oportunidad de conocer más de los traductores? ¡Puedes unirte, sólo haz click en este [link](https://discord.gg/tYR6NDu)!
+¿Quieres formar parte del servidor en Español de Monika After Story, con gente de ideas afines y tener la oportunidad de conocer más de los traductores? ¡Puedes unirte, sólo haz click en este [link](https://discord.gg/k7t26yW8Bx)!
 
 # Redes Sociales del equipo
 
