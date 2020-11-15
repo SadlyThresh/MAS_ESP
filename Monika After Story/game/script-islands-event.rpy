@@ -1,12 +1,12 @@
-
-
-
-
+# Monika's ???? Event
+# deserves it's own file because of how much dialogue these have
+# it basically shows a new screen over everything, and has an image map
+# Monika reacts to he place the player clicks
 
 
 python early:
 
-
+    # islands-specific displayable, handles issues with no decoding
     def MASIslandBackground(**filter_pairs):
         """
         DynamicDisplayable for Island background images. This includes
@@ -29,7 +29,7 @@ python early:
         )
 
 
-
+# island image definitions
 image mas_islands_wf = MASIslandBackground(
     day=MASWeatherMap({
         mas_weather.PRECIP_TYPE_DEF: (
@@ -92,9 +92,9 @@ image mas_islands_wof = MASIslandBackground(
 )
 
 init 2 python:
-
-
-
+    # snow-specific maps. This is because the cherry-blossom thing.
+    # NOTE: we even though this is snow, we set the precip types to def
+    #   this is so we can leverage the fallback system
     mas_islands_snow_wf_mfwm = MASFilterWeatherMap(
         day=MASWeatherMap({
             mas_weather.PRECIP_TYPE_DEF: (
@@ -124,17 +124,17 @@ init 2 python:
     mas_islands_snow_wof_mfwm.use_fb = True
 
 
-
+### initialize the island images
 init -10 python:
-
-
-
-
-
-
-
-
-
+    ## NOTE: we assume 2 things:
+    #   - we have write access to teh mod_assets folder
+    #   - the existing pngs dont exist yet
+    #
+    #   if for some reason we fail to convert the files into images
+    #   then we must backout of showing the event.
+    #
+    #   NOTE: other things to note:
+    #       on o31, we cannot have islands event
     mas_cannot_decode_islands = not store.mas_island_event.decodeImages()
 
 
@@ -151,8 +151,8 @@ init -10 python:
         """
         if mas_cannot_decode_islands:
             return "None", None
-        
-        
+
+        # otherwise standard mechanics
         return mas_fwm_select(st, at, mfwm)
 
 
@@ -161,7 +161,7 @@ init -11 python in mas_island_event:
     import store.mas_dockstat as mds
     import store.mas_ics as mis
 
-
+    # setup the docking station we are going to use here
     islands_station = store.MASDockingStation(mis.islands_folder)
 
     def decodeImages():
@@ -205,9 +205,9 @@ init -11 python in mas_island_event:
 
 
 init 4 python:
-
+    # adjustments to islands flags in the case of other runtime things
     if mas_isO31():
-        
+        # no islands event on o31
         mas_cannot_decode_islands = True
         store.mas_island_event.removeImages()
 
@@ -228,8 +228,8 @@ init 5 python:
         )
 
 init -876 python in mas_delact:
-
-
+    # this event requires a delayed aciton, since we cannot ensure that
+    # the sprites for this were decoded correctly
 
     def _mas_monika_islands_unlock():
         return store.MASDelayedAction.makeWithLabel(
@@ -248,47 +248,47 @@ label mas_monika_islands:
     m 1eub "Te dejaré admirar el paisaje por ahora."
     m 1hub "¡Espero que te guste!"
 
-
+    # prevent interactions
     $ mas_RaiseShield_core()
     $ mas_OVLHide()
     $ disable_esc()
     $ renpy.store.mas_hotkeys.no_window_hiding = True
 
-
+    # keep looping the screen
     $ _mas_island_keep_going = True
 
-
+    # keep track about the window
     $ _mas_island_window_open = True
 
-
+    # text used for the window
     $ _mas_toggle_frame_text = "Close Window"
 
-
+    # shimeji flag
     $ _mas_island_shimeji = False
 
-
+    # random chance to get mini moni appear
     if renpy.random.randint(1,100) == 1:
         $ _mas_island_shimeji = True
 
-
+    # double screen trick
     show screen mas_islands_background
 
-
+    # keep showing the event until the player wants to go
     while _mas_island_keep_going:
 
-
+        # image map with the event
         call screen mas_show_islands()
 
         if _return:
-
-            call expression _return from _call_expression_1
+            # call label if we have one
+            call expression _return
         else:
-
+            # player wants to quit the event
             $ _mas_island_keep_going = False
-
+    # hide extra screen
     hide screen mas_islands_background
 
-
+    # drop shields
     $ mas_DropShield_core()
     $ mas_OVLShow()
     $ enable_esc()
@@ -318,7 +318,7 @@ label mas_island_cherry_blossom_tree:
     python:
 
         if not renpy.store.seen_event("mas_island_cherry_blossom1"):
-            
+
             renpy.call("mas_island_cherry_blossom1")
 
         else:
@@ -327,10 +327,10 @@ label mas_island_cherry_blossom_tree:
                 "mas_island_cherry_blossom3",
                 "mas_island_cherry_blossom4"
             ]
-            
+
             if not mas_island_event.isWinterWeather():
                 _mas_cherry_blossom_events.append("mas_island_cherry_blossom2")
-            
+
             renpy.call(renpy.random.choice(_mas_cherry_blossom_events))
 
     return
@@ -364,7 +364,7 @@ label mas_island_cherry_blossom3:
         m "Incluso si está desnudo ahora, volverá a florecer pronto."
     m "Recuerda que siempre estaré agradecida contigo por estar en mi vida."
     m "Te amo, [player]~"
-
+    # manually handle the "love" return key
     $ mas_ILY()
     return
 
@@ -406,8 +406,8 @@ label mas_island_sky:
     return
 
 label mas_island_day1:
-
-
+    #NOTE: this ordering is key, during winter we only use snow covered islands with clear sky
+    # so Winter path needs to be first
     if mas_island_event.isWinterWeather():
         m "Qué hermoso día es hoy."
         m "Perfecto para pasear y admirar el paisaje."
@@ -431,8 +431,8 @@ label mas_island_day1:
     return
 
 label mas_island_day2:
-
-
+    #NOTE: this ordering is key, during winter we only use snow covered islands with clear sky
+    # so Winter path needs to be first
     if mas_island_event.isWinterWeather():
         m "¿Alguna vez has hecho un ángel de nieve, [player]?"
         m "Lo intenté en el pasado, pero nunca tuve mucho éxito..."
@@ -492,8 +492,8 @@ label mas_island_night2:
             m "Aunque, esto {i}no{/i} es lo que tenía en mente cuando mencioné sobre mirar las estrellas..."
             m "Por más agradable que sea mirarlas, la parte que más quiero experimentar es estar contigo, abrazándonos fuerte mientras estamos acostados."
             m "Algún día, [player].{w=0.3} Algún día."
-        else:
 
+        else:
             m "¿Alguna vez has ido a ver las estrellas, [mas_get_player_nickname()]?"
             m "Tomarse un tiempo de la noche para mirar el cielo nocturno y mirar la belleza del cielo..."
             m "Es sorprendentemente relajante, ¿sabías?"
@@ -528,25 +528,25 @@ label mas_island_daynight1:
     return
 
 label mas_island_daynight2:
-
+    # aurora borealis
     m "{i}~Molino de viento, molino de viento para la tierra~{/i}"
 
-
+    # a-aurora borealis
     m "{i}~Gira para siempre de la mano~{/i}"
 
-
+    # aurora borealis
     m "{i}~Toma todo con calma~{/i}"
 
-
+    # at this time of day?
     m "{i}~Está haciendo tictac, cayendo~{/i}"
 
-
+    # aurora borealis
     m "{i}~Amor por siempre, el amor es gratis~{/i}"
 
-
+    # a-aurora borealis
     m "{i}~Volvamos para siempre, tú y yo~{/i}"
 
-
+    # in this part of the country? Yes
     m "{i}~Molino de viento, molino de viento para la tierra~{/i}"
 
     m "Jejeje, no me hagas caso, solo quería cantar~"
@@ -574,8 +574,8 @@ label mas_island_bookshelf:
     return
 
 label mas_island_bookshelf1:
-
-
+    #NOTE: this ordering is key, during winter we only use snow covered islands with clear sky
+    # so Winter path needs to be first
     if mas_island_event.isWinterWeather():
         m "Puede que esa estantería no parezca muy resistente, pero estoy segura de que puede resistir un poco de nieve."
         m "Son los libros los que me preocupan un poco."
@@ -593,8 +593,8 @@ label mas_island_bookshelf1:
     return
 
 label mas_island_bookshelf2:
-
-
+    #NOTE: this ordering is key, during winter we only use snow covered islands with clear sky
+    # so Winter path needs to be first
     if mas_island_event.isWinterWeather():
         m "Sabes, no me importaría leer un poco afuera, incluso si hay un poco de nieve."
         m "Aunque no me aventuraría a salir sin un abrigo, una bufanda gruesa y un par de guantes."
@@ -614,9 +614,9 @@ label mas_island_bookshelf2:
         m "Eso sería maravilloso~"
     return
 
-
-
-
+#NOTE: This is temporary until we split islands into foreground/background
+# NOTE: change the island image definitions (see top of this file) when this
+#   happens.
 init 500 python in mas_island_event:
     def getBackground():
         """
@@ -631,14 +631,14 @@ init 500 python in mas_island_event:
                 return store.mas_islands_snow_wof_mfwm.fw_get(
                     store.mas_sprites.get_filter()
                 )
-            
+
             return store.mas_islands_snow_wf_mfwm.fw_get(
                 store.mas_sprites.get_filter()
             )
-        
+
         if store._mas_island_window_open:
             return "mas_islands_wof"
-        
+
         return "mas_islands_wf"
 
 
@@ -646,16 +646,16 @@ screen mas_islands_background:
 
     add mas_island_event.getBackground()
 
-
-
-
-
-
-
-
-
-
-
+#    if morning_flag:
+#        if _mas_island_window_open:
+#            add "mod_assets/location/special/without_frame.png"
+#        else:
+#            add "mod_assets/location/special/with_frame.png"
+#    else:
+#        if _mas_island_window_open:
+#            add "mod_assets/location/special/night_without_frame.png"
+#        else:
+#            add "mod_assets/location/special/night_with_frame.png"
 
     if _mas_island_shimeji:
         add "gui/poemgame/m_sticker_1.png" at moni_sticker_mid:
@@ -669,32 +669,32 @@ screen mas_show_islands():
 
         ground mas_island_event.getBackground()
 
+#        if mas_is_raining:
+#            if _mas_island_window_open:
+#                ground "mod_assets/location/special/rain_without_frame.png"
+#            else:
+#                ground "mod_assets/location/special/rain_with_frame.png"
+#        elif morning_flag:
+#            if _mas_island_window_open:
+#                ground "mod_assets/location/special/without_frame.png"
+#            else:
+#                ground "mod_assets/location/special/with_frame.png"
+#        else:
+#            if _mas_island_window_open:
+#                ground "mod_assets/location/special/night_without_frame.png"
+#            else:
+#                ground "mod_assets/location/special/night_with_frame.png"
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        hotspot (11, 13, 314, 270) action Return("mas_island_upsidedownisland")
-        hotspot (403, 7, 868, 158) action Return("mas_island_sky")
-        hotspot (699, 347, 170, 163) action Return("mas_island_glitchedmess")
-        hotspot (622, 269, 360, 78) action Return("mas_island_cherry_blossom_tree")
-        hotspot (716, 164, 205, 105) action Return("mas_island_cherry_blossom_tree")
-        hotspot (872, 444, 50, 30) action Return("mas_island_bookshelf")
+        hotspot (11, 13, 314, 270) action Return("mas_island_upsidedownisland") # island upside down
+        hotspot (403, 7, 868, 158) action Return("mas_island_sky") # sky
+        hotspot (699, 347, 170, 163) action Return("mas_island_glitchedmess") # glitched house
+        hotspot (622, 269, 360, 78) action Return("mas_island_cherry_blossom_tree") # cherry blossom tree
+        hotspot (716, 164, 205, 105) action Return("mas_island_cherry_blossom_tree") # cherry blossom tree
+        hotspot (872, 444, 50, 30) action Return("mas_island_bookshelf") # bookshelf
 
         if _mas_island_shimeji:
-            hotspot (935, 395, 30, 80) action Return("mas_island_shimeji")
+            hotspot (935, 395, 30, 80) action Return("mas_island_shimeji") # Mini Moni
 
     if _mas_island_shimeji:
         add "gui/poemgame/m_sticker_1.png" at moni_sticker_mid:
@@ -709,12 +709,12 @@ screen mas_show_islands():
         textbutton "Go Back" action Return(False)
 
 
+# Defining a new style for buttons, because other styles look ugly
 
-
-
+# properties for these island view buttons
 style island_button is default:
     properties gui.button_properties("island_button")
-    idle_background "mod_assets/island_idle_background.png"
+    idle_background  "mod_assets/island_idle_background.png"
     hover_background "mod_assets/island_hover_background.png"
     xysize (205, None)
     ypadding 5
@@ -723,7 +723,7 @@ style island_button is default:
 
 style island_button_dark is default:
     properties gui.button_properties("island_button_dark")
-    idle_background "mod_assets/island_idle_background_d.png"
+    idle_background  "mod_assets/island_idle_background_d.png"
     hover_background "mod_assets/island_hover_background_d.png"
     xysize (205, None)
     ypadding 5
@@ -732,7 +732,7 @@ style island_button_dark is default:
 
 style island_button_text is default:
     properties gui.button_text_properties("island_button")
-    idle_background "mod_assets/island_idle_background.png"
+    idle_background  "mod_assets/island_idle_background.png"
     hover_background "mod_assets/island_hover_background.png"
     font gui.default_font
     size gui.text_size
@@ -744,7 +744,7 @@ style island_button_text is default:
 
 style island_button_text_dark is default:
     properties gui.button_text_properties("island_button_dark")
-    idle_background "mod_assets/island_idle_background_d.png"
+    idle_background  "mod_assets/island_idle_background_d.png"
     hover_background "mod_assets/island_hover_background_d.png"
     font gui.default_font
     size gui.text_size
@@ -754,11 +754,10 @@ style island_button_text_dark is default:
     kerning 0.2
     outlines []
 
-
+# mini moni ATL
 transform moni_sticker_mid:
     block:
         function randomPauseMonika
         parallel:
             sticker_move_n
         repeat
-# Decompiled by unrpyc: https://github.com/CensoredUsername/unrpyc

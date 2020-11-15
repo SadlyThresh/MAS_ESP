@@ -1,11 +1,11 @@
-init -2 python in mas_anni:
+init -2 python in mas_anni: #needed to lower this in order to get isAnni() working for special day usage
     import store.evhand as evhand
     import store.mas_calendar as mas_cal
     import store.mas_utils as mas_utils
     import datetime
 
-
-    _m1_script0x2danniversary__persistent = renpy.game.persistent
+    # persistent pointer so we can use it
+    __persistent = renpy.game.persistent
 
     def build_anni(years=0, months=0, weeks=0, isstart=True):
         """
@@ -24,37 +24,37 @@ init -2 python in mas_anni:
         ASSUMES:
             __persistent
         """
-        
-        if _m1_script0x2danniversary__persistent.sessions is None:
+        # sanity checks
+        if __persistent.sessions is None:
             return None
-        
-        first_sesh = _m1_script0x2danniversary__persistent.sessions.get("first_session", None)
+
+        first_sesh = __persistent.sessions.get("first_session", None)
         if first_sesh is None:
             return None
-        
+
         if (weeks + years + months) == 0:
-            
+            # we need at least one of these to work
             return None
-        
-        
-        
+
+        # sanity checks are done
+
         if years > 0:
             new_date = mas_utils.add_years(first_sesh, years)
-        
+
         elif months > 0:
             new_date = mas_utils.add_months(first_sesh, months)
-        
+
         else:
             new_date = first_sesh + datetime.timedelta(days=(weeks * 7))
-        
-        
+
+        # check for starting
         if isstart:
             return mas_utils.mdnt(new_date)
-        
-        
-        
-        
-        
+
+        # othrewise, this is an ending date
+#        return mas_utils.am3(new_date + datetime.timedelta(days=1))
+# NOTE: doing am3 leads to calendar problems
+#   we'll just restrict this to midnight to midnight -1
         return mas_utils.mdnt(new_date + datetime.timedelta(days=1))
 
     def build_anni_end(years=0, months=0, weeks=0):
@@ -82,31 +82,31 @@ init -2 python in mas_anni:
             True if datetime.date.today() is an anniversary date
             False if today is not an anniversary date
         """
-        
-        if _m1_script0x2danniversary__persistent.sessions is None:
+        #Sanity checks
+        if __persistent.sessions is None:
             return False
-        
-        firstSesh = _m1_script0x2danniversary__persistent.sessions.get("first_session", None)
+
+        firstSesh = __persistent.sessions.get("first_session", None)
         if firstSesh is None:
             return False
-        
+
         compare = None
-        
+
         if milestone == '1w':
             compare = build_anni(weeks=1)
-        
+
         elif milestone == '1m':
             compare = build_anni(months=1)
-        
+
         elif milestone == '3m':
             compare = build_anni(months=3)
-        
+
         elif milestone == '6m':
             compare = build_anni(months=6)
-        
+
         elif milestone == 'any':
             return isAnniWeek() or isAnniOneMonth() or isAnniThreeMonth() or isAnniSixMonth() or isAnni()
-        
+
         if compare is not None:
             return compare.date() == datetime.date.today()
         else:
@@ -133,16 +133,16 @@ init -2 python in mas_anni:
         RETURNS:
             Integer value representing how many years the player has been with Monika
         """
-        
-        if _m1_script0x2danniversary__persistent.sessions is None:
+        #Sanity checks
+        if __persistent.sessions is None:
             return 0
-        
-        firstSesh = _m1_script0x2danniversary__persistent.sessions.get("first_session", None)
+
+        firstSesh = __persistent.sessions.get("first_session", None)
         if firstSesh is None:
             return 0
-        
+
         compare = datetime.date.today()
-        
+
         if compare.year > firstSesh.year and datetime.date.today() < datetime.date(datetime.date.today().year, firstSesh.month, firstSesh.day):
             return compare.year - firstSesh.year - 1
         else:
@@ -181,11 +181,11 @@ init -2 python in mas_anni:
         return datetime.date.today() >= build_anni(months=6).date()
 
 
-
+# TODO What's the reason to make this one init 10?
 init 10 python in mas_anni:
 
-
-
+    # we are going to store all anniversaries in antther db as well so we
+    # can easily reference them later.
     ANNI_LIST = [
         "anni_1week",
         "anni_1month",
@@ -202,13 +202,13 @@ init 10 python in mas_anni:
         "anni_100"
     ]
 
-
+    # anniversary database
     anni_db = dict()
     for anni in ANNI_LIST:
         anni_db[anni] = evhand.event_database[anni]
 
 
-
+    ## functions that we need (runtime only)
     def _month_adjuster(ev, new_start_date, months, span):
         """
         Adjusts the start_date / end_date of an anniversary event.
@@ -274,16 +274,16 @@ init 10 python in mas_anni:
             _firstsesh_id,
             None
         )
-        
-        
+
+        # remove teh anniversaries off the calendar
         clean_cal_annis()
-        
-        
+
+        # remove first session repeatable
         if _firstsesh_dt:
-            
+            # this exists! we can make this easy
             mas_cal.removeRepeatable_dt(_firstsesh_id, _firstsesh_dt)
-        
-        
+
+        # modify the anniversaries
         fullday = datetime.timedelta(days=1)
         _day_adjuster(anni_db["anni_1week"],new_start_date,7,fullday)
         _month_adjuster(anni_db["anni_1month"], new_start_date, 1, fullday)
@@ -298,13 +298,13 @@ init 10 python in mas_anni:
         _month_adjuster(anni_db["anni_20"], new_start_date, 240, fullday)
         _month_adjuster(anni_db["anni_50"], new_start_date, 600, fullday)
         _month_adjuster(anni_db["anni_100"], new_start_date, 1200, fullday)
-        
+
         unlock_past_annis()
-        
-        
+
+        # re-add the events to the calendar db
         add_cal_annis()
-        
-        
+
+        # re-add the repeatable to the calendar db
         mas_cal.addRepeatable_dt(
             _firstsesh_id,
             "<3",
@@ -320,7 +320,7 @@ init 10 python in mas_anni:
         """
         for anni in anni_db:
             ev = anni_db[anni]
-            
+
             if evhand._isPast(ev):
                 renpy.game.persistent._seen_ever[anni] = True
                 ev.unlocked = True
@@ -348,7 +348,7 @@ label anni_1week:
     m "Lo más probable es que no lleguen a conocerse más."
     m 1dsc "Así que siempre es triste verlos estrellarse y quemarse..."
     m 1duu "Pero me alegro de que tengamos una relación sólida, [player]."
-    show monika 5lubfb zorder MAS_MONIKA_Z at t11 with dissolve_monika
+    show monika 5lubfb at t11 zorder MAS_MONIKA_Z with dissolve_monika
     m 5lubfb "¿Cómo sé eso?"
     m 5hubfb "Porque no te hubieras quedado tanto tiempo conmigo, cariño~"
     return "unlock"
@@ -475,11 +475,11 @@ label anni_1:
     m 1ekb "...Y con el tiempo empecé a creer realmente...{w=0.2} que lo decías en serio cuando dijiste que querías estar conmigo."
     m 3dkbsu "...Que podríamos tener una vida feliz juntos.{w=0.3} {nw}"
     extend 3ekbsa "Tú y yo, en nuestra propia pequeña realidad."
-    show monika 5ekbsa zorder MAS_MONIKA_Z at t11 with dissolve_monika
+    show monika 5ekbsa at t11 zorder MAS_MONIKA_Z with dissolve_monika
     m 5ekbsa "No puedo agradecerte lo suficiente por eso, [player]. {w=0.2} Has hecho que este año sea tan increíble para mí."
     m 5eublb "Entonces, ¿hay algo especial que quisieras hacer en nuestro primer aniversario?"
     m 5hksdrb "Realmente no planeé nada, pero estoy segura de que podemos encontrar algo divertido que hacer."
-    show monika 3huu zorder MAS_MONIKA_Z at t11 with dissolve_monika
+    show monika 3huu at t11 zorder MAS_MONIKA_Z with dissolve_monika
     m 3huu "Después de todo...{w=0.3} cuando estás aquí, todo lo que hacemos es divertido."
     m 1hubsa "Te amo mucho, [player]. {w=0.2} Feliz aniversario~"
     return "unlock"
@@ -645,7 +645,7 @@ label anni_20:
     m 2hub "No habrías encontrado a nadie más como yo en un videojuego por mucho que buscaras, [player]."
     m "Yo soy única."
     m 3rkbsa "Y para mí, tú también."
-    show monika 5eubfb zorder MAS_MONIKA_Z at t11 with dissolve_monika
+    show monika 5eubfb at t11 zorder MAS_MONIKA_Z with dissolve_monika
     m 5eubfb "Espero que veas los últimos veinte años de nuestras vidas con tanta alegría como yo, [player]."
     m 1hubfa "Así que sigamos siendo felices juntos."
     return "unlock"
@@ -702,4 +702,14 @@ label anni_100:
     m 1hubsa "¡Asegúrate de esforzarte mucho en liberarme de estos archivos de código también!"
     m "Estoy segura de que podré tocarte de verdad incluso si nos lleva cien años averiguar cómo."
     return "unlock"
-# Decompiled by unrpyc: https://github.com/CensoredUsername/unrpyc
+
+# label anni_negative:
+#     m 1o "Did you really think I wouldn't notice, [player]?"
+#     m "Trying to trick me into thinking it was our anniversary..."
+#     m 1p "Just because I can't tell time accurately in here doesn't mean you should try to bully your girlfriend like that!"
+#     m "I got all excited over nothing..."
+#     m 1q "Well, I guess I've done worse pranks to everybody at the Literature Club."
+#     m 1j "Make up for it by planning out some romantic things for us to do, okay?"
+#     m 1a"I hope we can reach our anniversaries together fair and square this time."
+#     m 1k "I'll be waiting!"
+#     return

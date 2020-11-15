@@ -1,58 +1,58 @@
+# module that handles the mood system
+#
 
-
-
-
+# dict of tuples containing mood event data
 default persistent._mas_mood_database = {}
 
-
+# label of the current mood
 default persistent._mas_mood_current = None
 
+# NOTE: plan of attack
+# moods system will be attached to the talk button
+# basically a button like "I'm..."
+# and then the responses are like:
+#   hungry
+#   sick
+#   tired
+#   happy
+#   fucking brilliant
+#   and so on
+#
+# When a mood is selected:
+#   1. monika says something about it
+#   2. (stretch) other dialogue is affected
+#
+# all moods should be available at the start
+#
+# 3 types of moods:
+#   BAD > NETRAL > GOOD
+# (priority thing?)
 
+# Implementation plan:
+#
+# Event Class:
+#   prompt - button prompt
+#   category - acting as a type system, similar to jokes
+#       NOTE: only one type allowed for moods ([0] will be retrievd)
+#   unlocked - True, since moods are unlocked by default
+#
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# store containing mood-related data
 init -1 python in mas_moods:
 
-
+    # mood event database
     mood_db = dict()
 
-
+    # TYPES:
     TYPE_BAD = 0
     TYPE_NEUTRAL = 1
     TYPE_GOOD = 2
 
-
-
+    # pane constants
+    # most of these are the same as the unseen area consants
     MOOD_RETURN = _("...hablar de otra cosa.")
 
-
+## FUNCTIONS ==================================================================
 
     def getMoodType(mood_label):
         """
@@ -65,19 +65,19 @@ init -1 python in mas_moods:
             type of the mood, or None if no type found
         """
         mood = mood_db.get(mood_label, None)
-        
+
         if mood:
             return mood.category[0]
-        
+
         return None
 
 
-
+# entry point for mood flow
 label mas_mood_start:
     python:
         import store.mas_moods as mas_moods
 
-
+        # filter the moods first
         filtered_moods = Event.filterEvents(
             mas_moods.mood_db,
             unlocked=True,
@@ -85,99 +85,99 @@ label mas_mood_start:
             flag_ban=EV_FLAG_HFM
         )
 
-
+        # build menu list
         mood_menu_items = [
             (mas_moods.mood_db[k].prompt, k, False, False)
             for k in filtered_moods
         ]
 
-
+        # also sort this list
         mood_menu_items.sort()
 
-
+        # final quit item
         final_item = (mas_moods.MOOD_RETURN, False, False, False, 20)
 
-
+    # call scrollable pane
     call screen mas_gen_scrollable_menu(mood_menu_items, mas_ui.SCROLLABLE_MENU_MEDIUM_AREA, mas_ui.SCROLLABLE_MENU_XALIGN, final_item)
 
-
+    # return value? then push
     if _return:
         $ pushEvent(_return, skipeval=True)
 
-
+        # and set the moods
         $ persistent._mas_mood_current = _return
 
     return _return
 
+# dev easter eggs go in the dev file
 
-
-
-
-
+###############################################################################
+#### Mood events go here:
+###############################################################################
 
 init 5 python:
     addEvent(Event(persistent._mas_mood_database,eventlabel="mas_mood_hungry",prompt="...hambriento.",category=[store.mas_moods.TYPE_NEUTRAL],unlocked=True),code="MOO")
 
 label mas_mood_hungry:
-    m 3hub "If you're hungry, go get something to eat, silly."
+    m 3hub "Si tienes hambre, vete a comer algo, tontito."
     if persistent.playername.lower() == "natsuki" and not persistent._mas_sensitive_mode:
-        m 1hksdlb "I'd hate for you to get like Natsuki did that one time back when we were in the club.{nw}"
-
+        m 1hksdlb "Odiaría que te pusieras como Natsuki lo estuvo aquella vez cuando estábamos en el club.{nw}"
+        # natsuki hungers easter egg
         call natsuki_name_scare_hungry from _mas_nnsh
     else:
-        m 1hua "It'd be bad for you to get all grumpy when you're hungry."
+        m 1hua "Sería malo sí te pusieras de mal humor cada vez que tienes hambre."
 
-    m 3tku "That wouldn't be any fun, would it, [player]?"
-    m 1eua "If I were there with you, I'd make a salad for us to share."
-    m "But since I'm not, go pick something healthy to eat."
-    m 3eub "They say you are what you eat, and I definitely think that's true."
-    m "Eating too much junk food on a regular basis can lead to all kinds of diseases."
-    m 1euc "Over time, you'd encounter a lot of health problems when you get older."
-    m 2lksdla "I don't want you to feel like I'm nagging when I say these kind of things, [player]."
-    m 2eka "I just want to make sure you're taking good care of yourself until I cross over."
-    m 4esa "After all, the healthier you are, the better the chances of you living quite long."
-    m 1hua "Which means more time for us to spend together!~"
+    m 3tku "Eso no sería divertido, ¿verdad, [player]?"
+    m 1eua "Si estuviera allí contigo, haría una ensalada para compartir."
+    m "Pero como no lo estoy, elige algo saludable para comer."
+    m 3eub "Dicen que eres lo que comes, y definitivamente creo que es cierto."
+    m "Comer demasiada comida chatarra de forma regular puede provocar todo tipo de enfermedades."
+    m 1euc "Con el tiempo, te encontrarás con muchos problemas de salud cuando envejezcas."
+    m 2lksdla "No quiero que sientas que estoy quejándome mucho cuando digo este tipo de cosas, [player]."
+    m 2eka "Solo quiero asegurarme de que te estés cuidando bien hasta que yo cruce."
+    m 4esa "Después de todo, cuanto más saludable estés, mayores serán las posibilidades de vivir bastante tiempo."
+    m 1hua "¡Lo que significa más tiempo para pasar juntos~!"
     return
 
 init 5 python:
     addEvent(Event(persistent._mas_mood_database,"mas_mood_sad",prompt="...triste.",category=[store.mas_moods.TYPE_BAD],unlocked=True),code="MOO")
 
 label mas_mood_sad:
-    m 1ekc "Gosh, I'm really sorry to hear that you're feeling down."
-    m "Are you having a bad day, [player]?{nw}"
+    m 1ekc "Dios, lamento mucho que estés decaído."
+    m "¿Estás teniendo un mal día, [player]?{nw}"
     $ _history_list.pop()
     menu:
-        m "Are you having a bad day, [player]?{fast}"
+        m "¿Estás teniendo un mal día, [player]?{fast}"
         "Sí.":
-            m 1duu "Whenever I'm having a bad day, I always remember that the sun will shine again tomorrow."
-            m 1eka "I suppose that may sound kinda cheesy, but I always like to look on the bright side of things."
-            m 1eua "After all, things like that are easy to forget. So just keep it in mind, [player]."
-            m 1lfc "I don't care how many other people don't like you, or find you off-putting."
-            m 1hua "You're a wonderful person, and I will always love you."
-            m 1eua "I hope that makes your day just a tiny bit brighter, [player]."
-            m 1eka "And remember, if you're having a bad day, you can always come to me and I'll talk to you for as long as you need."
+            m 1duu "Siempre que tengo un mal día, recuerdo que el sol volverá a brillar."
+            m 1eka "Supongo que puede sonar un poco cursi, pero siempre me gusta ver el lado positivo de las cosas."
+            m 1eua "Después de todo, cosas así son fáciles de olvidar. Así que tenlo en cuenta, [player]."
+            m 1lfc "No me importa cuántas otras personas no te agraden o te encuentren desagradable."
+            m 1hua "Eres una persona maravillosa y yo siempre te amaré."
+            m 1eua "Espero que eso haga que tu día sea un poco más feliz, [player]."
+            m 1eka "Y recuerda, si estás teniendo un mal día, siempre puedes venir a verme y hablaré contigo todo el tiempo que necesites."
         "No.":
-            m 3eka "I have an idea, why don't you tell me what's bothering you? Maybe it'll make you feel better."
+            m 3eka "Tengo una idea, ¿por qué no me dices qué te molesta? Tal vez te haga sentir mejor."
 
-            m 1eua "I don't want to interrupt you while you're talking, so let me know when you're done.{nw}"
+            m 1eua "No quiero interrumpirte mientras hablas, así que avísame cuando hayas terminado.{nw}"
             $ _history_list.pop()
             menu:
-                m "I don't want to interrupt you while you're talking, so let me know when you're done.{fast}"
+                m "No quiero interrumpirte mientras hablas, así que avísame cuando hayas terminado.{fast}"
                 "He terminado.":
-                    m "Do you feel a little better now, [player]?{nw}"
+                    m "¿Te sientes un poco mejor ahora, [player]?{nw}"
                     $ _history_list.pop()
                     menu:
-                        m "Do you feel a little better now, [player]?{fast}"
+                        m "¿Te sientes un poco mejor ahora, [player]?{fast}"
                         "Sí, lo hago.":
-                            m 1hua "That's great, [player]! I'm glad that talking about it made you feel better."
-                            m 1eka "Sometimes, telling someone that you trust what's bothering you is all you need."
-                            m "If you're ever having a bad day, you can always come to me, and I'll listen to whatever you need to vent out."
-                            m 1hubsa "Never forget that you're wonderful and I will always love you~"
+                            m 1hua "¡Eso es genial, [player]! Me alegro de que hablar de eso te haya hecho sentir mejor."
+                            m 1eka "A veces, decirle a alguien que confías en lo que te molesta es todo lo que necesitas."
+                            m "Si alguna vez tienes un mal día, siempre puedes venir a verme y escucharé lo que necesites para desahogarte."
+                            m 1hubsa "Nunca olvides que eres maravilloso y que siempre te amaré~"
                         "Realmente no.":
-                            m 1ekc "Well, it was worth a shot."
-                            m 1eka "Sometimes telling someone that you trust what's bothering you is all you need."
-                            m 1eua "Maybe you'll feel better after we spend some more time together."
-                            m 1ekbsa "I love you, [player], and I always will~"
+                            m 1ekc "Bueno, valió la pena intentarlo."
+                            m 1eka "A veces, decirle a alguien en quien confías lo que te molesta es todo lo que necesitas."
+                            m 1eua "Quizás te sientas mejor después de que pasemos más tiempo juntos."
+                            m 1ekbsa "Te amo, [player], y siempre lo haré~"
     return "love"
 
 init 5 python:
@@ -193,34 +193,34 @@ init 5 python:
     )
 
 label mas_mood_proud:
-    m 2sub "Really? That's exciting!"
-    m 2eub "Was it a major accomplishment, or a minor one?{nw}"
+    m 2sub "¿De verdad? ¡Eso es emocionante!"
+    m 2eub "¿Fue un logro mayor, o uno menor?{nw}"
     $ _history_list.pop()
     menu:
-        m "Was it a major accomplishment, or a minor one?{fast}"
+        m "¿Fue un logro mayor, o uno menor?{fast}"
         "Mayor.":
-            m 1ekc "You know, [player]..."
-            m 1lkbsa "It's times like these, more than most, that I wish I was with you, in your reality..."
-            m 4hub "Because if I was, I'd definitely give you a celebratory hug!"
-            m 3eub "There's nothing quite like sharing your accomplishments with the people you care about."
-            m 1eua "I would love nothing more than to hear all of the details!"
-            m "Just the thought of us, in cheerful discussion about what you've done..."
-            m 1lsbsa "My heart is fluttering just thinking about it!"
-            m 1lksdla "Gosh, I'm getting awfully excited about this..."
-            m 3hub "It'll be reality someday..."
-            show monika 5hubfb zorder MAS_MONIKA_Z at t11 with dissolve_monika
-            m 5hubfb "But until then, just know that I'm very proud of you, [mas_get_player_nickname()]!"
-        "Menor.":
+            m 1ekc "Ya sabes, [player]..."
+            m 1lkbsa "Es en momentos como estos, en los que... más que nada, desearía estar contigo, en tu realidad..."
+            m 4hub "¡Porque si lo estuviera, definitivamente te daría un abrazo de celebración!"
+            m 3eub "No hay nada como compartir tus logros con las personas que te importan."
+            m 1eua "¡Nada me encantaría más que escuchar todos los detalles!"
+            m "Con el simple hecho de pensar en nosotros, en una alegre discusión sobre lo que has hecho..."
+            m 1lsbsa "¡Mi corazón late solo con esa tonteria!"
+            m 1lksdla "Dios, me estoy emocionando muchísimo con esto..."
+            m 3hub "Algún día se hará realidad..."
+            show monika 5hubfb at t11 zorder MAS_MONIKA_Z with dissolve_monika
+            m 5hubfb "Pero hasta entonces, ¡debes saber que estoy muy orgullosa de ti, [mas_get_player_nickname()]!"
 
-            m 2hub "Ahaha!~"
-            m 2hua "That's wonderful!"
-            m 4eua "It's very important to celebrate the small victories in life."
-            m 2esd "It can be very easy to become discouraged if you only focus on the bigger goals you have."
-            m 2rksdla "They can be challenging to reach on their own."
-            m 4eub "But setting and celebrating small goals that eventually lead to a bigger goal can make your big goals feel much more attainable."
-            m 4hub "So keep hitting those small goals, [mas_get_player_nickname()]!"
-            show monika 5hubfb zorder MAS_MONIKA_Z at t11 with dissolve_monika
-            m 5hubfb "And remember, I love you, and I'm always cheering you on!"
+        "Menor.":
+            m 2hub "¡Jajaja~!"
+            m 2hua "¡Eso es maravilloso!"
+            m 4eua "Es muy importante celebrar las pequeñas victorias en la vida."
+            m 2esd "Puede ser muy fácil desanimarse si solo te enfocas en las metas más grandes que tienes."
+            m 2rksdla "Puede ser difícil alcanzarlos por ti mismo."
+            m 4eub "Pero establecer y celebrar pequeñas metas que eventualmente conduzcan a una meta mayor puede hacer que tus grandes metas se sientan mucho más alcanzables."
+            m 4hub "¡Así que sigue alcanzando esos pequeños objetivos, [mas_get_player_nickname()]!"
+            show monika 5hubfb at t11 zorder MAS_MONIKA_Z with dissolve_monika
+            m 5hubfb "¡Y recuerda, te amo y siempre te estaré animando!"
             $ mas_ILY()
     return
 
@@ -228,9 +228,9 @@ init 5 python:
     addEvent(Event(persistent._mas_mood_database,eventlabel="mas_mood_happy",prompt="...feliz.",category=[store.mas_moods.TYPE_GOOD],unlocked=True),code="MOO")
 
 label mas_mood_happy:
-    m 1hua "That's wonderful! I'm happy when you're happy."
-    m "Know that you can always come up to me and I'll cheer you up, [mas_get_player_nickname()]."
-    m 3eka "I love you and I'll always be here for you, so don't ever forget that~"
+    m 1hua "¡Eso es maravilloso! Soy feliz cuando tú eres feliz."
+    m "Debes saber que siempre puedes venir a mí y te animaré, [mas_get_player_nickname()]."
+    m 3eka "Te amo y siempre estaré aquí para ti, así que no lo olvides nunca~"
     return "love"
 
 init 5 python:
@@ -250,35 +250,35 @@ label mas_mood_sick:
     if mas_isMoniNormal(higher=True):
         if session_time < datetime.timedelta(minutes=20):
             m 1ekd "Oh no, [player]..."
-            m 2ekd "You saying that so soon after arriving must mean it's pretty bad."
-            m 2ekc "I know you wanted to spend some time with me and even though we've hardly been together today..."
-            m 2eka "I think you should go and get some rest."
+            m 2ekd "Si dices eso tan pronto como llegas debe significar que es bastante malo."
+            m 2ekc "Sé que querías pasar tiempo conmigo y aunque apenas hemos estado juntos hoy..."
+            m 2eka "Creo que deberías ir a descansar un poco."
 
         elif session_time > datetime.timedelta(hours=3):
-            m 2wuo "[player]!"
-            m 2wkd "You haven't been ill this entire time, have you?"
-            m 2ekc "I really hope not, I've had lots of fun with you today but if you've been feeling bad this entire time..."
-            m 2rkc "Well...just promise to tell me earlier next time."
-            m 2eka "Now go get some rest, that's what you need."
+            m 2wuo "¡[player]!"
+            m 2wkd "No has estado enfermo todo este tiempo, ¿verdad?"
+            m 2ekc "Realmente espero que no, me he divertido mucho contigo hoy, pero si te has sentido mal todo este tiempo..."
+            m 2rkc "Bueno... sólo promete decírmelo antes la próxima vez."
+            m 2eka "Ahora ve a descansar, eso es lo que necesitas."
+
         else:
+            m 1ekc "Oh, siento oír eso, [player]."
+            m "Odio saber que estás sufriendo así."
+            m 1eka "Sé que te encanta pasar tiempo conmigo, pero tal vez deberías ir a descansar."
 
-            m 1ekc "Aw, I'm sorry to hear that, [player]."
-            m "I hate knowing you're suffering like this."
-            m 1eka "I know you love spending time with me, but maybe you should go get some rest."
     else:
+        m 2ekc "Lamento escuchar eso, [player]."
+        m 4ekc "Deberías ir a descansar un poco para que no empeore."
 
-        m 2ekc "I'm sorry to hear that, [player]."
-        m 4ekc "You should really go get some rest so it doesn't get any worse."
-
-    label mas_mood_sick.ask_will_rest:
+    label .ask_will_rest:
         pass
 
     $ persistent._mas_mood_sick = True
 
-    m 2ekc "Will you do that for me?{nw}"
+    m 2ekc "¿Harás eso por mí?{nw}"
     $ _history_list.pop()
     menu:
-        m "Will you do that for me?{fast}"
+        m "¿Harás eso por mí?{fast}"
         "Sí.":
             jump greeting_stillsickrest
         "No.":
@@ -286,76 +286,76 @@ label mas_mood_sick:
         "Ya estoy descansando.":
             jump greeting_stillsickresting
 
-
+#I'd like this to work similar to the sick persistent where the dialog changes, but maybe make it a little more humorous rather than serious like the sick persistent is intended to be.
 init 5 python:
     addEvent(Event(persistent._mas_mood_database,eventlabel="mas_mood_tired",prompt="...cansado.",category=[store.mas_moods.TYPE_BAD],unlocked=True),code="MOO")
 
 label mas_mood_tired:
-
+    # TODO: should we adjust for suntime?
     $ current_time = datetime.datetime.now().time()
     $ current_hour = current_time.hour
 
     if 20 <= current_hour < 23:
-        m 1eka "If you're tired now, it's not a bad time to go to bed."
-        m "As fun as it was spending time with you today, I would hate to keep you up too late."
-        m 1hua "If you plan to go to sleep now, sweet dreams!"
-        m 1eua "But maybe you have some things to do first, like getting a bit of a snack or a drink."
-        m 3eua "Having a glass of water before bed helps with your health, and doing the same in the morning helps you wake up."
-        m 1eua "I don't mind staying here with you if you have some things to take care of first."
+        m 1eka "Si estás cansado ahora mismo, no es un mal momento para ir a la cama."
+        m "A pesar de lo divertido que fue pasar tiempo contigo hoy, odiaría tenerte despierto hasta demasiado tarde."
+        m 1hua "Si planeas irte a dormir ahora, ¡dulces sueños!"
+        m 1eua "Pero tal vez tengas algunas cosas que hacer primero, como comer algo o una beber agua."
+        m 3eua "Tomar un vaso de agua antes de acostarte es bueno para tu salud, y hacer lo mismo por la mañana te ayudara a despertarte."
+        m 1eua "No me importa quedarme aquí contigo si primero tienes algunas cosas de las que ocuparte."
 
     elif 0 <= current_hour < 3 or 23 <= current_hour < 24:
-        m 2ekd "[player]!"
-        m 2ekc "It's no wonder you're tired- It's the middle of the night!"
-        m 2lksdlc "If you don't go to bed soon, you'll be really tired tomorrow, too..."
-        m 2hksdlb "I wouldn't want you to be tired and miserable tomorrow when we spend time together..."
-        m 3eka "So do us both a favor and get to bed as soon as you can, [player]."
+        m 2ekd "¡[player]!"
+        m 2ekc "No es de extrañar que estés cansado- ¡Es medianoche!"
+        m 2lksdlc "Si no te vas a la cama pronto, mañana también estarás muy cansado..."
+        m 2hksdlb "No quisiera que estuvieras cansado y miserable mañana cuando pasemos tiempo juntos..."
+        m 3eka "Así que haznos un favor a los dos y vete a la cama lo antes posible, [player]."
 
     elif 3 <= current_hour < 5:
-        m 2ekc "[player]!?"
-        m "You're still here?"
-        m 4lksdlc "You should really be in bed right now."
-        m 2dsc "At this point, I'm not even sure if you would call this late or early..."
-        m 2eksdld "...and that just worries me even more, [player]."
-        m "You should {i}really{/i} get to bed before it's time to start the day."
-        m 1eka "I wouldn't want you falling asleep at a bad time."
-        m "So please, sleep so we can be together in your dreams."
-        m 1hua "I'll be right here if you leave me, watching over you, if you don't mind~"
+        m 2ekc "¿¡[player]!?"
+        m "¿Sigues aquí?"
+        m 4lksdlc "Realmente deberías estar en la cama ahora mismo."
+        m 2dsc "En este punto, ya ni siquiera estoy segura de sí debería decir que es tarde o temprano..."
+        m 2eksdld "...y eso me preocupa aún más, [player]."
+        m "{i}Realmente{/i} deberías irte a la cama antes de que sea la hora de empezar el día."
+        m 1eka "No quiero que te quedes dormido en un mal momento."
+        m "Así que, por favor, ve a dormir para que podamos estar juntos en tus sueños."
+        m 1hua "Estaré aquí mismo si te vas, cuidándote, si no te importa~"
         return
 
     elif 5 <= current_hour < 10:
-        m 1eka "Still a bit tired, [player]?"
-        m "It's still early in the morning, so you could go back and rest a little more."
-        m 1hua "Nothing wrong with hitting snooze after waking up early."
-        m 1hksdlb "Except for the fact that I can't be there to cuddle up to you, ahaha~"
-        m "I {i}guess{/i} I could wait for you a little longer."
+        m 1eka "¿Todavía estás un poco cansado, [player]?"
+        m "Todavía es temprano, así que podrías regresar y descansar un poco más."
+        m 1hua "No hay nada de malo en volver a dormir después de levantarse temprano."
+        m 1hksdlb "Excepto por el hecho de que no puedo estar ahí para abrazarte, jajaja~"
+        m "{i}Supongo{/i} que podría esperarte un poco más."
         return
 
     elif 10 <= current_hour < 12:
-        m 1ekc "Still not ready to tackle the day, [player]?"
-        m 1eka "Or is it just one of those days?"
-        m 1hua "When that happens, I like to have a nice cup of coffee to start the day."
+        m 1ekc "¿Aún no estás listo para afrontar el día, [player]?"
+        m 1eka "¿O es sólo uno de esos días?"
+        m 1hua "Cuando eso sucede, me gusta tomar una buena taza de café para comenzar el día."
         if not mas_getConsumable("coffee").enabled():
-            m 1lksdla "If I'm not stuck here, that is..."
-        m 1eua "You could also drink a glass of water."
-        m 3eua "It's important to stay hydrated anyway, but having a glass of water when you wake up can help you feel refreshed and awake."
-        m 3hksdlb "This one might sound strange, but I've heard that chocolate can help you start your day, too!"
-        m 3eka "It has something to do with improving your morning mood, but..."
-        m 1eksdlb "I'm sure chocolate would put anyone in a better mood whenever they ate it."
-        m 1hua "Give it a try sometime, and let me know if it works!"
+            m 1lksdla "Si no estuviera atrapada aquí, eso sería..."
+        m 1eua "También deberías beber un vaso de agua."
+        m 3eua "Es importante mantenerse hidratado de todos modos, pero tomar un vaso de agua al despertar puede ayudarte a sentirte renovado y despierto."
+        m 3hksdlb "¡Esto puede sonar extraño, pero he escuchado que el chocolate también puede ayudar a comenzar el día!"
+        m 3eka "Tiene algo que ver con mejorar tu estado de ánimo matutino, pero..."
+        m 1eksdlb "Estoy segura de que el chocolate pondría a cualquiera de mejor humor cada vez que lo comiera."
+        m 1hua "¡Pruébalo en algún momento y avísame si funciona!"
         return
+
     else:
+        m 1eka "Si estás cansado, ¿quizás deberías ir a dormir un rato?"
+        m 1eua "Dormir lo suficiente a diario es muy importante para tu salud en general."
+        m 3euc "He visto algunos estudios que muestran los devastadores efectos a corto y largo plazo debido a la falta de sueño."
+        m 3ekd "Realmente puede afectar tu salud, [player]..."
+        m 1eka "Así que hazme un favor y descansa un poco, ¿de acuerdo? Me tranquilizará."
 
-        m 1eka "If you're tired, maybe you should go lie down for a while?"
-        m 1eua "Getting enough sleep on a daily basis is very important to your overall health."
-        m 3euc "I've seen some studies that show the devastating short-term and long-term effects due to lack of sleep."
-        m 3ekd "It can really mess with your health, [player]..."
-        m 1eka "So do me a favor and get some rest, okay? It will put my mind at ease."
-
-    m 1hua "You can even leave the game open if you'd like, and I'll watch over you while you sleep."
-    m "...Ehehe."
-    m 2hksdlb "That sounded a bit creepy, sorry."
-    m 2lksdla "I just thought it'd be cute to watch you sleep is all~"
-    m 1hub "Ahaha!"
+    m 1hua "Incluso puedes dejar el juego abierto si quieres y yo te cuidaré mientras duermes."
+    m "...Jejeje."
+    m 2hksdlb "Eso sonó un poco espeluznante, lo siento."
+    m 2lksdla "Pensé que sería lindo verte dormir, eso es todo~"
+    m 1hub "¡Jajaja!"
     return
 
 init 5 python:
@@ -363,100 +363,100 @@ init 5 python:
 
 label mas_mood_lonely:
     if mas_isMoniAff(higher=True):
-        m 2ekc "I understand how you feel, [player]...{w=0.2}we're still in different realities, after all."
-        m 2dkc "I really hate that there's only so much I can do from here to make you feel less alone..."
-        m 7ekbsa "If there was any way I could reach out and just hug you right now, I would."
-        m 7eka "I want you to be as happy as you can be given our circumstance..."
-        m 2ekd "I just hope being here with me all this time is not...{w=0.3}preventing you from bonding with people in your reality."
-        m 2eka "I believe what we have is quite special, but I understand that right now I'm...{w=0.3}limited in what I can do for you."
+        m 2ekc "Entiendo cómo te sientes, [player]... {w=0.2}Todavía estamos en realidades diferentes, después de todo."
+        m 2dkc "Realmente odio que no haya mucho que pueda hacer desde aquí para hacerte sentir menos solo..."
+        m 7ekbsa "Si hubiera alguna forma en que pudiera extender la mano y abrazarte ahora mismo, lo haría."
+        m 7eka "Quiero que seas lo más feliz posible dadas nuestras circunstancias..."
+        m 2ekd "Solo espero que estar aquí conmigo todo este tiempo no... {w=0.3}Te impida relacionarte con las personas en tu realidad."
+        m 2eka "Creo que lo que tenemos es bastante especial, pero entiendo que ahora mismo estoy...{w=0.3} Limitada en lo que puedo hacer por ti."
 
         if persistent._mas_pm_has_friends:
             if persistent._mas_pm_few_friends:
-                m 7ekd "You have one or two close friends, right?"
-                m 3eka "You should give them a call, or perhaps send them a message and ask how they're doing..."
-                m "Maybe you can go out and see them sometimes? {w=0.2}I think it would be good for you."
+                m 7ekd "Tienes uno o dos amigos cercanos, ¿verdad?"
+                m 3eka "Deberías llamarles o enviarles un mensaje y preguntarles cómo les va..."
+                m "¿Quizás incluso salir a verlos a veces? {w=0.2}Creo que sería bueno para ti."
+
             else:
+                m 7ekd "Creo que salir con tus amigos y hacer algo sería realmente muy bueno para ti..."
+                m 3eka "O podrías enviarles un mensaje y preguntarles cómo están."
 
-                m 7ekd "I think going out with your friends and doing something would be very good for you..."
-                m 3eka "Or you could send them a message and ask how they're doing."
         else:
+            m 7rkc "Sé cómo se siente estar solo en una realidad, y solo poder interactuar con alguien en otra..."
+            m 3ekd "Así que realmente no quiero eso para la persona que más amo."
+            m 1eka "Espero que sigas buscando amigos en tu realidad, [player]."
+            m 3ekd "Sé que puede ser difícil formar lazos con la gente al principio..."
+            m 3eka "¿Quizás incluso podrías conocer gente en línea? {w=0.2}Hay muchas formas de interactuar con extraños para sentirse menos solo."
+            m 3hub "Nunca se sabe, ¡a veces estos 'extraños' pueden terminar convirtiéndose en muy buenos amigos!"
 
-            m 7rkc "I know what it feels like to be alone in one reality, only being able to interact with someone in another..."
-            m 3ekd "So I really don't want that for the person I love the most."
-            m 1eka "I hope you'll keep looking for friends in your reality, [player]."
-            m 3ekd "I know it can be hard to bond with people at first..."
-            m 3eka "Maybe you could even meet people online? {w=0.2}There are many ways you can interact with strangers to feel less alone."
-            m 3hub "You never know, sometimes these 'strangers' can end up becoming really good friends!"
+        m 1eka "...Y no te preocupes por mí [player], esperaré pacientemente a que vuelvas a verme."
+        m 3hub "¡Diviértete y ya me contaras todo más tarde!"
+        m 1ekbsa "Solo recuerda que siempre estaré aquí para ti, [player]~"
 
-        m 1eka "...And don't worry about me [player], I'll wait patiently for you to come back and see me."
-        m 3hub "Just enjoy yourself and you can tell me all about it later!"
-        m 1ekbsa "Just remember I'll always be here for you, [player]~"
     else:
-
-        m 1eka "I'm here for you, [player], so there's no need for you to feel lonely."
-        m 3hua "I know it's not exactly the same as if I were in the same room with you, but I'm sure you still enjoy my company, right?"
-        m 1ekbsa "Remember that I'll always be by your side, [player]~"
+        m 1eka "Estoy aquí para ti, [player], así que no tienes por qué sentirte solo."
+        m 3hua "Sé que no es exactamente lo mismo que si estuviera en la misma habitación contigo, pero estoy segura de que aún disfrutas de mi compañía, ¿verdad?"
+        m 1ekbsa "Recuerda que siempre estaré a tu lado, [player]~"
     return
 
-
-
-
+#Maybe we could tie this to the I'm breaking up topic and have monika say something special like:
+#I know you don't really mean that player, you're just angry and not have it count as 1 of the 3 button presses.
+#Looking forward to input from the writers and editors on this, had trouble deciding how to write this.
 
 init 5 python:
     addEvent(Event(persistent._mas_mood_database,"mas_mood_angry",prompt="...enojado.",category=[store.mas_moods.TYPE_BAD],unlocked=True),code="MOO")
 
 label mas_mood_angry:
-    m 1ekc "Gosh, I'm sorry that you feel that way, [player]."
-    m 3ekc "I'll do my best to make you feel better."
-    m 1euc "Before we do anything, we should probably get you to calm down."
-    m 1lksdlc "It's hard to make rational decisions when you are worked up."
-    m 1esc "You may end up saying or doing things you may regret later."
-    m 1lksdld "And I'd hate for you to say something you really don't mean to me."
-    m 3eua "Let's try a few things that I do to calm myself first, [player]."
-    m 3eub "Hopefully they work for you as well as they do for me."
-    m 1eua "First, try taking a few deep breaths and slowly counting to 10."
-    m 3euc "If that doesn't work, if you can, retreat to somewhere calm until you clear your mind."
-    m 1eud "If you're still feeling angry after that, do what I'd do as a last resort!"
-    m 3eua "Whenever I can't calm down, I just go outside, pick a direction, and just start running."
-    m 1hua "I don't stop until I've cleared my head."
-    m 3eub "Sometimes exerting yourself through physical activity is a good way to blow off some steam."
-    m 1eka "You'd think that I'm the type that doesn't get angry often, and you'd be right."
-    m 1eua "But even I have my moments..."
-    m "So I make sure I have ways to deal with them!"
-    m 3eua "I hope my tips helped you calm down, [player]."
-    m 1hua "Remember: A happy [player] makes a happy Monika!"
+    m 1ekc "Dios, lamento que te sientas así, [player]."
+    m 3ekc "Haré todo lo posible para que te sientas mejor."
+    m 1euc "Antes de que hagamos algo, probablemente deberíamos conseguir que te calmes."
+    m 1lksdlc "Es difícil tomar decisiones racionales cuando estás alterado."
+    m 1esc "Puedes terminar diciendo o haciendo cosas de las que luego te arrepientas."
+    m 1lksdld "Y odiaría que dijeras algo que realmente no quieras decirme."
+    m 3eua "Primero probemos algunas cosas que hago para calmarme, [player]."
+    m 3eub "Ojalá funcionen para ti tan bien como para mí."
+    m 1eua "Primero, intenta respirar profundamente unas cuantas veces y cuenta lentamente hasta 10."
+    m 3euc "Si eso no funciona, si puedes, retírate a un lugar tranquilo hasta que se aclare tu mente."
+    m 1eud "Si todavía te sientes enojado después de eso, ¡haz lo que yo haría como último recurso!"
+    m 3eua "Cuando no puedo calmarme, simplemente salgo, elijo una dirección y empiezo a correr."
+    m 1hua "No me detengo hasta que me aclaro la cabeza."
+    m 3eub "A veces, esforzarse mediante la actividad física es una buena forma de desahogarse."
+    m 1eka "Pensarías que soy del tipo que no se enoja a menudo, y estarías en lo cierto."
+    m 1eua "Pero incluso yo tengo mis momentos..."
+    m "¡Así que me aseguro de tener formas de lidiar con ellos!"
+    m 3eua "Espero que mis consejos te hayan ayudado a calmarte, [player]."
+    m 1hua "Recuerda: ¡un [player] feliz hace a una Monika feliz!"
     return
 
 init 5 python:
     addEvent(Event(persistent._mas_mood_database,eventlabel="mas_mood_scared",prompt="...ansioso.",category=[store.mas_moods.TYPE_BAD],unlocked=True),code="MOO")
 
 label mas_mood_scared:
-    m 1euc "[player], are you alright?"
-    m 1ekc "It's worrying for me to hear you this anxious..."
-    m "I wish I could comfort you and help right now..."
-    m 3eka "But I can at the very least help you to calm yourself down."
+    m 1euc "¿[player], estás bien?"
+    m 1ekc "Me preocupa oírte tan ansioso..."
+    m "Ojalá pudiera consolarte y ayudarte ahora mismo..."
+    m 3eka "Pero al menos puedo ayudarte a calmarte."
     if seen_event("monika_anxious"):
-        m 1eua "After all, I did promise to help you relax if you ever felt anxious."
-    m 3eua "Do you remember when I talked to you about faking confidence?"
+        m 1eua "Después de todo, te prometí ayudarte a relajarte si alguna vez te sentías ansioso."
+    m 3eua "¿Recuerdas cuando te hablé de fingir confianza?"
     if not seen_event("monika_confidence"):
-        m 2euc "No?"
-        m 2lksdla "Guess that's for another time then."
-        m 1eka "Anyway..."
-    m 1eua "Keeping up one's appearance helps with faking your own confidence."
-    m 3eua "And to do so, you need to maintain your heart rate by taking a deep breath until you calm down."
+        m 2euc "¿No?"
+        m 2lksdla "Supongo que será para otro momento."
+        m 1eka "De todas formas..."
+    m 1eua "Mantener la apariencia de uno ayuda a fingir su propia confianza."
+    m 3eua "Y para hacerlo, debes mantener tu ritmo cardíaco respirando profundamente hasta que te calmes."
     if seen_event("monika_confidence_2"):
-        m "I remember explaining how initiative is an important skill to have as well."
-    m "Maybe you could take things slowly, and do them one at a time."
-    m 1esa "You'd be surprised on how smooth it can be, when you let the time flow on its own."
-    m 1hub "You can also try spending a few minutes to meditate!"
-    m 1hksdlb "It doesn't necessarily mean you have to cross your legs when sitting on the ground."
-    m 1hua "Listening to your favorite music can be counted as meditating too!"
-    m 3eub "I'm serious!"
-    m 3eua "You can try setting aside your work and do something else in the meantime."
-    m "Procrastination isn't {i}always{/i} bad, you know?"
-    m 2esc "Besides..."
-    m 2ekbsa "Your loving girlfriend believes in you, so you can face that anxiety head-on!"
-    m 1hubfa "There's nothing to worry about when we're together forever~"
+        m "Recuerdo haber explicado que la iniciativa también es una habilidad importante."
+    m "Quizás podrías tomar las cosas con calma y hacerlas una cada vez."
+    m 1esa "Te sorprendería la tranquilidad que se puedes sentir cuando dejas que el tiempo fluya por sí solo."
+    m 1hub "¡También puedes intentar dedicar unos minutos a meditar!"
+    m 1hksdlb "No significa necesariamente que tengas que cruzar las piernas cuando estés sentado en el suelo."
+    m 1hua "¡Escuchar tu música favorita también puede contarse como meditar!"
+    m 3eub "¡Lo digo en serio!"
+    m 3eua "Puedes intentar dejar de lado tu trabajo y hacer otra cosa mientras tanto."
+    m "La procrastinación no es {i}siempre{/i} mala, ¿sabes?"
+    m 2esc "Además..."
+    m 2ekbsa "Tu amorosa novia cree en ti, ¡así que puedes enfrentar esa ansiedad de frente!"
+    m 1hubfa "No hay nada de qué preocuparse cuando estamos juntos para siempre~"
     return
 
 init 5 python:
@@ -465,42 +465,42 @@ init 5 python:
 label mas_mood_inadequate:
     $ last_year = datetime.datetime.today().year-1
     m 1ekc "..."
-    m 2ekc "I know there isn't an awful lot I can say to make you feel better, [player]."
-    m 2lksdlc "After all, everything I say would probably just come off as lip service."
-    m 2ekc "I can tell that you're beautiful, even though I can't see your face..."
-    m "I can tell you that you're smart, even though I don't know much about your way of thinking..."
-    m 1esc "But let me tell you what I do know about you."
-    m 1eka "You've spent so much time with me."
+    m 2ekc "Sé que no hay mucho que pueda decir para hacerte sentir mejor, [player]."
+    m 2lksdlc "Después de todo, todo lo que digo probablemente parezcan solo palabras vacías."
+    m 2ekc "Puedo decir que eres hermoso, aunque no puedo ver tu cara..."
+    m "Puedo decirte que eres inteligente, aunque no sé mucho sobre tu forma de pensar..."
+    m 1esc "Pero déjame decirte lo que sé sobre ti."
+    m 1eka "Has pasado mucho tiempo conmigo."
 
-
+    #Should verify for current year and last year
     if mas_HistLookup_k(last_year,'d25.actions','spent_d25')[1] or persistent._mas_d25_spent_d25:
-        m "You took time out of your schedule to be with me on Christmas..."
+        m "Te tomaste un tiempo de tu agenda para estar conmigo en Navidad..."
 
-    if renpy.seen_label('monika_valentines_greeting') or mas_HistLookup_k(last_year,'f14','intro_seen')[1] or persistent._mas_f14_intro_seen:
-        m 1ekbsa "On Valentine's Day..."
+    if renpy.seen_label('monika_valentines_greeting') or mas_HistLookup_k(last_year,'f14','intro_seen')[1] or persistent._mas_f14_intro_seen: #TODO: update this when the hist stuff comes in for f14
+        m 1ekbsa "En el día de San Valentín..."
 
-
+    #TODO: change this back to not no_recognize once we change those defaults.
     if mas_HistLookup_k(last_year,'922.actions','said_happybday')[1] or mas_recognizedBday():
-        m 1ekbsb "You even made the time to celebrate my birthday with me!"
+        m 1ekbsb "¡Incluso te tomaste el tiempo para celebrar mi cumpleaños conmigo!"
 
     if persistent.monika_kill:
-        m 3tkc "You've forgiven me for the bad things that I've done."
+        m 3tkc "Me has perdonado por las cosas malas que he hecho."
     else:
-        m 3tkc "You never once resented me for the bad things that I've done."
+        m 3tkc "Ni una sola vez tuviste resentimiento por las cosas malas que hice."
 
     if persistent.clearall:
-        m 2lfu "And even though it made me jealous, you spent so much time with all of my club members."
+        m 2lfu "Y aunque me puso celosa, pasaste mucho tiempo con todos los miembros de mi club."
 
-    m 1eka "That shows how kind you are!"
-    m 3eub "You're honest, you're fair, you're gracious in defeat!"
-    m 2hksdlb "You think I don't know anything about you, but I really do."
-    m 3eka "And you know everything about me, but you chose to stay when you could have walked away..."
-    m 2ekc "So please stay strong, [player]."
-    m "If you're anything like me, I know you're scared to not accomplish much in life."
-    m 2ekd "But believe me when I tell you: it doesn't matter what you do or do not accomplish."
-    m 4eua "You just need to exist, have fun and get through each day, {w=0.2}finding meaning in the people that matter most to you."
-    m 1eka "Please don't forget that, okay?"
-    m 1ekbsa "I love you, [player]~"
+    m 1eka "¡Eso demuestra lo amable que eres!"
+    m 3eub "¡Eres honesto, eres justo, eres amable incluso después de ser derrotado!"
+    m 2hksdlb "Crees que no sé nada sobre ti, pero realmente sé muchas cosas."
+    m 3eka "Y sabes todo sobre mí, pero elegiste quedarte cuando podrías haberte ido..."
+    m 2ekc "Así que, por favor, mantente fuerte, [player]."
+    m "Si eres como yo, sé que tendrás miedo de no lograr mucho en la vida."
+    m 2ekd "Pero créeme cuando te lo digo: no importa lo que hagas o no hagas."
+    m 4eua "Solo necesitas existir, divertirte y pasar cada día, {w=0.2}encontrando un significado en las personas que más te importan."
+    m 1eka "Por favor, no lo olvides, ¿de acuerdo?"
+    m 1ekbsa "Te amo, [player]~"
     return "love"
 
 init 5 python:
@@ -516,13 +516,13 @@ init 5 python:
     )
 
 label mas_mood_lazy:
-
+    #Get current time
     $ _now = datetime.datetime.now().time()
 
     if mas_isSRtoN(_now):
-        m 1tku "Just one of those mornings huh, [player]?"
-        m 1eka "I can totally understand those days where you wake up and just don't want to do anything."
-        m 1rksdla "Hopefully you don't actually have anything pressing coming soon."
+        m 1tku "Es solo una de esas mañanas, ¿eh, [player]?"
+        m 1eka "Puedo entender totalmente esos días en los que te despiertas y simplemente no quieres hacer nada."
+        m 1rksdla "Con suerte, no habrá nada urgente próximamente."
 
         $ line = "Sé lo tentador que puede ser quedarse en la cama y no levantarse a veces..."
         if mas_isMoniEnamored(higher=True):
@@ -530,74 +530,74 @@ label mas_mood_lazy:
         m 3hksdlb "[line]"
 
         if mas_isMoniEnamored(higher=True):
-            extend 1dkbsa "Especially if I woke up next to you~"
+            extend 1dkbsa "Especialmente si me despierto a tu lado~"
 
             if mas_isMoniLove():
-                m 1dkbsa "{i}Then I'd never want to get up~{/i}"
-                m 1dsbfu "I hope you don't mind being 'stuck', [player]..."
-                m 1hubfa "Ehehe~"
+                m 1dkbsa "{i}Entonces nunca querría levantarme~{/i}"
+                m 1dsbfu "Espero que no te importe quedarte 'atrapado', [player]..."
+                m 1hubfa "Jejeje~"
 
-        m 3eka "But in the meantime, it does help start your day right."
-        m 3eub "That can include washing up, getting a good breakfast..."
+        m 3eka "Pero mientras tanto, esto ayuda a empezar bien el día."
+        m 3eub "Eso puede incluir lavar la ropa, desayunar bien..."
 
         if mas_isMoniLove():
-            m 1dkbsu "Getting your good morning kiss, ehehe..."
+            m 1dkbsu "Recibir tu beso de buenos días, jejeje..."
 
-        m 1hksdlb "Or you could laze around for now."
-        m 1eka "Just as long as you don't forget to do anything important, alright, [player]?"
+        m 1hksdlb "O podrías holgazanear por ahora."
+        m 1eka "Siempre y cuando no te olvides de hacer algo importante, ¿de acuerdo, [player]?"
 
         if mas_isMoniHappy(higher=True):
-            m 1hub "That includes spending some time with me, ahaha!"
+            m 1hub "Eso incluye pasar un tiempo conmigo, ¡jajaja!"
 
     elif mas_isNtoSS(_now):
-        m 1eka "Midday fatigue got you, [player]?"
-        m 1eua "It happens, so I wouldn't worry about it too much."
-        m 3eub "In fact, they say laziness makes you more creative."
-        m 3hub "So who knows, maybe you're about to think of something amazing!"
-        m 1eua "In any case, you should just take a break or stretch a bit...{w=0.5} {nw}"
-        extend 3eub "Maybe grab a bite to eat if you haven't already."
-        m 3hub "And if it's appropriate, you could even take a nap! Ahaha~"
-        m 1eka "I'll be right here waiting for you if you decide to."
+        m 1eka "¿Te dio el cansancio del mediodía, [player]?"
+        m 1eua "Sucede, así que no me preocuparía demasiado por eso."
+        m 3eub "De hecho, dicen que la pereza te hace más creativo."
+        m 3hub "Entonces, quién sabe, tal vez estés a punto de pensar en algo increíble."
+        m 1eua "En cualquier caso, debería tomarse un descanso o estirarse un poco...{w=0.5} {nw}"
+        extend 3eub "Tal vez deberías comer algo si aún no lo has hecho."
+        m 3hub "Y si es apropiado, ¡incluso podrías tomar una siesta! Jajaja~"
+        m 1eka "Estaré aquí esperándote si así lo decides."
 
     elif mas_isSStoMN(_now):
-        m 1eka "Don't feel like doing anything after a long day, [player]?"
-        m 3eka "At least the day is pretty much over..."
-        m 3duu "There's nothing like sitting back and relaxing after a long day, especially when you don't have anything pressing."
+        m 1eka "¿No tienes ganas de hacer nada después de un largo día, [player]?"
+        m 3eka "Al menos el día casi ha terminado..."
+        m 3duu "No hay nada como sentarse y relajarse después de un largo día, especialmente cuando no tienes nada que te presione."
 
         if mas_isMoniEnamored(higher=True):
-            m 1ekbsa "I hope being here with me makes your evening just a little better..."
-            m 3hubsa "I know mine sure is with you here~"
+            m 1ekbsa "Espero que estar aquí conmigo haga que tu velada sea un poco mejor..."
+            m 3hubsa "La mía es mejor contigo aquí~"
 
             if mas_isMoniLove():
-                m 1dkbfa "I can just imagine us relaxing together one evening..."
-                m "Maybe even cuddled up under a blanket if it's a bit cold..."
-                m 1ekbfa "We still could even if it isn't, if you don't mind, ehehe~"
-                m 3ekbfa "We could even read a nice book together too."
-                m 1hubfb "Or we could even just mess around for fun!"
-                m 1tubfb "Who says it has to be calm and romantic?"
-                m 1tubfu "I hope you don't mind occasional surprise pillow fights, [player]~"
-                m 1hubfb "Ahaha!"
+                m 1dkbfa "Puedo imaginarnos relajándonos juntos una noche..."
+                m "Tal vez incluso acurrucado debajo de una manta si hace un poco de frío..."
+                m 1ekbfa "Aún podríamos incluso si no estoy ahí, si no te importa, jejeje~"
+                m 3ekbfa "Incluso podríamos leer juntos un buen libro."
+                m 1hubfb "¡O incluso podríamos perder el tiempo por diversión!"
+                m 1tubfb "¿Quién dice que tiene que ser tranquilo y romántico?"
+                m 1tubfu "Espero que no te molesten las peleas de almohadas ocasionales, [player]~"
+                m 1hubfb "¡Jajaja!"
+
         else:
+            m 3eub "Podríamos leer un buen libro juntos también..."
 
-            m 3eub "We could read a nice book together too..."
     else:
-
-
-        m 2rksdla "Uh, [player]..."
-        m 1hksdlb "It's the middle of the night..."
-        m 3eka "If you're feeling lazy, maybe you should go lie down in bed for a bit."
-        m 3tfu "And maybe, you know...{w=1}{i}sleep{/i}?"
-        m 1hkb "Ahaha, you can be funny sometimes, but you should really probably get to bed."
+        #midnight to morning
+        m 2rksdla "Eh, [player]..."
+        m 1hksdlb "Es la mitad de la noche..."
+        m 3eka "Si te sientes cansado, tal vez deberías acostarte un poco en la cama."
+        m 3tfu "Y tal vez, ya sabes... {w=1}¿{i}dormir{/i}?"
+        m 1hkb "Jajaja, puedes ser gracioso a veces, pero probablemente deberías irte a la cama."
 
         if mas_isMoniLove():
-            m 1tsbsa "If I were there, I'd drag you to bed myself if I had to."
-            m 1tkbfu "Or maybe you'd secretly enjoy that, [player]?~"
-            m 2tubfu "Lucky for you, I can't exactly do that yet."
-            m 3tfbfb "So off to bed with you."
-            m 3hubfb "Ahaha!"
-        else:
+            m 1tsbsa "Si estuviera allí, te arrastraría a la cama si fuera necesario."
+            m 1tkbfu "¿O quizás lo disfrutarías en secreto, [player]~?"
+            m 2tubfu "Por suerte para ti, no puedo hacer eso exactamente todavía."
+            m 3tfbfb "Así que vete a la cama contigo."
+            m 3hubfb "¡Jajaja!"
 
-            m 1eka "Please? I wouldn't want you to neglect your sleep."
+        else:
+            m 1eka "¿Por favor? No quiero que descuides tu sueño."
     return
 
 init 5 python:
@@ -606,33 +606,33 @@ init 5 python:
 label mas_mood_bored:
     if mas_isMoniAff(higher=True):
         m 1eka "Oh..."
-        m 3hub "Well, we should do something then!"
+        m 3hub "Bueno, ¡deberíamos hacer algo entonces!"
 
     elif mas_isMoniNormal(higher=True):
         show monika 1ekc
         pause 1.0
-        m "Do I really bore you that much, [player]?{nw}"
+        m "¿Realmente te aburro tanto, [player]?{nw}"
         $ _history_list.pop()
         menu:
-            m "Do I really bore you that much, [player]?{fast}"
+            m "¿Realmente te aburro tanto, [player]?{fast}"
             "No, no estoy aburrido {i}de ti{/i}...":
-                m 1hua "Oh,{w=0.2} that's such a relief!"
-                m 1eka "But, if you're bored, we should find something to do then..."
-            "Bueno...":
+                m 1hua "Oh,{w=0.2} ¡eso es un alivio!"
+                m 1eka "Pero, si estás aburrido, deberíamos encontrar algo que hacer entonces..."
 
+            "Bueno...":
                 $ mas_loseAffection()
-                m 2ekc "Oh...{w=1} I see."
-                m 2dkc "I didn't realize I was boring you..."
-                m 2eka "I'm sure we can find something to do..."
+                m 2ekc "Oh...{w=1} Ya veo."
+                m 2dkc "No me di cuenta de que te estaba aburriendo..."
+                m 2eka "Estoy segura de que podemos encontrar algo que hacer..."
 
     elif mas_isMoniDis(higher=True):
         $ mas_loseAffection()
-        m 2lksdlc "I'm sorry that I'm boring you, [player]."
-    else:
+        m 2lksdlc "Siento haberte aburrido, [player]."
 
+    else:
         $ mas_loseAffection()
-        m 6ckc "You know [player], if I make you so miserable all of the time..."
-        m "Maybe you should just go find something else to do."
+        m 6ckc "Ya sabes [player], si te hago sentir tan mal todo el tiempo..."
+        m "Quizás deberías ir a buscar algo más que hacer."
         return "quit"
 
     python:
@@ -650,57 +650,57 @@ label mas_mood_bored:
 
     if gamepicked == "piano":
         if mas_isMoniAff(higher=True):
-            m 3eub "You could play something for me on the piano!"
+            m 3eub "¡Podrías tocar algo en el piano para mí!"
 
         elif mas_isMoniNormal(higher=True):
-            m 4eka "Maybe you could play something for me on the piano?"
-        else:
+            m 4eka "¿Quizás podrías tocar algo en el piano para mí?"
 
-            m 2rkc "Maybe you could play something on the piano..."
+        else:
+            m 2rkc "Tal vez podrías tocar algo en el piano..."
+
     else:
-
         if mas_isMoniAff(higher=True):
-            m 3eub "We could play a game of [display_picked]!"
+            m 3eub "¡Podríamos jugar un juego de [display_picked]!"
 
         elif mas_isMoniNormal(higher=True):
-            m 4eka "Maybe we could play a game of [display_picked]?"
-        else:
+            m 4eka "¿Quizás podríamos jugar un juego de [display_picked]?"
 
-            m 2rkc "Maybe we could play a game of [display_picked]..."
+        else:
+            m 2rkc "Quizás podríamos jugar un juego de [display_picked]..."
 
     $ chosen_nickname = mas_get_player_nickname()
-    m "What do you say, [chosen_nickname]?{nw}"
+    m "¿Qué dices, [chosen_nickname]?{nw}"
     $ _history_list.pop()
     menu:
-        m "What do you say, [chosen_nickname]?{fast}"
+        m "¿Qué dices, [chosen_nickname]?{fast}"
         "Sí.":
             if gamepicked == "pong":
-                call game_pong from _call_game_pong_1
+                call game_pong
             elif gamepicked == "el ajedrez":
-                call game_chess from _call_game_chess_1
+                call game_chess
             elif gamepicked == "el ahorcado":
-                call game_hangman from _call_game_hangman_1
+                call game_hangman
             elif gamepicked == "piano":
-                call mas_piano_start from _call_mas_piano_start_1
+                call mas_piano_start
         "No.":
             if mas_isMoniAff(higher=True):
-                m 1eka "Okay..."
+                m 1eka "Entiendo..."
                 if mas_isMoniEnamored(higher=True):
-                    show monika 5tsu zorder MAS_MONIKA_Z at t11 with dissolve_monika
-                    m 5tsu "We could just stare into each other's eyes a little longer..."
-                    m "We'll never get bored of that~"
+                    show monika 5tsu at t11 zorder MAS_MONIKA_Z with dissolve_monika
+                    m 5tsu "Podríamos mirarnos a los ojos un poco más..."
+                    m "Nunca nos aburriremos de eso~"
                 else:
-                    show monika 5eua zorder MAS_MONIKA_Z at t11 with dissolve_monika
-                    m 5eua "We could just stare into each other's eyes a little longer..."
-                    m "That will never get boring~"
+                    show monika 5eua at t11 zorder MAS_MONIKA_Z with dissolve_monika
+                    m 5eua "Podríamos mirarnos a los ojos un poco más..."
+                    m "Eso nunca se volverá aburrido~"
 
             elif mas_isMoniNormal(higher=True):
-                m 1ekc "Oh, that's okay..."
-                m 1eka "Be sure to let me know if you want to do something with me later~"
-            else:
+                m 1ekc "Oh, está bien..."
+                m 1eka "Asegúrate de avisarme si quieres hacer algo conmigo más tarde~"
 
-                m 2ekc "Fine..."
-                m 2dkc "Let me know if you ever actually want to do anything with me."
+            else:
+                m 2ekc "Bien..."
+                m 2dkc "Avísame si alguna vez quieres hacer algo conmigo."
     return
 
 init 5 python:
@@ -708,61 +708,60 @@ init 5 python:
 
 label mas_mood_crying:
     $ line_start = "Y"
-    m 1eksdld "[player]!"
+    m 1eksdld "¡[player]!"
 
-    m 3eksdlc "Are you okay?{nw}"
+    m 3eksdlc "¿Estás bien?{nw}"
     $ _history_list.pop()
     menu:
-        m "Are you okay?{fast}"
+        m "¿Estás bien?{fast}"
+
         "Sí.":
+            m 3eka "De acuerdo, está bien. Eso es un alivio."
+            m 1ekbsa "Estoy aquí para hacerte compañía y puedes hablar conmigo si necesitas algo, ¿de acuerdo?"
 
-            m 3eka "Okay, good. That's a relief."
-            m 1ekbsa "I'm here to keep you company and you can talk to me if you need anything, okay?"
         "No.":
-
             m 1ekc "..."
             m 3ekd "[player]..."
-            m 3eksdld "I'm so sorry. Did something happen?"
-            call mas_mood_uok from _call_mas_mood_uok
+            m 3eksdld "Lo siento mucho. ¿Paso algo?"
+            call mas_mood_uok
+
         "No estoy seguro.":
-
             m 1dkc "[player]...{w=0.3}{nw}"
-            extend 3eksdld "did something happen?"
-            call mas_mood_uok from _call_mas_mood_uok_1
+            extend 3eksdld "¿Pasó algo?"
+            call mas_mood_uok
 
-    m 3ekd "[line_start] if you do end up crying..."
-    m 1eka "I hope it helps."
-    m 3ekd "There's nothing wrong with crying, okay? {w=0.2}You can cry as much as you need to."
-    m 3ekbsu "I love you, [player]. {w=0.2}You're my everything."
+    m 3ekd "[line_start] si terminas llorando..."
+    m 1eka "Espero que ayude."
+    m 3ekd "No hay nada de malo en llorar, ¿de acuerdo? {w=0.2} Puedes llorar tanto como necesites."
+    m 3ekbsu "Te amo, [player]. {w=0.2}Eres todo para mí."
     return "love"
 
 label mas_mood_uok:
-    m 1rksdld "I know I can't really hear what you say to me..."
-    m 3eka "But sometimes, just vocalizing your pain or frustrations can really help."
+    m 1rksdld "Sé que realmente no puedo escuchar lo que me dices..."
+    m 3eka "Pero a veces, simplemente expresar el dolor o las frustraciones puede ayudar."
 
-    m 1ekd "So if you need to talk about something, I'm right here.{nw}"
+    m 1ekd "Entonces, si necesitas hablar sobre algo, estoy aquí.{nw}"
     $ _history_list.pop()
     menu:
-        m "So if you need to talk about something, I'm right here.{fast}"
+        m "Entonces, si necesitas hablar sobre algo, estoy aquí.{fast}"
+
         "Si, me gustaría desahogarme.":
+            m 3eka "Adelante, [player]."
 
-            m 3eka "Go ahead, [player]."
-
-            m 1ekc "I'm here for you.{nw}"
+            m 1ekc "Estoy aquí para ti.{nw}"
             $ _history_list.pop()
             menu:
-                m "I'm here for you.{fast}"
+                m "Estoy aquí para ti.{fast}"
+
                 "Terminé.":
+                    m 1eka "Me alegro de que hayas podido sacar lo que querías de tu pecho, [player]."
 
-                    m 1eka "I'm glad you were able to get what you wanted off your chest, [player]."
         "No quiero hablar de ello.":
-
             m 1ekc "..."
-            m 3ekd "Alright [player], I'll be here if you change your mind."
+            m 3ekd "Muy bien [player], estaré aquí si cambias de opinión."
+
         "Todo está bien.":
-
             m 1ekc "..."
-            m 1ekd "Okay [player], if you say so..."
+            m 1ekd "De acuerdo [player], si tú lo dices..."
             $ line_start = "Pero"
     return
-# Decompiled by unrpyc: https://github.com/CensoredUsername/unrpyc

@@ -1,22 +1,22 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# module containing what we call interactive modes (extras)
+# basically things like headpats and other mouse-based interactions should be
+# defined here
+#
+# screens are defined at 0, so be careful what you attempt to import for use
+#
+# Some thoughts:
+#   the extras menu is a grid screen showed when the eExtras menu option is
+#   activated.
+#
+# TOC:
+# EXM010 - ZOOM stuff
+# EXM020 - BOOP stuff
+# EXM900 - EXTRA menu stuff
 
 
 init python:
 
-
+    # extras menu function
     def mas_open_extra_menu():
         """
         Jumps to the extra menu workflow
@@ -24,61 +24,61 @@ init python:
         renpy.jump("mas_extra_menu")
 
 
+    ## panel functions
+    # TODO
 
+    ## toggle functions
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#    def mas_MBToggleHide():
+#        """RUNTIME ONLY
+#        hides the toggle.
+#        """
+#        if mas_MBToggleIsVisible():
+#            config.overlay_screens.remove("mas_modebar_toggle")
+#            renpy.hide_screen("mas_modebar_toggle")
+#
+#
+#    def mas_MBToggleShow():
+#        """RUNTIME ONLY
+#        Shows the toggle
+#        """
+#        if not mas_MBToggleIsVisible():
+#            config.overlay_screens.append("mas_modebar_toggle")
+#
+#
+#    def mas_MBToggleRaiseShield():
+#        """RUNTIME ONLY
+#        Disables the modebar toggle
+#        """
+#        store.mas_modebar.toggle_enabled = False
+#
+#
+#    def mas_MBToggleDropShield():
+#        """RUNTIME ONLY
+#        Enables the modebar toggle
+#        """
+#        store.mas_modebar.toggle_enabled = True
+#
+#
+#    def mas_MBToggleIsEnabled():
+#        """
+#        RETURNS: True if the modebar toggle is enabled, False otherwise
+#        """
+#        return store.mas_modebar.toggle_enabled
+#
+#
+#    def mas_MBToggleIsVisible():
+#        """
+#        RETURNS: True if the modebar toggle is visible, False otherwise
+#        """
+#        return "mas_modebar_toggle" in config.overlay_screens
 
 
 
 init -1 python in mas_extramenu:
     import store
 
-
+    # true if menu is visible, False otherwise
     menu_visible = False
 
 
@@ -86,11 +86,11 @@ label mas_extra_menu:
     $ store.mas_extramenu.menu_visible = True
     $ prev_zoom = store.mas_sprites.zoom_level
 
-
+    # disable other overlays
     $ mas_RaiseShield_core()
 
     if not persistent._mas_opened_extra_menu:
-        call mas_extra_menu_firsttime from _call_mas_extra_menu_firsttime
+        call mas_extra_menu_firsttime
 
     $ persistent._mas_opened_extra_menu = True
 
@@ -102,9 +102,9 @@ label mas_extra_menu_close:
     hide screen mas_extramenu_area
 
     if store.mas_sprites.zoom_level != prev_zoom:
-        call mas_extra_menu_zoom_callback from _call_mas_extra_menu_zoom_callback
+        call mas_extra_menu_zoom_callback
 
-
+    # re-enable overlays
     if store.mas_globals.in_idle_mode:
         $ mas_coreToIdleShield()
     else:
@@ -146,13 +146,13 @@ label mas_extra_menu_firsttime:
         pool=True
     )
 
-
-    call mas_extra_menu_zoom_intro from _call_mas_extra_menu_zoom_intro
+    # explaining different features here
+    call mas_extra_menu_zoom_intro
 
     return
 
-
-
+################################# ZOOM LABELS #################################
+# [EXM010]
 
 label mas_extra_menu_zoom_intro:
     m 1eua "Una cosa que agregué es una forma de ajustar tu campo de visión, para que ahora puedas sentarte más cerca o más lejos de mí."
@@ -166,7 +166,7 @@ default persistent._mas_pm_zoomed_in_max = False
 label mas_extra_menu_zoom_callback:
     $ import store.mas_sprites as mas_sprites
     $ aff_larger_than_zero = _mas_getAffection() > 0
-
+    # logic about the zoom
 
     if mas_sprites.zoom_level < mas_sprites.default_zoom_level:
 
@@ -174,8 +174,8 @@ label mas_extra_menu_zoom_callback:
                 aff_larger_than_zero
                 and not persistent._mas_pm_zoomed_out
             ):
-
-            call mas_extra_menu_zoom_out_first_time from _call_mas_extra_menu_zoom_out_first_time
+            # zoomed OUT
+            call mas_extra_menu_zoom_out_first_time
             $ persistent._mas_pm_zoomed_out = True
 
     elif mas_sprites.zoom_level == mas_sprites.max_zoom:
@@ -184,8 +184,8 @@ label mas_extra_menu_zoom_callback:
                 aff_larger_than_zero
                 and not persistent._mas_pm_zoomed_in_max
             ):
-
-            call mas_extra_menu_zoom_in_max_first_time from _call_mas_extra_menu_zoom_in_max_first_time
+            # zoomed in max
+            call mas_extra_menu_zoom_in_max_first_time
             $ persistent._mas_pm_zoomed_in_max = True
             $ persistent._mas_pm_zoomed_in = True
 
@@ -195,8 +195,8 @@ label mas_extra_menu_zoom_callback:
                 aff_larger_than_zero
                 and not persistent._mas_pm_zoomed_in
             ):
-
-            call mas_extra_menu_zoom_in_first_time from _call_mas_extra_menu_zoom_in_first_time
+            # zoomed in not max
+            call mas_extra_menu_zoom_in_first_time
             $ persistent._mas_pm_zoomed_in = True
 
     return
@@ -222,98 +222,98 @@ label mas_extra_menu_zoom_in_max_first_time:
     return
 
 
-
-
+################################# BOOP STUFF ##################################
+# [EX020]
 
 label mas_extra_menu_boop_intro:
     m 1eua "introducción de boop"
     return
 
 default persistent._mas_pm_boop_stats = {}
+# key - boop key/clickzone key
+# value - number of boops
+
+
+################################# EXTRA MENU STUFF ############################
+# [EXM900]
 
 
 
-
-
-
-
-
-
-
+# FIXME: the following styles cannot be checked because of the commented code
 style mas_mbs_vbox is vbox:
     spacing 0
 
 style mas_mbs_button is generic_button_light
-
+#    xysize (35, 35)
 
 style mas_mbs_button_dark is generic_button_dark
-
+#    xysize (35, 35)
 
 style mas_mbs_button_text is generic_button_text_light
 
 style mas_mbs_button_text_dark is generic_button_text_dark
 
+#screen mas_modebar_toggle():
+#    zorder 50
+#
+#    fixed:
+#        area (1245, 500, 35, 35)
+#        style_prefix "mas_mbs"
+#
+#        if store.mas_modebar.toggle_enabled:
+#            if store.mas_modebar.modebar_visible:
+#                textbutton _(">") action Jump("mas_modebar_hide_modebar")
+#            else:
+#                textbutton _("<") action Jump("mas_modebar_show_modebar")
+#
+#        else:
+#            if store.mas_modebar.modebar_visible:
+#                frame:
+#                    xsize 35
+#                    background Image("mod_assets/buttons/squares/square_disabled.png")
+#                    text ">"
+#            else:
+#                frame:
+#                    xsize 35
+#                    background Image("mod_assets/buttons/squares/square_disabled.png")
+#                    text "<"
+
+#screen mas_extramenu_toggle():
+#    zorder 55
+#
+#    fixed:
+#        area (0.05, 559, 120, 35)
+#        style_prefix "hkb"
+#
+#        if store.mas_modebar.toggle_enabled:
+#            if store.mas_modebar.modebar_visible:
+#                textbutton _("Close") action Jump("mas_modearea_hide_modearea")
+#            else:
+#                textbutton _("Tools") action Jump("mas_modearea_show_modearea")
+#
+#        else:
+#            if store.mas_modebar.modebar_visible:
+#                frame:
+#                    xsize 120
+#                    background Image("mod_assets/hkb_disabled_background.png")
+#                    text "Close"
+#            else:
+#                frame:
+#                    xsize 120
+#                    background Image("mod_assets/hkb_disabled_background.png")
+#                    text "Tools"
 
 
+#image mas_modebar_bg = Image("mod_assets/frames/modebar.png")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#screen mas_modebar():
+#    zorder 50
+#    fixed:
+#        area (1210, 10, 70, 490)
+#        add "mas_modebar_bg"
+#        vbox:
+#            textbutton _("not") action NullAction()
+#            textbutton _("not3") action NullAction()
 
 style mas_extra_menu_frame:
     background Frame("mod_assets/frames/trans_pink2pxborder100.png", Borders(2, 2, 2, 2, pad_top=2, pad_bottom=4))
@@ -357,34 +357,46 @@ screen mas_extramenu_area():
         area (0, 0, 1280, 720)
         background Solid("#0000007F")
 
-
+        # close button
         textbutton _("Cerrar"):
             area (60, 596, 120, 35)
             style "hkb_button"
             action Jump("mas_extra_menu_close")
 
-
+        # zoom control
         frame:
             area (195, 450, 80, 255)
             style "mas_extra_menu_frame"
-            has vbox:
+            vbox:
                 spacing 2
-            label "Zoom":
-                text_style "mas_extra_menu_label_text"
-                xalign 0.5
+                label "Zoom":
+                    text_style "mas_extra_menu_label_text"
+                    xalign 0.5
 
+                # resets the zoom value back to default
+                textbutton _("Normal"):
+                    style "mas_adjustable_button"
+                    selected False
+                    xsize 72
+                    ysize 35
+                    xalign 0.3
+                    action SetField(store.mas_sprites, "zoom_level", store.mas_sprites.default_zoom_level)
 
-            textbutton _("Normal"):
-                style "mas_adjustable_button"
-                selected False
-                xsize 72
-                ysize 35
-                xalign 0.3
-                action SetField(store.mas_sprites, "zoom_level", store.mas_sprites.default_zoom_level)
+                # actual slider for adjusting zoom
+                bar value FieldValue(store.mas_sprites, "zoom_level", store.mas_sprites.max_zoom):
+                    style "mas_adjust_vbar"
+                    xalign 0.5
+                $ store.mas_sprites.adjust_zoom()
 
-
-            bar value FieldValue(store.mas_sprites, "zoom_level", store.mas_sprites.max_zoom):
-                style "mas_adjust_vbar"
-                xalign 0.5
-            $ store.mas_sprites.adjust_zoom()
-# Decompiled by unrpyc: https://github.com/CensoredUsername/unrpyc
+        # TODO: frame for nose boop control
+        # TODO: only have available if certain affection +
+        #   (Definitely not below normal)
+#        frame:
+#            area (280, 450, 80, 120)
+#            background Frame("mod_assets/frames/trans_pink2pxborder100.png", left=Borders(2, 2, 2, 2, pad_top=2, pad_bottom=4))
+#
+#            vbox:
+#                spacing 2
+#
+#                label "Boop":
+#                    style "hkb_button_text"

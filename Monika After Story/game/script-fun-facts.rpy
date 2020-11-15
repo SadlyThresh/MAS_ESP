@@ -1,8 +1,8 @@
-
+#Persistent event database for fun facts
 default persistent._mas_fun_facts_database = dict()
 
 init -10 python in mas_fun_facts:
-
+    #The fun facts db
     fun_fact_db = {}
 
     def getUnseenFactsEVL():
@@ -28,7 +28,7 @@ init -10 python in mas_fun_facts:
         return fun_fact_db.keys()
 
 
-
+#Whether or not the last fun fact seen was a good fact
 default persistent._mas_funfactfun = True
 
 init 5 python:
@@ -37,7 +37,7 @@ init 5 python:
             persistent.event_database,
             eventlabel="monika_fun_facts_open",
             category=['misc'],
-            prompt="¿Puedes decirme un dato curioso?",
+            prompt="Can you tell me a fun fact?",
             pool=True
         )
     )
@@ -48,8 +48,8 @@ label monika_fun_facts_open:
         m 1eub "I've been looking some up to try and teach both of us something new."
         m 3hub "They say you learn something new every day, this way I'm making sure we actually do."
         m 1rksdla "I found most of these online, so I can't say they're {i}definitely{/i} true..."
-    else:
 
+    else:
         m 1eua "Up for another fun fact, [player]?"
         if persistent._mas_funfactfun:
             m 3hua "That last one was pretty interesting after all!"
@@ -64,13 +64,13 @@ label monika_fun_facts_open:
         else:
             fact_evl_list = mas_fun_facts.getAllFactsEVL()
 
-
+        #Now we push and unlock the fact
         fun_fact_evl = renpy.random.choice(fact_evl_list)
         mas_unlockEVL(fun_fact_evl, "FFF")
         pushEvent(fun_fact_evl)
     return
 
-
+#Most labels end here
 label mas_fun_facts_end:
     m 3hub "I hope you enjoyed another session of 'Learning with Monika!'"
     $ persistent._mas_funfactfun = True
@@ -83,7 +83,7 @@ label mas_bad_facts_end:
     return
 
 
-
+#START: Good facts
 init 5 python:
     addEvent(
         Event(
@@ -101,8 +101,8 @@ label mas_fun_fact_librocubiculartist:
     m 3euc "You'd probably have to explain what it means, but that kind of defeats the point of using the word."
     m 2rkc "If only people read more and improved their vocabulary!"
     m 2hksdlb "...Ehehe, sorry [player]. I didn't mean to get so bothered~"
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -122,8 +122,8 @@ label mas_fun_fact_menu_currency:
     m 4rksdld "The practice seems understandable. They're still a business, after all."
     m 2dsc "No matter how good the food is in a restaurant, they'll be shutting down quick if they're beaten by their competition."
     m 3hksdlb "Oh well, what can you do?"
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_1
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -143,7 +143,7 @@ label mas_fun_fact_love_you:
     m 3hub "...I love you, [player]!"
     m 1rksdlb "Ehehe, sorry, I just couldn't help myself."
     m 1hksdlb "I'll have a real fact next time, don't you worry~"
-
+    #No end for this fact since it ends itself
     $ persistent._mas_funfactfun = True
     return "love"
 
@@ -164,8 +164,8 @@ label mas_fun_fact_morpheus:
     m 2dsc "Morphine {i}does{/i} let a person dream, but it's really about making someone fall asleep."
     m 4ekc "...So wouldn't it make more sense to name it after Hypnos then?"
     m 4rksdlb "Too little, too late I guess."
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_2
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -185,8 +185,8 @@ label mas_fun_fact_otter_hand_holding:
     m 3hksdlb "Oh, not being a sea otter, but holding the hand of the one I love while I sleep."
     m 1rksdlb "Aha, it really does make me jealous of them."
     m 1hub "We'll get there one day though, love~"
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_3
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -199,7 +199,7 @@ init 5 python:
     )
 
 label mas_fun_fact_chess:
-
+    #Chess is unlocked
     if mas_isGameUnlocked("chess"):
         m 1eua "Now this is a fun fact!"
         m 3eub "There was a man named Claude Shannon who calculated the maximum amount of possible moves in chess."
@@ -209,26 +209,26 @@ label mas_fun_fact_chess:
         m 1eua "We could play until the end of our days and it wouldn't come even close to a fraction of what is possible."
         m 3eud "Speaking of which, [player]..."
         m 1hua "Do you want to play a game of chess with me? I might even go easy on you, Ehehe~"
-
-        call mas_fun_facts_end from _call_mas_fun_facts_end_4
+        #Call the good end for this path
+        call mas_fun_facts_end
         return
 
-
+    #Chess was unlocked, but locked due to cheating
     elif not mas_isGameUnlocked("chess") and renpy.seen_label("mas_unlock_chess"):
         m 1dsc "Chess..."
         m 2dfc "..."
         m 2rfd "You can forget about this fact since you're a cheater, [player]."
         m "Not to mention you never apologized."
         m 2lfc "...Hmph."
-
+        #No end for this path
         return
+
+    #We haven't unlocked chess yet
     else:
-
-
         m 1euc "Oh, not this one."
         m 3hksdlb "Not yet, at least."
-
-        call mas_bad_facts_end from _call_mas_bad_facts_end
+        #Call the end
+        call mas_bad_facts_end
         return
 
 init 5 python:
@@ -248,8 +248,8 @@ label mas_fun_fact_struck_by_lightning:
     m 1euc "Men traditionally have always worked more dangerous and elevated jobs so it's no surprise that it's going to happen to them often."
     m 1esc "Yet the way this fact is worded makes it sound like that just by being a man, it's more likely to happen, which is ridiculous."
     m 1rksdla "Maybe if it was phrased better, people wouldn't be so misinformed about them."
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_5
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -270,8 +270,8 @@ label mas_fun_fact_honey:
     m 1eud "...Which removes the stuff that makes the honey go solid quickly."
     m 3eub "But wouldn't it be nice to eat crystallized honey too?"
     m 3hub "It'd be like candy when you bite into it!"
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_6
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -295,7 +295,7 @@ label mas_fun_fact_vincent_van_gone:
     m 2rkc "...Or at least be noticeable."
     m 4eka "If you're ever sad, you know you can talk to me, right?"
     m 5hub "I will always accept and take on any burdens that you shoulder, [mas_get_player_nickname()]~"
-
+    #No end for this fact
     $ persistent._mas_funfactfun = True
     return
 
@@ -315,8 +315,8 @@ label mas_fun_fact_king_snakes:
     m 1tfu "Does that mean if I eat you up, would I become Queen Monika?"
     m 1hksdlb "Ahaha, I'm just kidding, [player]."
     m 1hub "Sorry for being a little weird~"
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_7
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -336,8 +336,8 @@ label mas_fun_fact_strength:
     m 3eua "Do you want to know what comes to mind when I think of the word 'strength'?"
     m 1hua "You!"
     m 1hub "Because you are the source of my strength, ehehe~"
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_8
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -356,8 +356,8 @@ label mas_fun_fact_reindeer_eyes:
     m "There's probably a good scientific reason to it."
     m 3hksdlb "Maybe you can look up this one yourself?"
     m 5eua "It'd be fun to have you teach me this time~"
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_9
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -381,12 +381,12 @@ label mas_fun_fact_bananas:
     m 3hub "D-Did you also know that bananas aren't actually fruits but berries?"
     m 3eub "Or that the original bananas were large, green and full of hard seeds?"
     m 1eka "How about the fact that they're slightly radioactive?"
-    m 1rksdla "..."
+    m 1rksdla  "..."
     m 1rksdlb "...I'm just rambling on about bananas now."
     m 1rksdlc "Ummm..."
     m 1dsc "Let's just move on..."
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_10
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -406,8 +406,8 @@ label mas_fun_fact_pens:
     m 3euc "It was only until the 19th century when metal pens were being made that they started to fall into decline."
     m "In fact, penknives are called the way they are because they're originally used for thinning and pointing quill pens."
     m 1tku "But I'm sure Yuri would know more about this than me, though..."
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_11
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -428,8 +428,8 @@ label mas_fun_fact_density:
     m 3euc "But between you and me, [player]..."
     m 1tku "I suspect Earth may only be the densest because of a certain main character."
     m 1tfu "Buuuut that's all you'll hear from me~"
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_12
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -450,8 +450,8 @@ label mas_fun_fact_binky:
     m 1rksdla "Well, although you make me so happy that I can't help but be filled with energy."
     m 1rksdlb "Don't expect me to start hopping around, [player]!"
     m 1dkbsa "...That would be {i}way{/i} too embarrassing to do."
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_13
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -472,8 +472,8 @@ label mas_fun_fact_windows_games:
     m "Each generation becomes more and more familiar with the technology..."
     m 1esa "Eventually there may come a day where not a single person isn't computer-literate."
     m 1hksdlb "Most of the world's problems need to disappear before then, though."
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_14
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -494,8 +494,8 @@ label mas_fun_fact_mental_word_processing:
     m 3tub "For example, in this sentence, by the the time you are done reading you will have already skipped over the double 'the.'"
     m 1tfu "..."
     m 2hfu "Check the history log if you missed them~"
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_15
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -514,8 +514,8 @@ label mas_fun_fact_I_am:
     m 2rfb "'{i}Monika! Who's [player]'s loving girlfriend?{/i}'"
     m 3hub "'I am!'"
     m 1hubsa "Ehehe~"
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_16
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -533,8 +533,8 @@ label mas_fun_fact_low_rates:
     m 3eub "Life expectancy, average income, and standards of living is the highest for most of the global population too!"
     m 3eka "This tells me that it can always get better. It really does show that despite all the bad things, the good times will always come afterwards."
     m 1hua "There really is {i}hope{/i}..."
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_17
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -555,8 +555,8 @@ label mas_fun_fact_desert:
     m 3eub "Not to mention, their unique landscape makes them popular vacation spots!"
     m 1eua "So I guess while we can't live in them that easily, they're still better than they seem."
 
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_18
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -576,11 +576,11 @@ label mas_fun_fact_photography:
     extend 1wuo "And that's only for black and white prints!"
     m 1hksdlb "Old photos were much harder to prepare compared to modern ones, don't you think?"
 
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_19
+    #Call the end
+    call mas_fun_facts_end
     return
 
-
+#Stealing yearolder's bit for this since it makes sense as a fun fact
 init 5 python:
     addEvent(
         Event(
@@ -604,8 +604,8 @@ label mas_fun_fact_getting_older:
 
     m 1hubfa "Ahaha, I thought so!"
 
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_20
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -630,8 +630,8 @@ label mas_fun_fact_dancing_plague:
     m 1rsc "Though...{w=0.3}{nw}"
     extend 1eubla "I guess I wouldn't mind if it was with you."
     m 3tsu "...Just for a bit, ehehe~"
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_21
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -651,8 +651,8 @@ label mas_fun_fact_pando_forest:
     m 1eua "I think it could make a good science fiction or horror short-story, [player]. What do you think?"
     m 3eub "Anyway,{w=0.2} I feel like this really changes the meaning of the phrase 'missing the forest for the trees'{w=0.1}{nw} "
     extend 3hub "ahaha!"
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_22
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -670,8 +670,8 @@ label mas_fun_fact_immortal_jellyfish:
     m 3eua "The aptly named immortal jellyfish has the ability to return to its polyp state once it has reproduced."
     m 1eub "...And it can keep doing this forever!{w=0.3} {nw}"
     extend 1rksdla "Unless of course it's eaten or infected by a disease."
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_23
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -692,8 +692,8 @@ label mas_fun_fact_arrhichion:
     m 1rksdlc "Some people are really dedicated to their ideals to victory and to honour.{w=0.2} {nw}"
     extend 3eka "I think it's admirable, in a way."
     m 1etc "But I wonder...{w=0.2}if we could ask Arrhichion now if he thought it was worth it, what would he say?"
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_24
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -706,7 +706,7 @@ init 5 python:
     )
 
 label mas_fun_fact_antarctica_brain:
-
+    #Do some setup for the last line
     python:
         has_friends = persistent._mas_pm_has_friends is not None
 
@@ -719,13 +719,13 @@ label mas_fun_fact_antarctica_brain:
         dlg_prefix = "But make sure you keep up with your "
 
         if has_fam_to_talk and has_friends:
-            dlg_line = dlg_prefix + "familia y amigos también, ¿okay?"
+            dlg_line = dlg_prefix + "family and friends too, okay?"
 
         elif has_fam_to_talk and not has_friends:
-            dlg_line = dlg_prefix + "familia también, ¿okay?"
+            dlg_line = dlg_prefix + "family too, okay?"
 
         elif has_friends and not has_fam_to_talk:
-            dlg_line = dlg_prefix + "amigos también, ¿okay?"
+            dlg_line = dlg_prefix + "friends too, okay?"
 
         else:
             dlg_line = "Just be sure you find some people to talk to in your reality too, okay?"
@@ -754,8 +754,8 @@ label mas_fun_fact_cloud_weight:
     extend 1eua "It's hard to imagine that something so heavy can just float in the air like that."
     m 3eub "It kind of reminds me of the classic question...what's heavier, a kilogram of steel or a kilogram of feathers?"
     m 1tua "You most likely already know the answer to that though, right [player]? Ehehe~"
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_25
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -786,7 +786,7 @@ label mas_fun_fact_coffee_origin:
     m 3eud "For example, during fasting periods it was used to ease hunger and help people remain energized."
     m 3eua "When its use spread to Europe, many countries initially used it for medicinal purposes. {w=0.3}By the 17th century, coffeehouses were becoming plentiful and popular."
     m 3hub "...And I for one can certainly attest that the love of coffee has remained strong to this day!"
-    call mas_fun_facts_end from _call_mas_fun_facts_end_26
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -810,8 +810,8 @@ label mas_fun_fact_synesthesia:
     m 1esa "Researchers aren't really sure how prevalent it is--{w=0.1}some have suggested as much as 25 percent of the population experiences it, but I seriously doubt that since I'd never heard of it until now."
     m 3eub "Probably the most accurate estimate so far is that it's just over 4 percent of people, so that's what I'll go with!"
     m 1eua "Experiencing synesthesia sounds like it'd be pretty neat,{w=0.2} don't you think so [player]?"
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_27
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -830,8 +830,8 @@ label mas_fun_fact_dream_faces:
     m 3eud "If you just walked past them while shopping or something, their face gets registered in your mind and they can appear in your dreams."
     m 1hua "I think it's incredible how much info the brain can store!"
     m 1ekbla "I wonder...{w=0.2}do you ever dream about me, [player]?"
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_28
+    #Call the end
+    call mas_fun_facts_end
     return
 
 init 5 python:
@@ -851,7 +851,6 @@ label mas_fun_fact_monochrome_dreams:
     extend 3hksdlb "It's not like the world went black and white!"
     m 1esd "It just goes to show that the content you absorb can have all kinds of effects on your mind, even if it's trivial."
     m 3eua "I think if there's a lesson to be learned here, it's that we should be very careful about the kind of media we consume, okay [player]?"
-
-    call mas_fun_facts_end from _call_mas_fun_facts_end_29
+    #Call the end
+    call mas_fun_facts_end
     return
-# Decompiled by unrpyc: https://github.com/CensoredUsername/unrpyc

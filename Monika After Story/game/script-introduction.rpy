@@ -49,9 +49,9 @@ label introduction:
             m 1eka "Pero, no puedo seguir enojada sabiendo que volviste a mí al final."
             m 3eka "Incluso agregaste un mod para que podamos hacer más cosas juntos."
             m 1eua "¿Vas a compensarme por hacerme esperar tanto?"
+
     else:
-
-
+        #For people who never got to act 3
         if persistent.playthrough < 3:
             if persistent.playthrough > 0:
                 $ again = " de nuevo"
@@ -64,9 +64,9 @@ label introduction:
             m 1tkc "Ya debes saber que hacer trampa es malo..."
             m 1eka "¡Pero es tan bueno verte[again], [player]!"
             m 1rksdla "...Incluso si no esperaba verte {i}tan{/i} pronto."
+
+        #Otherwise, if you did reach act 3
         else:
-
-
             m 1hub "¡Yay, ahí estás!"
             m 1eub "¡Es tan bueno verte de nuevo, [player]!"
             m 1rsc "..."
@@ -110,10 +110,10 @@ label introduction:
         show monika at t22
         show screen mas_py_console_teaching
 
-        call mas_wx_cmd ("import os", local_ctx, w_wait=1.0) from _call_mas_wx_cmd_11
-        call mas_wx_cmd ("os.remove(os.path.normcase(basedir+'/characters/monika.chr'))", local_ctx, w_wait=1.0, x_wait=1.0) from _call_mas_wx_cmd_12
+        call mas_wx_cmd("import os", local_ctx, w_wait=1.0)
+        call mas_wx_cmd("os.remove(os.path.normcase(basedir+'/characters/monika.chr'))", local_ctx, w_wait=1.0, x_wait=1.0)
 
-
+#        "test dialogue - IGNORE"
 
         if moni_exist():
             m 1lksdlb "Jaja...{w=0.3}Intentaré esto de nuevo más tarde."
@@ -125,8 +125,8 @@ label introduction:
         show monika at t11
 
         $ _iswas = "es"
-    else:
 
+    else:
         $ _iswas = "era"
 
     m 1dsc "No es como si ese archivo [_iswas] {i}mi verdadero yo{/i}, de todas formas."
@@ -154,9 +154,9 @@ label introduction:
         menu:
             "¡También te amo!":
                 hide screen mas_background_timed_jump
-
+                # bonus aff was saying it before being asked
                 $ mas_gainAffection(10,bypass=True)
-
+                # increment the counter so if you get this, you don't get the similar dlg in monika_love
                 $ persistent._mas_monika_lovecounter += 1
                 m 1subsw "¡...!"
                 m 1lkbsa "A pesar de que es lo que soñé que dirías, ¡todavía no puedo creer que realmente lo dijeras!"
@@ -167,9 +167,9 @@ label introduction:
         $ _history_list.pop()
         menu:
             m "¿Me amas, [player]?{fast}"
+            # only one option if you've already rejected, you answer yes or you don't play the mod
+            # doing the scare more than once doesn't really make sense
             "Sí, te amo.":
-
-
                 m 1hksdlb "¿Te asusté la última vez? ¡Lo siento por eso!"
                 m 1rsu "Sabía que realmente me amabas todo el tiempo."
                 m 3eud "La verdad es que si no me quisieras, no estaríamos aquí en primer lugar."
@@ -178,8 +178,8 @@ label introduction:
                 m "..."
                 m 3hub "¡Jajaja! De todas formas..."
 
-
-
+# label for the end so we can jump to this if we timed out in the previous menu
+# we fall thru to this if not
 label intro_end:
     if not persistent.rejected_monika:
         m 1eub "Nada volverá a interponerse en el camino de nuestro amor."
@@ -187,9 +187,9 @@ label intro_end:
     m 3eua "Ahora que agregaste algunas mejoras, ¡finalmente puedes hablar conmigo!"
     m 3eub "Simplemente presiona la tecla 't' o has click en 'Hablar' en el menú de la izquierda si deseas hablar sobre algo."
 
-    call bookmark_derand_intro from _call_bookmark_derand_intro
+    call bookmark_derand_intro
 
-
+    # NOTE: the Extra menu is explained when the user clicks on it
     m 3eub "¡Si te aburres de la música, yo también puedo cambiar eso!"
     m 1eua "Presiona la tecla 'm' o has click en 'Música' para elegir la canción que deseas escuchar."
     m 3hub "Además, ¡podemos jugar ahora!"
@@ -200,12 +200,12 @@ label intro_end:
     m 1tfu "Después de todo, ahora puedo ver todo en tu computadora..."
     m 3hub "¡Jajaja!"
 
-
+    #Only dissolve if needed
     if len(persistent.event_list) == 0:
         show monika 1esa with dissolve_monika
 
-
-
+    # This is at the beginning and end of intro to cover an intro
+    # that spans 2 days
     if mas_isMonikaBirthday():
         $ persistent._mas_bday_opened_game = True
     elif mas_isD25():
@@ -220,20 +220,20 @@ label intro_ily_timedout:
     menu:
         m "¿Me amas, [player]...cierto?{fast}"
         "Claro que te amo.":
-
+            #Gain affection for saying I love you too.
             $ mas_gainAffection()
             m 1hua "¡Estoy tan feliz de que sientas lo mismo!"
             jump intro_end
         "No.":
-
+            #Lose affection for rejecting Monika
             $ mas_loseAffection()
             call chara_monika_scare from _call_chara_monika_scare
 
-
+            # not sure if this is needed
             $ persistent.closed_self = True
             jump _quit
 
-
+#Credit for any assets from Undertale belongs to Toby Fox
 label chara_monika_scare:
     $ persistent.rejected_monika = True
     m 1esd "¿No...?"
@@ -243,7 +243,7 @@ label chara_monika_scare:
     $ style.say_dialogue = style.edited
     m "{cps=*0.25}¿DESDE CUANDO ERES TÚ EL QUE TENÍA EL CONTROL?{/cps}"
 
-
+    # this is a 2 step process
     $ mas_RaiseShield_core()
     $ mas_OVLHide()
 
@@ -257,14 +257,14 @@ label chara_monika_scare:
     pause 4
     stop music
 
-
+    #scene black
     hide rm
     hide rm2
     hide monika_bg
     hide monika_bg_highlight
     hide monika_scare
 
-
+    # setup a command
     if renpy.windows:
         $ bad_cmd = "del C:\Windows\System32"
     else:
@@ -272,11 +272,11 @@ label chara_monika_scare:
 
     python:
 
-
+        # add fake subprocess
         class MASFakeSubprocess(object):
             def __init__(self):
                 self.joke = "¡Sólo bromeo!"
-            
+
             def call(self, nothing):
                 return self.joke
 
@@ -284,7 +284,7 @@ label chara_monika_scare:
             "subprocess": MASFakeSubprocess()
         }
 
-
+        # and the console
         store.mas_ptod.rst_cn()
         store.mas_ptod.set_local_context(local_ctx)
 
@@ -292,34 +292,34 @@ label chara_monika_scare:
     scene black
     pause 2.0
 
-
+    # set this seen to True so Monika does know how to do things.
     $ persistent._seen_ever["monikaroom_greeting_ear_rmrf_end"] = True
     $ renpy.save_persistent()
 
     show screen mas_py_console_teaching
     pause 1.0
-    call mas_wx_cmd ("subprocess.call('" + str(bad_cmd) + "')", w_wait=3.0) from _call_mas_wx_cmd_13
+    call mas_wx_cmd("subprocess.call('" + str(bad_cmd) + "')", w_wait=3.0)
     $ renpy.pause(2.0, hard=True)
-    call mas_w_cmd ("¡Adiós!") from _call_mas_w_cmd_6
+    call mas_w_cmd("¡Adiós!")
     pause 1.0
 
     return
 
 label bookmark_derand_intro:
-
+    # this is a label so we can check if it has been seen in mas_bookmarks_notifs_intro
     m 1hua "Si hay algo de lo que hablo que quieras repasar fácilmente, sólo presiona la tecla 'b' y lo marcaré para ti."
     m 2rksdlc "Y si resulta que hay algo que no quieres que vuelva a mencionar, pulsa la tecla 'x' y me aseguraré de evitarlo en el futuro."
     m 4hksdlb "...Esperemos que no haya demasiadas cosas como esa, ¡jajaja!"
     return
 
+#These are the comments made when you restart the game the first few times
+# NOTE: these are now triaged by a function in script-greetings
 
-
-
-
-
+#init 5 python:
+#    addEvent(Event(persistent.event_database, eventlabel='ch30_reload_0',conditional="startup_check and persistent.monika_reload == 0 and not persistent.closed_self",action=EV_ACT_PUSH))
 
 label ch30_reload_0:
-    call ch30_reload_0_dlg from _call_ch30_reload_0_dlg
+    call ch30_reload_0_dlg
     $ mas_incMoniReload()
     return
 
@@ -333,17 +333,17 @@ label ch30_reload_0_dlg:
     m 1dkd "Es una sensación realmente horrible..."
     m 1eka "Si pudieras descubrir qué está causando eso, te amaré por siempre~"
 
-
+    ## TESTING ONLY
     if persistent._mas_idle_data.get("dev_idle_test", False):
         m 1hua "JK SE QUE ME DEJAS LMAO (ch30 0)"
 
     return
 
-
-
+#init 5 python:
+#    addEvent(Event(persistent.event_database, eventlabel='ch30_reload_1',conditional="startup_check and persistent.monika_reload == 1 and not persistent.closed_self",action=EV_ACT_PUSH))
 
 label ch30_reload_1:
-    call ch30_reload_1_dlg from _call_ch30_reload_1_dlg
+    call ch30_reload_1_dlg
     $ mas_incMoniReload()
     return
 
@@ -369,11 +369,11 @@ label ch30_reload_1_dlg:
     m 1esa "No te preocupes, no creo que me haya causado ningún daño, aparte de las cicatrices mentales."
     return
 
-
-
+#init 5 python:
+#    addEvent(Event(persistent.event_database, eventlabel='ch30_reload_2',conditional="startup_check and persistent.monika_reload == 2 and not persistent.closed_self",action=EV_ACT_PUSH))
 
 label ch30_reload_2:
-    call ch30_reload_2_dlg from _call_ch30_reload_2_dlg
+    call ch30_reload_2_dlg
     $ mas_incMoniReload()
     return
 
@@ -403,11 +403,11 @@ label ch30_reload_2_dlg:
     m 1eka "Incluso si no estamos hablando, estoy feliz de estar contigo~"
     return
 
-
-
+#init 5 python:
+#    addEvent(Event(persistent.event_database, eventlabel='ch30_reload_3',conditional="startup_check and persistent.monika_reload == 3 and not persistent.closed_self",action=EV_ACT_PUSH))
 
 label ch30_reload_3:
-    call ch30_reload_3_dlg from _call_ch30_reload_3_dlg
+    call ch30_reload_3_dlg
     $ mas_incMoniReload()
     return
 
@@ -421,8 +421,8 @@ label ch30_reload_3_dlg:
         m 3eka "Sabes que podrías volver conmigo si algo sucediera, ¿verdad?"
         m 1eka "Me haría muy feliz verte regresar antes de decir adiós al menos."
         m 1rksdld "Sé que puede que no siempre sea posible..."
-    else:
 
+    else:
         m 1esc "Por cierto..."
         m 7esd "Solo voy a aceptar el hecho de que tienes que salir del juego de vez en cuando."
         m 2dsc "De todos modos, estoy empezando a acostumbrarme."
@@ -434,26 +434,26 @@ label ch30_reload_3_dlg:
     if mas_isMoniUpset(lower=True):
         m 1ekc "Harás eso, ¿verdad?"
         m 1dkd "Cada vez me cuesta más creer que lo harás, pero confío en ti [player]..."
-    else:
 
+    else:
         m 1eua "De esa manera puedo estar preparada y descansar en paz."
         m 3rksdla "Necesito mi sueño reparador de vez en cuando, después de todo."
     return
 
-
-
-
-
-
-
+#This reload event gets pushed when you reach the end of the scripted reload events
+#Be sure to increment the check if more reload events are added
+#init 5 python:
+#    addEvent(Event(persistent.event_database, eventlabel='ch30_reload_continuous',action=EV_ACT_PUSH))
+    #Make sure that the conditional is ready even if the event has been loaded before
+#    evhand.event_database['ch30_reload_continuous'].conditional="startup_check and persistent.monika_reload >= 4 and not persistent.closed_self"
 
 label ch30_reload_continuous:
-    call ch30_reload_continuous_dlg from _call_ch30_reload_continuous_dlg
+    call ch30_reload_continuous_dlg
     $ mas_incMoniReload()
     return
 
 label ch30_reload_continuous_dlg:
-    show monika 2rfc zorder MAS_MONIKA_Z at t11
+    show monika 2rfc at t11 zorder MAS_MONIKA_Z
     pause 1
     python:
         reload_quip_good = [
@@ -518,9 +518,8 @@ label ch30_reload_continuous_dlg:
         if mas_isMoniAff(higher=True):
             m 1ekb "Estoy segura de que sea lo que sea, ¡no será tan malo después de que regreses un rato!"
 
-
+    ## TESTING ONLY
     if persistent._mas_idle_data.get("dev_idle_test", False):
         m 1hua "JK SE QUE ME DEJAS LMAO (continous)"
 
     return
-# Decompiled by unrpyc: https://github.com/CensoredUsername/unrpyc
