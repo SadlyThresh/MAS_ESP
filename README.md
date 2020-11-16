@@ -37,6 +37,8 @@ Para más ayuda de la instalación, por favor vea nuestro [Frequently Asked Ques
 
 * Más eventos e historias únicas
 
+## ¿Cómo le doy un regalo a Monika?
+Puedes ver todas las características al Español, dando click [aquí](https://github.com/SadlyThresh/MAS_ESP/wiki)
 
 ## Contribuyendo a Monika After Story
 
