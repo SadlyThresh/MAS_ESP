@@ -1322,7 +1322,7 @@ label bye_prompt_game:
         m 2euc "¿Otra vez?"
         m 2eud "Bien entonces. Adiós, [player]."
 
-    elif renpy.random.randint(1,10) == 1:
+    elif mas_getSessionLength() < datetime.timedelta(minutes=30) and renpy.random.randint(1,10) == 1:
         m 1ekc "¿Te vas a jugar a otro juego?"
         m 3efc "¿No crees que deberías pasar un poco más de tiempo conmigo?"
         m 2efc "..."

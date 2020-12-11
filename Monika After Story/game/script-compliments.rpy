@@ -852,3 +852,80 @@ label mas_compliment_spending_time_2:
             m 2lksdlb "Bueno, me alegra que estés entretenido..."
             m 2ekd "...pero eso {i}no{/i} era lo que tenía en mente."
     return
+
+# this compliment's lock/unlock is controlled by the def outfit pp
+init 5 python:
+    addEvent(
+        Event(
+            persistent._mas_compliments_database,
+            eventlabel="mas_compliment_outfit",
+            prompt="¡Me encanta tu ropa!",
+            unlocked=False
+        ),
+        code="CMP"
+    )
+
+label mas_compliment_outfit:
+    if not renpy.seen_label("mas_compliment_outfit_2"):
+        call mas_compliment_outfit_2
+    else:
+        call mas_compliment_outfit_3
+    return
+
+label mas_compliment_outfit_2:
+    m 1hubsb "Gracias, [mas_get_player_nickname()]!"
+
+    if monika_chr.is_wearing_clothes_with_exprop("cosplay"):
+        m 3hubsb "¡Siempre es divertido hacer cosplaying!"
+
+    elif monika_chr.is_wearing_clothes_with_exprop("costume"):
+        m 3hubsb "¡Siempre es divertido usar disfraces!"
+
+    elif monika_chr.is_wearing_clothes_with_exprop("lingerie"):
+        m 2lkbsb "Estaba muy nerviosa mostrándote esto al principio..."
+        m 7tubsu "Pero me alegro de haberlo hecho, parece que te gusta mucho.~"
+
+    else:
+        m 1hubsa "Siempre he querido usar otra ropa para ti, ¡así que estoy muy feliz de que pienses así!"
+
+    menu:
+        "¡Te ves hermosa con cualquier cosa que te pongas!":
+            $ mas_gainAffection(5,bypass=True)
+            m 2subsd "[player]..."
+            m 3hubsb "¡Muchas gracias!"
+            m 1ekbsu "Siempre me haces sentir tan especial."
+            show monika 5hubsa at t11 zorder MAS_MONIKA_Z with dissolve_monika
+            m 5hubsa "¡Te amo, [mas_get_player_nickname()]!"
+            $ mas_ILY()
+
+        "Te ves muy linda.":
+            $ mas_gainAffection(3,bypass=True)
+            m 1hubsb "Jajaja~"
+            m 3hubfb "¡Gracias, [mas_get_player_nickname()]!"
+            show monika 5hubfb at t11 zorder MAS_MONIKA_Z with dissolve_monika
+            m 5eubfu "Me alegro de que te guste lo que ves~"
+
+        "Usar ropa diferente realmente ayuda.":
+            $ mas_loseAffection()
+            m 2ltd "Uh, gracias..."
+
+    return
+
+label mas_compliment_outfit_3:
+    m 1hubsb "[mas_compliments.thanks_quip]"
+
+    if monika_chr.is_wearing_clothes_with_exprop("cosplay"):
+        m 3hubsb "¡Siempre me encantará hacer cosplaying para ti!"
+
+    elif monika_chr.is_wearing_clothes_with_exprop("costume"):
+        m 3hubsb "¡Me alegro de que te guste cómo me veo con esto!"
+
+    elif monika_chr.is_wearing_clothes_with_exprop("lingerie"):
+        m 2kubsu "Me alegro de que te guste lo que ves~"
+        show monika 5hublb at t11 zorder MAS_MONIKA_Z with dissolve_monika
+        m 5hublb "¡Jajaja!"
+
+    else:
+        m 2hubsb "¡Estoy segura de que tú también te ves bien!"
+
+    return

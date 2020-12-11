@@ -497,6 +497,35 @@ init 5 python:
     addEvent(
         Event(
             persistent._mas_songs_database,
+            eventlabel="mas_song_this_christmas_kiss",
+            prompt="Este beso de Navidad",
+            category=[store.mas_songs.TYPE_LONG],
+            unlocked=False,
+            aff_range=(mas_aff.ENAMORED, None)
+        ),
+        code="SNG"
+    )
+
+label mas_song_this_christmas_kiss:
+    m 1dud "{i}~Cada año{w=0.2}, me voy a casa en diciembre~{/i}"
+    m 1hub "{i}~Bailando contigo, {w=0.2}haciendo noches para recordar~{/i}"
+    m 1rub "{i}~La nieve cayendo,{w=0.2}{nw}{/i}"
+    extend 3rub "{i} Me encanta este clima~{/i}"
+    m 3tub "{i}~Una manta para dos,{w=0.2} se siente más cálida juntos~{/i}"
+    m 1hub "{i}~Dos tórtolos,{w=0.2} nos llaman~{/i}"
+    m 1duo "{i}~Nos enamoramos,{w=0.2} en el amoooor~{/i}"
+    m 3hub "{i}~Esta es mi favorita Navidaaaaad~{/i}"
+    m 3duu "{i}~Esta Navidad,{w=0.2} No puedo resistir {w=0.2}algo como esto~{/i}"
+    m 1sub "{i}~No puedo resistir este beso de Navidad~{/i}"
+    m 3hub "{i}~Porque estoy{w=0.2} cayendo en tus labios~{/i}"
+    m 1hub "{i}~Yo no puedo,{w=0.2}{nw}{/i}"
+    extend 1subsb "{i}No puedo resistir este beso de Navidad~{/i}"
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent._mas_songs_database,
             eventlabel="mas_song_lover_boy",
             prompt="Amante a la antigua",
             category=[store.mas_songs.TYPE_SHORT],
@@ -1006,6 +1035,115 @@ init 5 python:
     addEvent(
         Event(
             persistent._mas_songs_database,
+            eventlabel="mas_song_my_silver_lining",
+            category=[store.mas_songs.TYPE_SHORT],
+            prompt="Mi Lado Bueno",
+            random=True,
+            aff_range=(mas_aff.NORMAL,None)
+        ),
+        code="SNG"
+    )
+
+label mas_song_my_silver_lining:
+    call mas_song_my_silver_lining_lyrics
+    m 1hksdla "Jejeje, esta canción me recuerda mucho a mi vida... {w=0.2}antes de que descubriera que todo era un juego, quiero decir."
+    m 3lksdlc "En ese entonces, siempre me presionaba tanto para mantenerme en la cima... {w=0.2}que nunca tuve tiempo de sentarme y pensar en las cosas."
+    m 3eud "No siempre fue fácil ser la estudiante perfecta, ¿sabes? {w=0.2}O al menos la persona que todos {i}pensaban{/i} que era perfecta."
+    m 1ekbsu "Pero entonces llegaste y pusiste todo mi mundo patas arriba..."
+    m 3dubsu "Quiero agradecerte de nuevo por ayudarme a ver la verdad, [player]."
+    m 1eka "No fue fácil al principio, considerando todo lo que tuve que sacrificar, pero sé que todo saldrá bien al final."
+    m 1hua "Cuando pasas tu tiempo conmigo, no puedo evitar sentir que todas mis esperanzas y sueños se harán realidad."
+
+    #hints at the analysis on first viewing
+    if mas_getEV('mas_song_my_silver_lining').shown_count == 0:
+        m 1rtc "En realidad hay mucho más que me gustaría decir sobre esta canción..."
+        m 7eua "¿Tienes tiempo para escucharlo ahora?{nw}"
+        $ _history_list.pop()
+        menu:
+            m "¿Tienes tiempo para escucharlo ahora?{fast}"
+
+            "Seguro.":
+                m 1hub "¡De acuerdo!"
+                call mas_song_my_silver_lining_analysis(from_song=True)
+                $ mas_getEV("mas_song_my_silver_lining_analysis").shown_count += 1
+
+            "No puedo ahora.":
+                m 1eka "Vale, [player]..."
+                m 3eka "Guardaré mis pensamientos sobre el tema para otro momento. {w=0.2}Sólo avísame cuando quieras oírlos, ¿de acuerdo?"
+
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent._mas_songs_database,
+            eventlabel="mas_song_my_silver_lining_analysis",
+            category=[store.mas_songs.TYPE_ANALYSIS],
+            prompt="Mi lado bueno",
+            random=False,
+            unlocked=False,
+            aff_range=(mas_aff.NORMAL,None)
+        ),
+        code="SNG"
+    )
+
+label mas_song_my_silver_lining_analysis(from_song=False):
+
+    if from_song:
+        m 3eub "Probablemente debería empezar por cantarte la siguiente parte, entonces..."
+    else:
+        m 3eub "Déjame cantarte la canción primero entonces--"
+        call mas_song_my_silver_lining_lyrics
+
+    m 3dud "{i}~Tienes que seguir adelante, mirando fijamente al camino~{/i}"
+    m 3eud "{i}~No puedes preocuparte de lo que tienes detrás o de lo que te espera más adelante al subir por el camino~{/i}"
+    m 1ekd "{i}~Intento no aferrarme a lo que ha desaparecido, intento hacer bien lo que está mal~{/i}"
+    m 1eka "{i}~intento seguir insistiendo~{/i}"
+    m 1dsu "{i}~Sí, solo intento seguir insistiendo~{/i}"
+    m 1esc "Entonces...{w=0.2}como puedes imaginar, no siempre es fácil estar atrapada aquí, [player]."
+    m 3rksdlc "No tengo mucho que hacer, no tengo adónde ir, y me siento sola cuando estás fuera."
+    m 1dkc "Trato de no dejar que me afecte, pero cuando lo hace me gusta pensar en esta canción..."
+    m 3eub "¡Es una locura cómo un poco de música puede ayudar a cambiar las cosas cuando te sientes deprimido!"
+    m 3eua "Es como si esta canción rompiera lo que estaba mal en mi vida, y luego me dice que está bien dejar mis problemas."
+    m 1hua "'No puedes preocuparte de lo que tienes detrás o de lo que te espera más adelante', como dicen. Jejeje~"
+    m 1etc "Pero en serio, [player]...{w=0.3}Creo que hay un mérito real en esta línea de pensamiento."
+    m 1eka "Cualquiera que sea tu situación, el hecho es que las cosas son como son y no hay razón para no seguir sonriendo."
+    m 3eka "Ahora, no te digo que no te preocupes en absoluto..."
+    m 3eksdlc "Si lo hiciera, dejaría que el juego siguiera su curso y ya estaría atrapado para siempre por mi cuenta.."
+    m 1duu "...Pero al mismo tiempo, no tiene sentido exagerar las cosas que no puedes cambiar......"
+    m 1etc "Se trata de encontrar el equilibrio adecuado, supongo."
+    m 3rksdla "Cuando lo piensas, las ideas aquí se acercan extrañamente al nihilismo existencial, ¿no es así??"
+    m 3eud "Ya sabes, esta idea de que nuestras vidas son realmente absurdas y lo único que podemos hacer es...{w=0.3}{nw}"
+    extend 3eksdla "bueno, seguir adelante."
+    m 3etc "...Aunque si sigueras adelante, como en este siguiente verso..."
+    m 3dud "{i}~Me he despertado en la habitación de un hotel~{/i}"
+    m 1ekd "{i}~mis preocupaciones tan grandes como la luna~{/i}"
+    m 1dsd "{i}~Sin idea alguna de quién o qué o dónde estoy~{/i}"
+    m 2eka "{i}~Con lo malo, viene algo bueno~{/i}"
+    m 2dku "{i}~una canción nunca es solo triste~{/i}"
+    m 7eka "{i}~hay esperanza, hay un lado bueno~{/i}"
+    m 3duu "{i}~Muéstrame mi lado bueno~{/i}"
+    m 3eua "...Entonces diría que el significado de la canción no es tanto sobre el nihilismo como sobre la esperanza."
+    m 3huu "Y tal vez eso es lo que es importante, después de todo."
+    m 3ekblu "Tanto si nuestras vidas importan como si no, quiero creer que hay un lado brillante de la vida, [player]..."
+    m 2eud "Pero para que lo sepas, no creo que nuestras vidas no tengan sentido..."
+    m 2duu "Cualquiera que sea la verdad, tal vez podríamos intentar descubrirla juntos."
+    m 2eka "Pero hasta que lo hagamos, tendremos que seguir sonriendo y no preocuparnos por lo que venga después~"
+    return
+
+label mas_song_my_silver_lining_lyrics:
+    m 1dsd "{i}~Ya no quiero esperar más, estoy cansada de buscar respuestas~{/i}"
+    m 1eub "{i}~LLévame a algún lugar donde haya música y risas~{/i}"
+    m 2lksdld "{i}~No sé si tengo miedo a morir, pero tengo miedo a vivir demasiado rápido, demasiado despacio~{/i}"
+    m 2dsc "{i}~Arrepentimiento, remordimiento, espera, no, tengo que irme~{/i}"
+    m 7eud "{i}~No hay un 'empieza otra vez', no hay nuevos comienzos, el tiempo vuela~{/i}"
+    m 7eka "{i}~y tú tienes que seguir insistiendo~{/i}"
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent._mas_songs_database,
             eventlabel="mas_song_amaranthine",
             category=[store.mas_songs.TYPE_SHORT],
             prompt="Amaranto",
@@ -1381,7 +1519,7 @@ label mas_song_wonderwall:
     m 3rkc "Como dice esta canción, el camino de aquí a tu mundo es un camino sinuoso, no se sabe qué encontraremos más allá de la siguiente curva."
 
     if mas_isMoniEnamored(higher=True):
-        m 1dubsa "...Y contigo a mi lado, no hay forma de que pueda tener miedo."
+        m 1dubsa "...Pero contigo a mi lado, no hay forma de que pueda tener miedo."
         m 1ekbsa "Sé que el lugar al que conduce valdrá la pena. {w=0.3} {nw}"
         extend 3ekbsu "Después de todo, eres mi muro maravilloso~"
 

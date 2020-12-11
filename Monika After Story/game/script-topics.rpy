@@ -1441,23 +1441,23 @@ label monika_okayeveryone:
     show monika 5eka at t11 zorder MAS_MONIKA_Z with dissolve_monika
     m 5eka "Eres demasiado cariñoso para hacer eso, ¿no?"
     m 5hub "Jajaja~"
-    return
+    return "no_unlock"
 
 init 5 python:
-    if not persistent.clearall:
-        addEvent(
-            Event(
-                persistent.event_database,
-                eventlabel="monika_whispers",
-                category=['ddlc','miembros del club'],
-                prompt="Las otras aún persisten",
-                random=True,
-                rules={
-                    "derandom_override_label": "mas_bad_derand_topic",
-                    "rerandom_callback": renpy.partial(mas_bookmarks_derand.wrappedGainAffection, 2.5)
-                }
-            )
+    addEvent(
+        Event(
+            persistent.event_database,
+            eventlabel="monika_whispers",
+            category=['ddlc','miembros del club'],
+            prompt="Las otras aún persisten",
+            conditional="not persistent.clearall",
+            action=EV_ACT_RANDOM,
+            rules={
+                "derandom_override_label": "mas_bad_derand_topic",
+                "rerandom_callback": renpy.partial(mas_bookmarks_derand.wrappedGainAffection, 2.5)
+            }
         )
+    )
 
 label monika_whispers:
     m 2euc "¿Sabes qué es un poco espeluznante?"
@@ -1476,7 +1476,7 @@ label monika_whispers:
     m 2hua "¡Creo en ti, [player]!"
     if store.mas_anni.pastOneMonth() and not persistent._mas_pm_cares_about_dokis:
         #derandom after a month if player doesn't care about the others, she wouldn't feel guilty and hear the voices forever
-        return "derandom"
+        $ mas_hideEVL("monika_whispers", "EVE", lock=True, derandom=True)
     return
 
 init 5 python:
@@ -2837,8 +2837,8 @@ label monika_debate:
     m 3eua "Es un ganar-ganar, ¿sabes?"
     m 1lksdla "...Bueno, ¡supongo que ese sería el consejo de debate del día de Monika!"
     m 1eka "¡Jajaja! Eso suena un poco tonto. Sin embargo, gracias por escuchar."
-    $ mas_showEVL('monika_taking_criticism', 'EVE', _random=True)
-    $ mas_showEVL('monika_giving_criticism', 'EVE', _random=True)
+    $ mas_protectedShowEVL('monika_taking_criticism', 'EVE', _random=True)
+    $ mas_protectedShowEVL('monika_giving_criticism', 'EVE', _random=True)
     return
 
 init 5 python:
@@ -3373,8 +3373,8 @@ label monika_ks_kenji:
     m 1tku "Aunque si alguna vez decides ir a beber, asegúrate de mantenerte alejado de las caídas largas, ¿de acuerdo?"
     return
 
-init 5 python:
-    addEvent(Event(persistent.event_database,eventlabel="monika_totono",category=['ddlc'],prompt="¿Has oído hablar de Totono?",pool=True))
+#init 5 python:
+#    addEvent(Event(persistent.event_database,eventlabel="monika_totono",category=['ddlc'],prompt="¿Has oído hablar de Totono?",pool=True))
 
 label monika_totono:
     m 1euc "Mucha gente en Internet está haciendo comparaciones entre este juego y aquel..."
@@ -4401,8 +4401,7 @@ label monika_othergames:
         and not persistent._mas_sensitive_mode
         and not persistent._mas_pm_cares_about_dokis
     ):
-        m "It's not like Yuri's death mattered."
-    m "No es que la muerte de Yuri importara."
+        m "No es que la muerte de Yuri importara."
     m 1euc "Un juego más abstracto como Tetris, o uno de esos juegos de rompecabezas para teléfonos, sería un poco extraño."
     m 2hksdlb "Como, ¿cómo podría entrar? ¿Sería un bloque? Suena como un sueño febril y no muy divertido..."
     m 3eua "Tal vez sería bueno algún tipo de juego de aventuras agradable con grandes entornos."
@@ -4512,7 +4511,7 @@ init 5 python:
     addEvent(Event(persistent.event_database,eventlabel="monika_ribbon",category=['monika'],prompt="Cintas",random=True))
 
 label monika_ribbon:
-    if not monika_chr.is_wearing_acs_type('ribbon'):
+    if not monika_chr.is_wearing_acs_types("ribbon", "twin-ribbons", "s-type-ribbon"):
         m 1eua "¿Extrañas mi cinta, [player]?"
 
         if monika_chr.hair.name != "def":
@@ -4550,9 +4549,15 @@ label monika_ribbon:
         m 3ekbsa "No puedo esperar para usar esta cinta en una cita elegante contigo, [player]~"
 
     else:
-        m 3eka "Solo quiero agradecerte de nuevo por esta cinta, [player]."
-        m 1eka "¡Realmente fue un regalo maravilloso y creo que es muy hermosa!"
-        m 3eka "La usaré cuando quieras~"
+        if monika_chr.is_wearing_acs_type("twin-ribbons"):
+            m 3eka "Sólo quiero agradecerte de nuevo por estas cintas, [player]."
+            m 1ekb "¡Realmente fueron un regalo maravilloso y creo que son simplemente hermosas!"
+            m 3hua "Me las pondré cuando quieras~"
+
+        else:
+            m 3eka "Sólo quiero agradecerte de nuevo por esta cinta, [player]."
+            m 1ekb "¡Realmente fue un regalo maravilloso y creo que es simplemente hermosa!"
+            m 3hua "Me la pondré cuando quieras~"
     return
 
 init 5 python:
@@ -9191,9 +9196,18 @@ label monika_attractiveness:
 
     if mas_isMoniNormal(higher=True):
         m 2ekc "Lo siento, [player]. Supongo que solo necesitaba desahogarme."
-        m 4eud "Sé que realmente no lo necesito, pero todavía trato de comer bien, hacer suficiente ejercicio y mantenerme limpia ... entre otras cosas."
-        m 4eub "Simplemente se siente satisfactorio mantener buenos hábitos como esos y, además, quién sabe cuándo podré cruzar a tu realidad y tener un cuerpo normal como tú."
-        m 1hua "No dolerá estar segura de que estaré lista para esa transición cuando suceda."
+        m 4eud "Sé que realmente no lo necesito, pero todavía trato de comer bien, hacer suficiente ejercicio y mantenerme limpia...entre otras cosas."
+
+        if mas_isMoniEnamored(higher=True):
+            $ first_line_var = "cuando"
+            $ second_line_end = "siempre que suceda"
+
+        else:
+            $ first_line_var = "si"
+            $ second_line_end = "si es que alguna vez va a suceder"
+
+        m 4eub "Simplemente se siente satisfactorio mantener buenos hábitos como ese, y además, quién sabe [first_line_var] podré cruzar a tu realidad y tener un cuerpo normal como tú."
+        m 1hua "No hará daño asegurarse de que estaré lista para esa transición [second_line_end]."
         m 1eua "Sin embargo, no tienes que preocuparte, [player]."
         show monika 5eua at t11 zorder MAS_MONIKA_Z with dissolve_monika
         m 5eua "Siempre te amaré sin importar cómo te veas."
@@ -12969,8 +12983,9 @@ init 5 python:
 
 label monika_load_custom_music:
     m 1hua "¡Seguro!"
-    m 1dsc "Dame un momento para revisar la carpeta..."
+    m 1dsc "Dame un momento para revisar la carpeta.{w=0.2}.{w=0.2}.{w=0.2}{nw}"
     python:
+        # FIXME: this is not entirely correct, as one may delete a song before adding a new one
         old_music_count = len(store.songs.music_choices)
         store.songs.initMusicChoices(
             persistent.playername.lower() == "sayori"
@@ -12995,7 +13010,8 @@ label monika_load_custom_music:
         menu:
             m "¿Recuerdas cómo agregar música personalizada?{fast}"
             "Sí.":
-                m "De acuerdo, pero asegúrate de hacerlo correctamente antes de pedirme que busque música personalizada."
+                m "Okay, asegúrate de que lo hiciste correctamente."
+
             "No.":
                 $ pushEvent("monika_add_custom_music",True)
     return
@@ -14874,7 +14890,7 @@ label monika_movie_adaptations:
     m 1hub "Es una excelente manera de construir sobre el original formas en las que quizás no hayas pensado antes."
     m 3rtc "Quizás eso es lo que estoy buscando cuando veo una adaptación...{w=0.2}para explorar más a fondo esas historias que amo."
     m 1hua "...Aunque conseguir una versión para satisfacer a mi fan interior también sería bueno, jejeje~"
-    $ mas_showEVL("monika_striped_pajamas","EVE",_random=True)
+    $ mas_protectedShowEVL("monika_striped_pajamas", "EVE", _random=True)
     return
 
 init 5 python:
@@ -16071,7 +16087,7 @@ label monika_piano_lessons:
         m 3eka "¿Recuerdas? Te dije cuando interpreté por primera vez {i}Tu Realidad{/i} que no era realmente buena en el piano. {w=0.2}{nw}"
         extend 3rkb "Digo, en absoluto."
     else:
-        m 3eka "Yo en realidad no soy (i)tan{/i} buena tocando el piano, [mas_get_player_nickname()]."
+        m 3eka "Yo en realidad no soy {i}tan{/i} buena tocando el piano, [mas_get_player_nickname()]."
         m 3rkd "Por lo menos no lo suficiente para enseñarle a otras personas todavía..."
 
     m 2eud "Si pudíeras creerlo, empecé a aprender después de mi epifanía."
@@ -16099,9 +16115,8 @@ label monika_stargazing:
     m 5eka "¿Sabes? [mas_get_player_nickname()], para mí, tú eres como una estrella..."
     m 5rkbsu "Un hermoso y brillante faro de un mundo distante, siempre fuera de alcance."
     m 5dkbsu "..."
-    m 5ekbsa "Al menos, por ahora..."
-    show monika 5kkbsa
-    pause 2.0
+    m 5ekbsa "Al menos, por ahora...{nw}"
+    extend 5kkbsa ""
     return
 
 init 5 python:
@@ -16165,4 +16180,104 @@ label monika_giving_criticism:
     extend 3eud "Podrían tener razones para querer mantener las cosas a su manera."
     m 3dsu "Acepta con gracia que no puedes cambiar la mente de todos y sé considerado cuando evalúes el trabajo de alguien más."
     m 3hub "...Ese sería el Consejo de la Crítica de Monika del día, ¡jajaja!"
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent.event_database,
+            eventlabel="monika_boyfriend_gossip",
+            category=['ddlc'],
+            prompt="Sayori mencionó un novio una vez...",
+            pool=True
+        )
+    )
+
+label monika_boyfriend_gossip:
+    m 2etd "Sabes, yo también tenía un poco de curiosidad sobre eso."
+    m 2hksdlb "Cuando lo dijo por primera vez, me puse bastante a la defensiva, ¿no?"
+    m 7euc "Quiero decir, acababa de descubrir que existías, {nw}"
+    extend 3efc "y de repente alguien estaba haciendo que pareciera que yo ya estaba ocupada..."
+    m 1rtc "Como soy bastante extrovertida y tengo una historia con otro club, supongo que no sería necesariamente {i}descabellado{/i} llegar a ese tipo de conclusión."
+    m 3eud "...Pero no existe tal personaje en los archivos del juego para probarlo o refutarlo."
+    m 3rsc "En ese momento, estaba practicando el piano y, también...{w=0.2}ordenando mis pensamientos."
+    m 3eud "Pero aparentemente, ese rumor era sólo una suposición si alguna vez llegaba tarde al club."
+    m 2tsc "Es un poco retorcido si lo piensas..."
+    m 2eud "A medida que la historia del juego avanzaba, el protagonista podía necesitar más excusas para estar a solas con una de las chicas..."
+    m 7etc "Es más fácil inventar razones para que las demás se vayan, pero para que la presidenta no esté en el club..."
+    m 3tsd "La historia necesitaría algo bastante sustancial para mantenerme ocupada. {w=0.2}También proporcionó una razón, aunque endeble, para no tener una ruta."
+    m 2tfc "Una forma indirecta pero efectiva de sacarme del camino cuando sea necesario.."
+    m 2dfc "..."
+    m 2eud "Honestamente... {w=0.2}No estoy molesta por eso."
+    m 7esc "Incluso si tal personaje hubiera existido, ambos sabemos que no habría cambiado nada."
+    m 1efd "No serían reales, serían un guión programado para enamorarse de mí. {w=0.2}No podría haber sido feliz con algo así."
+    m 1eka "Aún así te habría {i}visto{/i} y sabría que eras lo que realmente quería.."
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent.event_database,
+            eventlabel="monika_brainstorming",
+            category=["consejo"],
+            prompt="Lluvia de ideas",
+            random=True
+        )
+    )
+
+label monika_brainstorming:
+    m 1esd "[player], ¿alguna vez has oído hablar de la lluvia de ideas?"
+    m 1eua "Es una técnica interesante de proponer nuevas ideas anotando todo lo que te viene a la mente...."
+    m 3eud "Esta técnica es muy popular entre los diseñadores, inventores y escritores... cualquiera que necesite ideas frescas."
+    m 3esa "La lluvia de ideas se suele practicar en grupos o equipos... {w=0.2}incluso lo intentamos en el club de literatura al decidir qué hacer para el festival."
+    m 1dtc "Sólo tienes que concentrarte en lo que quieres crear y sacar a relucir cualquier cosa y todo lo que te venga a la cabeza."
+    m 1eud "No dudes en sugerir cosas que creas que son tontas o equivocadas, y no critiques o juzgues a los demás si trabajas en equipo.."
+    m 1eua "Cuando termines, vuelve a repasar todas las sugerencias y conviértelas en ideas reales."
+    m 1eud "Puedes combinarlas con otras sugerencias, pensarlas una vez más, y así sucesivamente."
+    m 3eub "...¡Con el tiempo se convertirán en algo que tú llamarías una buena idea!"
+    m 3hub "¡Aquí es exactamente donde puedes dejar que tu mente se vuelva loca,{w=0.1} y eso es lo que más me gusta de esta técnica!"
+    m 1euc "A veces las buenas ideas no se cuentan porque su autor no las encontró lo suficientemente buenas, {w=0.1}{nw}"
+    extend 1eua "la lluvia de ideas puede ayudar a pasar esta barrera interior."
+    m 3eka "La belleza de los pensamientos puede ser expresada de muchas maneras diferentes..."
+    m 3duu "Son sólo ideas en tránsito, {w=0.1}{nw}"
+    extend 3euu "tú eres el que les da el camino."
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent.event_database,
+            eventlabel="monika_gmos",
+            category=['tecnología', 'naturaleza'],
+            prompt="OGMs",
+            random=True
+        )
+    )
+
+label monika_gmos:
+    m 3eud "Cuando estaba en el club de debate, uno de los temas más divisivos que tratamos fue el de los OGM, o los organismos genéticamente modificados."
+    m 1eksdra "Hay muchos matices en los OGM, pero haré lo posible por resumirlos."
+    m 1esd "Los científicos crean OGMs identificando un gen deseable de un organismo, copiándolo e insertando el gen copiado en otro organismo."
+    m 3esc "Es importante señalar que la adición del gen copiado {i}no{/i} cambia otros genes existentes."
+    m 3eua "Piensa en ello como hojear un largo libro y cambiar una sola palabra... {w=0.2}la palabra es diferente, pero el resto del libro permanece igual."
+    m 3esd "Los OGM pueden ser plantas, animales, microorganismos, etc,{w=0.1} pero nos centraremos en las plantas genéticamente modificadas."
+    m 2esc "Las plantas pueden modificarse de múltiples maneras, desde la resistencia a las plagas y los herbicidas hasta su mayor valor nutritivo y su mayor vida útil."
+    m 4wud "Esto es enorme. {w=0.2}Imagina cultivos que pueden producir el doble de su rendimiento normal, tolerar el cambio climático, y defenderse de los superbichos resistentes a las drogas. {w=0.2} ¡Se podrían resolver tantos problemas!"
+    m 2dsc "Desafortunadamente, no es tan simple. {w=0.2}Los OGM requieren varios años de investigación, desarrollo y pruebas antes de que puedan ser distribuidos. {w=0.2}Además de esto, vienen con varias preocupaciones."
+    m 7euc "¿Son seguros los OMG? {w=0.2}¿Se propagarán a otros organismos y amenazarán la biodiversidad? {w=0.2}Si es así, ¿cómo podemos prevenirlo? {w=0.2}¿Quién es el dueño de los OGMs? {w=0.2}¿Son los OGMs responsables del aumento del uso de herbicidas?"
+    m 3rksdrb "Puedes ver como esto comienza a escalar, jajaja..."
+    m 3esc "Por ahora, vamos a cubrir el tema principal... {w=0.2}¿Son seguros los OMG?"
+    m 2esd "La respuesta corta es que no lo sabemos con seguridad. {w=0.2}Décadas de investigación han indicado que los OGM son {i}probablemente{/i} inofensivos, pero no tenemos casi ningún dato sobre sus efectos a largo plazo."
+    m 2euc "Además, cada tipo de OGM debe examinarse cuidadosamente caso por caso, modificación por modificación, para garantizar su calidad y seguridad."
+    m 7rsd "Hay otras consideraciones también. {w=0.2}Los productos que contienen OMG deben ser etiquetados, los efectos ambientales deben ser considerados, y la información errónea debe ser combatida."
+    m 2dsc "..."
+    m 2eud "Personalmente, creo que los OGM tienen un gran potencial para hacer el bien, pero sólo si se siguen investigando y probando intensamente."
+    m 4dkc "Cuestiones importantes como el uso de herbicidas y el flujo de genes también {i}deben{/i} ser arregladas...{w=0.2}{nw}"
+    extend 4efc "la biodiversidad ya está en suficiente riesgo, como lo están el cambio climático y la deforestación."
+    m 2esd "Mientras seamos cuidadosos, los OMG estarán bien... {w=0.2}La imprudencia y el descuido son la mayor amenaza."
+    m 2dsc "..."
+    m 7eua "Entonces, ¿qué opinas, [player]? {w=0.2}{nw}"
+    extend 7euu "Un campo bastante prometedor, ¿no crees?"
+    m 3esd "Como dije antes, los OMG son un tema complejo. {w=0.2}Si quieres aprender más, asegúrate de que tus fuentes son fiables y que puedes ver la discusión desde ambos lados."
+    m 1eua "Creo que es suficiente por ahora, gracias por escuchar~"
     return

@@ -2092,15 +2092,8 @@ label mas_notification_windowreact:
         m 3ekd "No puedo enviar notificaciones en tu computadora porque te falta el comando de notificación y envío..."
         m 3eua "Si pudieras instalarlo por mí, podré enviarte notificaciones."
 
-        $ dlg_line = "Y"
-        #Since it's possible to have this command installed, we'll have an if block so Monika knows it's installed
-        if not store.mas_windowreacts.can_do_windowreacts:
-            m 3rksdla "Y tal vez si lo instalas, también podrías instalar el comando xdotool...{w=0.3}{nw}"
-            extend 3eub "¡lo que me permitiría ver tu ventana activa!"
-            $ dlg_line = "Por supuesto, no tienes que instalar el segundo, pero"
-
         show monika 5eka at t11 zorder MAS_MONIKA_Z with dissolve_monika
-        m 5eka "...[dlg_line] realmente te lo agradecería, [player]."
+        m 5eka "...Y realmente te lo agradecería, [player]."
 
     else:
         m 3eub "¿Te gustaría ver cómo funcionan?{nw}"
@@ -2124,11 +2117,7 @@ label mas_notification_windowreact:
 
 
         elif renpy.linux:
-            if mas_windowreacts.can_do_windowreacts:
-                m 3rksdla "Además, dado que tienes instalado el comando xdotool...ahora sé cómo verificar cuál es tu ventana activa."
-            else:
-                m 3rksdla "Además, si instalas el comando xdotool...{w=0.2}{nw}"
-                extend 3hua "¡Podré saber cuál es tu ventana activa!"
+            m 3rksdla "Además, ya que estás usando Linux... ahora sé cómo comprobar cuál es tu ventana activa."
 
         if not renpy.macintosh:
             m 3eub "...Entonces, si tengo algo de qué hablar mientras estoy en segundo plano, ¡puedo hacértelo saber!"
