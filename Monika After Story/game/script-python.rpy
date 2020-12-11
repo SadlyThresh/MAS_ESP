@@ -822,7 +822,7 @@ label monika_ptod_tip009:
     call mas_wx_cmd("bool(0.0)")
 
     m 1eua "Ahora veamos las cadenas."
-    call mas_wx_cmd('bool("string with text")')
+    call mas_wx_cmd('bool("cadena con texto")')
     call mas_wx_cmd('bool("  ")')
     m 3eub "Una cadena con texto, incluso si el texto es solo caracteres de espacio en blanco, tiene un valor de verdad de {b}Verdadero{/b}"
     call mas_wx_cmd('bool("")')

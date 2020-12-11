@@ -135,9 +135,9 @@ screen hkb_overlay():
             textbutton _("Hablar")
 
         if store.hkb_button.extra_enabled:
-            textbutton _("Extra") action Function(mas_open_extra_menu)
+            textbutton _("Extras") action Function(mas_open_extra_menu)
         else:
-            textbutton _("Extra")
+            textbutton _("Extras")
 
         if store.hkb_button.music_enabled:
             textbutton _("Música") action Function(select_music)

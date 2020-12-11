@@ -320,8 +320,8 @@ init -1 python in mas_affection:
 
     # [current_datetime]: !FREEZE! | monikatopic | magnitude | prev -> new
     _audit_f = "[{0}]: {5} | {1} | {2} | {3} -> {4}\n"
-    _freeze_text = "!FREEZE!"
-    _bypass_text = "!BYPASS!"
+    _freeze_text = "¡DETENIDO!"
+    _bypass_text = "¡PASADO POR ALTO!"
 
     def audit(change, new, frozen=False, bypass=False, ldsv=None):
         """
@@ -1127,7 +1127,7 @@ init -10 python:
         persistent._mas_pctadeibe = None
 
         # audit this change
-        store.mas_affection.audit(aff_value, aff_value, ldsv="SAVE")
+        store.mas_affection.audit(aff_value, aff_value, ldsv="GUARDAR")
 
         # backup this value
         if persistent._mas_aff_backup != aff_value:
@@ -1135,7 +1135,7 @@ init -10 python:
                 persistent._mas_aff_backup,
                 aff_value,
                 aff_value,
-                "SET BACKUP"
+                "HACER RESPALDO"
             )
             persistent._mas_aff_backup = aff_value
 
@@ -1178,18 +1178,18 @@ init -10 python:
             ):
             if persistent._mas_aff_backup is None:
                 new_value = 0
-                store.mas_affection.txt_audit("LOAD", "No backup found")
+                store.mas_affection.txt_audit("CARGAR", "No se encontró respaldo")
 
             else:
                 new_value = persistent._mas_aff_backup
-                store.mas_affection.txt_audit("LOAD", "Loading from backup")
+                store.mas_affection.txt_audit("CARGAR", "Cargando desde respaldo")
 
         else:
             new_value = persistent._mas_affection["affection"]
-            store.mas_affection.txt_audit("LOAD", "Loading from system")
+            store.mas_affection.txt_audit("CARGAR", "Cargando desde sistema")
 
         # audit the amount loaded
-        store.mas_affection.raw_audit(0, new_value, new_value, "LOAD?")
+        store.mas_affection.raw_audit(0, new_value, new_value, "¿CARGAR?")
 
         # if the back is None, set the backup
         if persistent._mas_aff_backup is None:
@@ -1197,10 +1197,10 @@ init -10 python:
 
             # audit
             store.mas_affection.raw_audit(
-                "None",
+                "Nada",
                 new_value,
                 new_value,
-                "NEW BACKUP"
+                "NUEVO RESPALDO"
             )
 
 
@@ -1216,12 +1216,12 @@ init -10 python:
                     new_value,
                     persistent._mas_aff_backup,
                     persistent._mas_aff_backup,
-                    "RESTORE"
+                    "RESTAURAR"
                 )
                 new_value = persistent._mas_aff_backup
 
         # audit this change
-        store.mas_affection.audit(new_value, new_value, ldsv="LOAD COMPLETE")
+        store.mas_affection.audit(new_value, new_value, ldsv="CARGA COMPLETA")
 
         # and set what we got
         persistent._mas_affection["affection"] = new_value
@@ -1765,7 +1765,7 @@ init 20 python:
             mas_updateAffectionExp()
 
 
-    def mas_setAffection(amount=None, logmsg="SET"):
+    def mas_setAffection(amount=None, logmsg="ESTABLECER"):
         """
         Sets affection to a value
 
@@ -1910,7 +1910,7 @@ init 20 python:
                         mas_loseAffection(200)
 
                 else:
-                    store.mas_affection.txt_audit("ABS", "she missed you")
+                    store.mas_affection.txt_audit("ABS", "ella te extrañó")
                     mas_setAffection(new_aff)
 
 
@@ -2687,7 +2687,7 @@ Tuya para siempre, Monika.
         }
 
         #Now we get from this dict and pass it to the write txt func to make a surprise
-        filepath, message = aff_level_surprise_map.get(mas_curr_affection, ("/surprise.txt", _("I love you.")))
+        filepath, message = aff_level_surprise_map.get(mas_curr_affection, ("/sorpresa.txt", _("Te amo.")))
         _write_txt("/characters{0}".format(filepath), message)
 
         #And unlock its poem

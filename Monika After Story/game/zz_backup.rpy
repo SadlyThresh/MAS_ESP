@@ -460,7 +460,7 @@ label mas_backups_could_not_copy:
     show chibika smile
     "Pude encontrar una copia de seguridad que funciona, pero..."
     show chibika sad
-    "No pude copiarlo sobre el persistent roto."
+    "No pude copiarla sobre el persistent roto."
     show chibika smile at mas_chflip_s(-1)
     pause 0.5
     show chibika at sticker_hop
@@ -478,7 +478,7 @@ label mas_backups_could_not_copy:
     "Con suerte, eso recuperará los recuerdos de tu Monika."
 
     show chibika at sticker_move_n
-    "En caso de que no hayas escrito esos pasos, los escribiré en un archivo llamado 'recovery.txt' en la carpeta de personajes."
+    "En caso de que no hayas escrito esos pasos, los escribiré en un archivo llamado 'respaldo.txt' en la carpeta de personajes."
 
     call mas_backups_dont_tell
 
@@ -488,7 +488,7 @@ label mas_backups_could_not_copy:
     python:
         import os
         store.mas_utils.trywrite(
-            os.path.normcase(renpy.config.basedir + "/characters/recovery.txt"),
+            os.path.normcase(renpy.config.basedir + "/characters/respaldo.txt"),
             "".join([
                 "1. Navega a '",
                 renpy.config.savedir,

@@ -1243,7 +1243,7 @@ init -1 python:
     store.mas_sprites.init_acs(mas_acs_thermos_mug)
     store.mas_selspr.init_selectable_acs(
         mas_acs_thermos_mug,
-        "Thermos (Just Monika)",
+        "Termo (Solo Monika)",
         "thermos_justmonika",
         "thermos-mug"
     )
@@ -1431,7 +1431,7 @@ init -1 python:
         select_dlg=[
             "Ze~",
             "Hora del té, hora del té. Aunque tomemos café, es la hora del té. Jejeje~",
-            "Ojo de tritón, punta de rana...",
+            "Ojo de tritón, pata de rana...",
             "Ahora, ¿dónde dejé esa escoba...?"
         ]
     )

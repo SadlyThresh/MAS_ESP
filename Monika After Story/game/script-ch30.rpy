@@ -14,8 +14,8 @@ init -998 python:
     #We need to flow hijack here if we're running unstable mode files but on a fresh persistent
     if "unstable" in config.version and not persistent.sessions:
         raise Exception(
-            _("Unstable mode files in install on first session. This can cause issues.\n"
-            "Please reinstall the latest stable version of Monika After Story to ensure that there will be no data issues.")
+            _("Archivos de modo inestable en la instalación. Esto puede causar problemas.\n"
+            "Por favor, reinstale la última versión estable de Monika After Story para asegurar que no haya problemas de datos.")
         )
 
 init -890 python in mas_globals:
@@ -1018,9 +1018,9 @@ label ch30_nope:
         if renpy.windows:
             call updateconsole("shututil.rmtree(\"Documents\", true)", "Eliminación de documentos en curso...") from _call_updateconsole_15
         elif renpy.linux:
-            call updateconsole("sudo mv ~ /dev/null", "In progress...") from _call_updateconsole_16
+            call updateconsole("sudo mv ~ /dev/null", "En progreso...") from _call_updateconsole_16
         elif renpy.macintosh:
-            call updateconsole("sudo mv ~ /dev/null", "In progress...") from _call_updateconsole_19
+            call updateconsole("sudo mv ~ /dev/null", "En progreso...") from _call_updateconsole_19
         pause 3.0
         call hideconsole from _call_hideconsole_2
         $ open(config.basedir + "/characters/monika.chr", "wb").write(renpy.file("monika.chr").read())

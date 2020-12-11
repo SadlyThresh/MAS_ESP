@@ -60,7 +60,7 @@ init python:
 
             #Log this
             store.mas_utils.writelog(
-                "[WARNING]: win32api/win32gui failed to be imported, disabling notifications.\n"
+                "[ADVERTENCIA]: win32api/win32gui no se importó, lo que inhabilitó las notificaciones.\n"
             )
 
         #NOTE: This is part of the try/catch block. We only run this if there was no error in the try
@@ -80,7 +80,7 @@ init python:
             persistent._mas_windowreacts_windowreacts_enabled = False
             store.mas_windowreacts.can_do_windowreacts = False
             store.mas_utils.writelog(
-                "[WARNING]: Window reacts do not work on Wayland\n"
+                "[ADVERTENCIA]: Reacciones de Ventana no funciona en Wayland\n"
             )
 
             # NOTE: it is possible for WAYLAND_DISPLAY to be unset on a wayland
@@ -97,7 +97,7 @@ init python:
                 #Command wasn't found
                 store.mas_windowreacts.can_show_notifs = False
                 store.mas_utils.writelog(
-                    "[WARNING]: notify-send not found, disabling notifications.\n"
+                    "[ADVERTENCIA]: notify-send no encontrado, desactivando nortificaciones.\n"
                 )
 
             # xdotool check
@@ -108,7 +108,7 @@ init python:
                 #Command not found
                 persistent._mas_windowreacts_windowreacts_enabled = False
                 store.mas_windowreacts.can_do_windowreacts = False
-                store.mas_utils.writelog("[WARNING]: xdotool not found, disabling windowreacts.\n")
+                store.mas_utils.writelog("[ADVERTENCIA]: xdotool no encontrado, desactivando reacciones de ventana.\n")
 
     else:
         store.mas_windowreacts.can_do_windowreacts = False
@@ -175,7 +175,7 @@ init python:
             try:
                 window_handle = subprocess.check_output(["xdotool", "getwindowfocus", "getwindowname"])
             except:
-                store.mas_utils.writelog("[ERROR]: xdotool exited with a non-zero exit code.\n")
+                store.mas_utils.writelog("[ERROR]: xdotool salido con un código de salida distinto de cero.\n")
                 return ""
 
             #If we have a window handle, let's just process it as friendly/unfriendly and return it

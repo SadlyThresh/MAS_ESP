@@ -7505,13 +7505,13 @@ init -1 python in mas_randchat:
 
     ## slider map for displaying
     SLIDER_MAP_DISP = {
-        NEVER: "Never",
-        RARELY: "Rarely",
-        OCCASIONALLY: "Occasionally",
-        LESS_OFTEN: "Less Often",
+        NEVER: "Nunca",
+        RARELY: "Raramente",
+        OCCASIONALLY: "Ocasional",
+        LESS_OFTEN: "Menos frecuente",
         NORMAL: "Normal",
-        OFTEN: "Often",
-        VERY_OFTEN: "Very Often"
+        OFTEN: "Frecuente",
+        VERY_OFTEN: "Muy Frecuente"
     }
 
     # current frequency times
@@ -7666,7 +7666,7 @@ label mas_set_gender:
                 "man": "persona",
                 "boy": "a persona",
                 "guy": "a persona",
-                "him": "ellos",
+                "him": "él",
                 "himself": "él mismo"
             }
         }

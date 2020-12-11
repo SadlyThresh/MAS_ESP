@@ -220,7 +220,7 @@ label mas_piano_result_default:
 # Shown if player does not hit any notes
 label mas_piano_result_none:
     m 1lksdla "Uhhh [player]..."
-    m 1hksdlb "Pensé que querías tocar el piano"
+    m 1hksdlb "Pensé que querías tocar el piano."
     m 1eka "Realmente disfruto escucharte tocar."
     m 1hua "¿Prometes tocar para mi la próxima vez?"
     return
@@ -276,7 +276,7 @@ label mas_piano_hb_fail:
                 $ our = "nuestro"
             else:
                 $ our = "mi"
-            m 1dsd "Bueno, si quisieres tocar esto en [our] cumpleaños..."
+            m 1dsd "Bueno, si querías tocar esto en [our] cumpleaños..."
             m 3tsd "Deberías haber practicado antes."
         elif mas_isplayer_bday():
             m 1eka "Aw, está bien, [player]..."
@@ -352,7 +352,7 @@ label mas_piano_yr_fc:
     $ mas_gainAffection(modifier=1.5)
     m 1sub "¡Eso fue maravilloso, [player]!"
     m 1eub "No sabía que pudieras tocar el piano tan bien."
-    m 1hub "¡Quizás deberíamos jugar juntos alguna vez!"
+    m 1hub "¡Quizás deberíamos tocar juntos alguna vez!"
     return
 
 # shown if player did not complete song and had more fails than passes
@@ -366,7 +366,7 @@ label mas_piano_yr_fail:
 label mas_piano_yr_prac:
     m 1hua "¡Eso fue realmente genial, [player]!"
     m 3eua "Con un poco más de práctica, podrás tocar mi canción perfectamente."
-    m 1eka "Asegúrate de practicar todos los días para mí, ¿de acuerdo?~"
+    m 1eka "Asegúrate de practicar todos los días para mí, ¿de acuerdo~?"
     return
 
 
@@ -2441,7 +2441,7 @@ init 810 python:
 
             # config help text
             self._config_wait_help = Text(
-                _("Haga clic en un área rosa para cambiar el botón de esa tecla del piano"),
+                _("Haga click en un área rosa para cambiar el botón de esa tecla del piano"),
                 font=gui.default_font,
                 size=gui.text_size,
                 color="#fff",

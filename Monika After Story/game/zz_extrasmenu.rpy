@@ -125,7 +125,7 @@ init 5 python:
         Event(
             persistent.event_database,
             eventlabel="mas_extra_menu_firsttime",
-            prompt="¿Puedes explicar el menú 'Extra'?",
+            prompt="¿Puedes explicar el menú 'Extras'?",
             category=["misc"]
         )
     )
@@ -135,7 +135,7 @@ label mas_extra_menu_firsttime:
         m 1hua "¡Bienvenido al menú Extras, [player]!"
 
     m 1eua "Aquí es donde agregaré cosas que no son juegos, como interacciones especiales que puedes hacer con tu mouse."
-    m "También puede abrir este menú presionando la tecla 'e'."
+    m "También puedes abrir este menú presionando la tecla 'e'."
 
     if not persistent._mas_opened_extra_menu:
         m 1hua "¡Espera algunas cosas interesantes en este menú!"

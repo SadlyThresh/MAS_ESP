@@ -54,7 +54,7 @@ init -4 python:
             self.glitch = _poemword.glitch
 
 
-        def _hangman(self, mon="I", say="Sayori", nat="Natsuki", yur="Yuri"):
+        def _hangman(self, mon="Monika", say="Sayori", nat="Natsuki", yur="Yuri"):
             """
             Returns the approprite tuple of this word and the winner name.
 
@@ -1170,7 +1170,7 @@ label mas_poem_minigame (flow,music_filename=audio.t4,show_monika=True,
 
     # poem help screen
     if show_poemhelp:
-        call screen dialog("It's time to write a poem!\n\nPick words you think your favorite club member\nwill like. Something good might happen with\nwhoever likes your poem the most!", ok_action=Return())
+        call screen dialog("¡Es tiempo de escribir un poema!\n\nSelecciona palabras que creas que le gustarán a tu miembro\nfavorito del Club. ¡Algo bueno podría ocurrir con quién más\nle guste tu poema!", ok_action=Return())
 
     # okay here begins the main flow
     python:

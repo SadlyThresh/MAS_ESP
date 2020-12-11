@@ -1336,7 +1336,7 @@ screen preferences():
 
     default tooltip = Tooltip("")
 
-    use game_menu(_("Settings"), scroll="viewport"):
+    use game_menu(_("Ajustes"), scroll="viewport"):
 
         vbox:
             xoffset 50
@@ -1404,7 +1404,7 @@ screen preferences():
                         hovered tooltip.Action(layout.MAS_TT_SENS_MODE)
 
                     if store.mas_windowreacts.can_do_windowreacts:
-                        textbutton _("Reacciones"):
+                        textbutton _("Reacciones de Ventana"):
                             action ToggleField(persistent, "_mas_windowreacts_windowreacts_enabled", True, False)
                             hovered tooltip.Action(layout.MAS_TT_ACTV_WND)
 
@@ -1780,7 +1780,7 @@ screen notif_settings():
 screen hot_keys():
     tag menu
 
-    use game_menu(("Hotkeys"), scroll="viewport"):
+    use game_menu(("Atajos"), scroll="viewport"):
 
         default tooltip = Tooltip("")
 

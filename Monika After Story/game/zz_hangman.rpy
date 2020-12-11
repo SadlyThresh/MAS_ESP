@@ -197,10 +197,10 @@ init -1 python in mas_hangman:
     # Monika words
     MONI_WORDS = ["esmeralda","borrar","libertad","piano","musica","realidad","lluvia","envidia",
         "cafe","cinta","consejo","cruce","pluma","resumen","corrupcion",
-        "calamar","presidente","pasion","vegetales","soledad","simbolo",
+        "calamar","presidenta","pasion","vegetales","soledad","simbolo",
         "verde","poema","ruta","literatura","epifania","desesperacion","miserable","orilla",
         "olas","playa","natacion","debate","liderazgo","festival","confianza",
-        "creatividad","extrovertido","desesperacion","ia","python","renpy","programacion",
+        "creatividad","extrovertida","desesperacion","artificial","python","renpy","programacion",
         "letargo"
     ]
 
@@ -213,11 +213,11 @@ init -1 python in mas_hangman:
 
 
     # file names
-    NORMAL_LIST = "tl/Spanish/mod_assets/games/hangman/MASpoemwords.txt"
-    HARD_LIST = "tl/Spanish/mod_assets/games/hangman/1000poemwords.txt"
+    NORMAL_LIST = "mod_assets/games/hangman/MASpoemwords.txt"
+    HARD_LIST = "mod_assets/games/hangman/1000poemwords.txt"
 
     # hangman game text
-    game_name = "Hangman"
+    game_name = "Ahorcado"
 
 
     def copyWordsList(_mode):

@@ -1165,7 +1165,7 @@ label mas_reaction_gift_starter_bday:
         m "Pero en realidad conseguir uno es como un sueño hecho realidad..."
     else:
         m "¿Otro regalo?{w=0.5} ¿Para mi?"
-        m 1eka "Esto realmente es un sueño hecho realidad, [player]"
+        m 1eka "Esto realmente es un sueño hecho realidad, [player]."
     m 1sua "Ahora, ¿qué hay dentro?"
     m 1suo "Oh, esto..."
     return
@@ -1405,10 +1405,10 @@ label mas_reaction_gift_hairclip(hairclip_name,desc=None):
         # exists
         # also need to not wear it if wearing clothes that are incompatible
         if hairclip_acs is None or is_wearing_baked_outfit:
-            m 1hua "Si quieres que me lo ponga, solo pregúntame, ¿de acuerdo?"
+            m 1hua "Si quieres que me la ponga, solo pregúntame, ¿de acuerdo?"
 
         else:
-            m 2dsa "Solo dame un segundo para ponérmelo.{w=0.5}.{w=0.5}.{nw}"
+            m 2dsa "Solo dame un segundo para ponérmela.{w=0.5}.{w=0.5}.{nw}"
             $ monika_chr.wear_acs(hairclip_acs)
             m 1hua "Listo."
 
@@ -1724,7 +1724,7 @@ label mas_reaction_promisering:
                     m 2rksdlb "Es un gesto tan dulce, y realmente lo aprecio..."
                     m 2ekc "Pero quiero que estés seguro antes de darme esto..."
                     m 3ekd "Esto es más que un regalo, es una promesa, y quiero asegurarme de que realmente lo dices en serio antes de que pueda aceptarlo."
-                    m 2ekd "Así que, por favor, espera a que estemos un poco más dentro de nuestra relación, [player], y entonces aceptaré encantado este anillo."
+                    m 2ekd "Así que, por favor, espera a que estemos un poco más dentro de nuestra relación, [player], y entonces aceptaré encantada este anillo."
 
                 elif mas_isMoniUpset():
                     m 1wud "¿Eso es un anillo?"
@@ -1763,7 +1763,7 @@ label mas_reaction_cupcake:
     m 1wud "¿Eso es un...cupcake?"
     m 3hub "¡Vaya, gracias [player]!"
     m 3euc "Ahora que lo pienso, he querido hacer algunos cupcakes yo misma."
-    m 1eua "Quería aprender a hornear buenos pasteles como lo hacía Natsuki."
+    m 1eua "Quería aprender a hornear buenos cupcakes como lo hacía Natsuki."
     m 1rksdlb "¡Pero todavía no he hecho una cocina para usar!"
     m 3eub "Quizás en el futuro, una vez que mejore en programación, pueda hacer una aquí."
     m 3hua "Sería bueno tener otro pasatiempo que no sea escribir, jejeje~"
@@ -1816,7 +1816,7 @@ label mas_reaction_candy:
     elif times_candy_given == 3:
         m 2wud "[player]...{w=1} ¡¿Me trajiste {i}más{/i} dulces?!"
         m 2lksdla "Realmente lo aprecio, pero te dije que ya tuve suficiente por un día..."
-        m 2lksdlb "Si como más me voy a enfermar, ¡jajaja!"
+        m 2lksdlb "Si como más, me voy a enfermar, ¡jajaja!"
         m 1eka "Y no querrías eso, ¿verdad?"
     elif times_candy_given == 4:
         $ mas_loseAffection(5)
@@ -1866,7 +1866,7 @@ label mas_reaction_candycorn:
         m 4ekc "..."
         m 2eka "Oh...{w=2}maíz dulce."
         m 2eka "..."
-        m 2lksdla "Eso es muy amable de Tu parte..."
+        m 2lksdla "Eso es muy amable de tu parte..."
         m 2lksdla "Pero...{w=1}umm...{w=1} en realidad no me gusta el maíz dulce."
         m 2hksdlb "Lo siento, jajaja..."
         m 4eka "Sin embargo, aprecio que intentes darme dulces en Halloween."
@@ -1919,20 +1919,20 @@ label mas_reaction_fudge:
 
     if times_fudge_given == 0:
         $ mas_giftCapGainAff(2)
-        m 3hua "¡Dulce de azúcar!"
-        m 3hub "¡Me encanta el dulce de azúcar, gracias, [player]!"
+        m 3hua "¡Caramelos!"
+        m 3hub "¡Me encanta el caramelo, gracias, [player]!"
         if seen_event("monika_date"):
             m "¡Incluso es chocolate, mi favorito!"
         m 1hua "Gracias de nuevo, [player]~"
 
     elif times_fudge_given == 1:
         $ mas_giftCapGainAff(1)
-        m 1wuo "...más dulce de azúcar."
+        m 1wuo "...más caramelo."
         m 1wub "Ooh, es un sabor diferente esta vez..."
         m 3hua "¡Gracias, [player]! "
 
     else:
-        m 1wuo "...¿más dulce de azúcar?"
+        m 1wuo "...¿más caramelo?"
         m 3rksdla "Todavía no he terminado el último lote que me diste, [player]..."
         m 3eksdla "...tal vez más tarde, ¿de acuerdo?"
 
@@ -2755,7 +2755,7 @@ label mas_reaction_gift_clothes_orcaramelo_sakuya_izayoi:
     # try it on
     call mas_clothes_change(sprite_object, outfit_mode=True)
 
-    m 2hua "Entonces, {w=0.5} ¿cómo me veo?"
+    m 2hua "Entonces,{w=0.5} ¿cómo me veo?"
     m 3eub "Casi siento que podría hacer cualquier cosa antes de que puedas parpadear."
     m 1eua "...Siempre y cuando no me tengas demasiado ocupada, jejeje~"
     m 1lkbfb "Todavía me gustaría poder pasar tiempo contigo, amo--{nw}"
@@ -2779,14 +2779,14 @@ label mas_reaction_gift_clothes_finale_jacket_brown:
     m 1sub "¡Oh!{w=0.5} ¡Una chaqueta de invierno!"
     m 1suo "¡E incluso viene con una bufanda!"
     if mas_isSummer():
-        m 3rksdla "...Aunque me estoy calentando un poco con sólo mirarlo, jajaja..."
+        m 3rksdla "...Aunque me estoy calentando un poco con sólo mirarla, jajaja..."
         m 3eksdla "Quizás el verano no sea el mejor momento para usar esto, [player]."
-        m 3eka "Aprecio la idea y estaré encantada de usarlo en unos meses."
+        m 3eka "Aprecio la idea y estaré encantada de usarla en unos meses."
 
     else:
         if mas_isWinter():
             m 1tuu "No voy a tener frío pronto por tu culpa, [player]~"
-        m 3eub "¡Déjame ponérmelo! Vuelvo enseguida."
+        m 3eub "¡Déjame ponérmela! Vuelvo enseguida."
 
         # try it on
         call mas_clothes_change(sprite_object)

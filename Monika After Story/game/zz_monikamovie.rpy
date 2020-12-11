@@ -330,5 +330,5 @@ label mas_monikamovie:
             else:
                 $ timer.setFormattedTime(splittedTime[0],splittedTime[1],splittedTime[2])
                 $ movieInformation.resynchronizeIndex(timer)
-        m 1eua "¡Hecho! ¡Sigamos viéndola!"
+        m 1eua "¡Listo! ¡Sigamos viéndola!"
         jump mm_movie_resume

@@ -1141,7 +1141,7 @@ init 5 python:
 
         MID_TEXT += "\n"
 
-        with open(renpy.config.basedir + "/characters/shopping_list.txt", "w") as shopping_list:
+        with open(renpy.config.basedir + "/characters/lista_de_compras.txt", "w") as shopping_list:
             shopping_list.write(
                 renpy.substitute(START_TEXT + MID_TEXT + END_TEXT)
             )
@@ -1345,7 +1345,7 @@ label mas_consumables_generic_get(consumable):
             line_starter = renpy.substitute("Voy por un [a_an] de [consumable.disp_name].")
 
     if store.mas_globals.in_idle_mode or (mas_canCheckActiveWindow() and not mas_isFocused()):
-        m 1eua "[line_starter] vuelvo enseguida.{w=1}{nw}"
+        m 1eua "[line_starter] Vuelvo enseguida.{w=1}{nw}"
 
     else:
         m 1eua "[line_starter]"

@@ -1173,7 +1173,7 @@ label monika_change_weather:
         weathers.extend(other_weathers)
 
         #Add the auto option
-        weathers.append(("Progressive", "auto", False, False))
+        weathers.append(("Progresivo", "auto", False, False))
 
         # now add final quit item
         final_item = (mas_weather.WEAT_RETURN, False, False, False, 20)
