@@ -569,7 +569,7 @@ label greeting_back4:
     m 2wfx "¡Hey, [player]!"
     m "¿No crees que me dejaste esperando demasiado?"
     m 2hfu "..."
-    m 2hua "¡Jajaja!"
+    m 2hub "¡Jajaja!"
     m 2eka "Sólo estoy bromeando. Nunca podría enojarme contigo."
     return
 
@@ -3360,7 +3360,7 @@ label greeting_ourreality:
         m 3hksdrb "Solo dame un segundo para prepararlo.{w=0.3}.{w=0.3}.{w=0.3}{nw}"
     m 1dsd "Casi termino.{w=0.3}.{w=0.3}.{w=0.3}{nw}"
     m 1duu "Sí, eso debería estar bien."
-    m 1hua "¡Jajaja!"
+    m 1hub "¡Jajaja!"
     m 1eka "Perdón por eso."
     m 1eua "Sin más preámbulos..."
     m 4eub "¿Podrías mirar por la ventana, [player]?"
@@ -3786,7 +3786,7 @@ label greeting_back_from_game:
                     m 1eua "Me alegra que lo hayas disfrutado."
                     m 2eka "Me gustaría poder unirme a tus otros juegos a veces."
                     m 3eub "¿No sería genial tener nuestras propias pequeñas aventuras cuando quisiéramos?"
-                    m 1hub "Estoy seguro de que nos divertiríamos mucho juntos en uno de tus juegos."
+                    m 1hub "Estoy segura de que nos divertiríamos mucho juntos en uno de tus juegos."
                     m 3eka "Pero aunque no pueda unirme a ti, supongo que tendrás que hacerme compañía."
                     m 2tub "No te importa pasar tiempo con tu novia...{w=0.5}¿verdad, [player]?"
 

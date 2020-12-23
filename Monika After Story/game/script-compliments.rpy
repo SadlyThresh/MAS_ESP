@@ -601,7 +601,7 @@ label mas_compliment_pong:
                 m "Me encanta pasar tiempo contigo, no importa lo que estemos haciendo."
 
             "No. Me he esforzado al máximo y aún así he perdido.":
-                m 1hua "Jajaja~"
+                m 1hub "Jajaja~"
                 m "¡Lo supuse!"
                 m 3eua "No te preocupes, [player]."
                 m 3eub "Sigue jugando conmigo y practica más."
@@ -873,7 +873,7 @@ label mas_compliment_outfit:
     return
 
 label mas_compliment_outfit_2:
-    m 1hubsb "Gracias, [mas_get_player_nickname()]!"
+    m 1hubsb "¡Gracias, [mas_get_player_nickname()]!"
 
     if monika_chr.is_wearing_clothes_with_exprop("cosplay"):
         m 3hubsb "¡Siempre es divertido hacer cosplaying!"

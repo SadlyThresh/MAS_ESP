@@ -617,7 +617,7 @@ label mas_pong_dlg_winner:
 
     #Player lets Monika win after being asked to go easy on her without hitting the ball
     if monika_asks_to_go_easy and ball_paddle_bounces == 1:
-        m 1rksdla "Jajaja..."
+        m 1rksdlb "Jajaja..."
         m 1hksdla "Sé que te pedí que fueras considerado conmigo...pero esto no es exactamente lo que tenía en mente, [player]."
         m 3eka "Aunque aprecio el gesto~"
         $ monika_asks_to_go_easy = False
@@ -764,7 +764,8 @@ label mas_pong_dlg_winner:
             m 1hub "Sigue así y me vencerás, ¡estoy segura!"
         else:
             m 3hub "Bien jugado, [player], ¡eres realmente bueno!"
-            m 1tfu "¡Pero yo también, jajaja!"
+            m 1tfu "Pero yo también,{w=0.1} {nw}"
+            extend 1hub "¡jajaja!"
 
         $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_WIN_LONG_GAME
 
@@ -773,7 +774,8 @@ label mas_pong_dlg_winner:
         if pong_monika_last_response_id == PONG_MONIKA_RESPONSE_WIN_SHORT_GAME:
             m 3hub "Otra rápida victoria para mí~"
         else:
-            m 4hub "Jejeje, ¡te he pillado con esa!"
+            m 4huu "Jejeje,{w=0.1} {nw}"
+            extend 4hub "¡te he pillado con esa!"
 
         $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_WIN_SHORT_GAME
 
@@ -784,7 +786,7 @@ label mas_pong_dlg_winner:
             m 2rksdlc "Ha pasado de nuevo."
             m 1hksdlb "¡Lo siento, [player]!"
         else:
-            m 2rksdla "¡Jajaja, lo siento [player]!"
+            m 2rksdlb "¡Jajaja, lo siento [player]!"
             m 3hksdlb "No quise que rebotara tanto..."
 
         $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_WIN_TRICKSHOT

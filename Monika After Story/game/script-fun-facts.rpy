@@ -602,7 +602,7 @@ label mas_fun_fact_getting_older:
         import time
         time.sleep(5)
 
-    m 1hubfa "¡Jajaja, eso pensé!"
+    m 1hubfb "¡Jajaja, eso pensé!"
 
     #Call the end
     call mas_fun_facts_end

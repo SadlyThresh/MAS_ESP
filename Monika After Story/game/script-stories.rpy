@@ -921,7 +921,7 @@ label mas_scary_story_cleanup:
 
 init 5 python:
     addEvent(Event(persistent._mas_story_database,eventlabel="mas_scary_story_hunter",
-    category=[store.mas_stories.TYPE_SCARY], prompt="The Hunter",unlocked=True),
+    category=[store.mas_stories.TYPE_SCARY], prompt="El Cazador",unlocked=True),
     code="STY")
 
 label mas_scary_story_hunter:

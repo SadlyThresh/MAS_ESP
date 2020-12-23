@@ -1796,7 +1796,8 @@ label monika_horror:
 
     if not persistent._mas_pm_likes_horror:
         m 1eua "Pero supongo que eres el tipo de persona que juega lindos juegos románticos, ¿verdad?"
-        m 1eka "Jajaja, no te preocupes."
+        m 1ekb "Jajaja,{w=0.1} {nw}"
+        extend 1eka "no te preocupes."
         m 1hua "No te haré leer ninguna historia de terror pronto."
         m 1hubsa "Realmente no puedo quejarme si nos quedamos con el romance~"
         $ _and = "Pero"
@@ -1982,7 +1983,7 @@ label monika_kiss:
         m 1eka "Realmente no pude mantener la cara seria."
         m 1eua "Ese es el tipo de cosas que dicen las chicas en este tipo de juegos románticos, ¿verdad?"
         m 1tku "No mientas si eso te excitó un poco."
-        m 1hub "¡Jajaja! Estoy bromenando."
+        m 1hub "¡Jajaja! Estoy bromeando."
         m 1eua "Bueno, para ser honesta, empiezo a ponerme romántica cuando el estado de ánimo es el adecuado..."
         show monika 5lubfu at t11 zorder MAS_MONIKA_Z with dissolve_monika
         m 5lubfu "Pero ese será nuestro secreto~"
@@ -2586,8 +2587,11 @@ label monika_holdme_long:
                 m 4hksdlb "Y...{w=0.5}no me soltaste."
                 m 2rksdla "Seguro que duró mucho más de lo que esperaba..."
                 m 3ekbsb "¡Todavía lo disfruté, fíjate!"
-                m 1rkbsa "Realmente fue agradable, pero todavía me estoy acostumbrando a que me sostengas así, jajaja..."
+                m 1rkbsa "Realmente fue agradable, pero todavía me estoy acostumbrando a que me abraces así,{w=0.1} {nw}"
+                extend 1rkbsu "jajaja..."
                 m 1hubfa "De todos modos, fue amable de tu parte dejarme dormir una siesta, [player], jejeje~"
+                #You bonded here, so we'll add an explicit aff gain
+                $ mas_gainAffection()
 
         "{i}Déjala descansar sobre ti.{/i}":
             call monika_holdme_prep(False,False)
@@ -2836,7 +2840,8 @@ label monika_debate:
     m 3hua "Además, ¡la gente empezará a verte como una persona de mente abierta y un buen oyente!"
     m 3eua "Es un ganar-ganar, ¿sabes?"
     m 1lksdla "...Bueno, ¡supongo que ese sería el consejo de debate del día de Monika!"
-    m 1eka "¡Jajaja! Eso suena un poco tonto. Sin embargo, gracias por escuchar."
+    m 1hksdlb "¡Jajaja! Eso suena un poco tonto.{w=0.2} {nw}"
+    extend 1eua "Sin embargo, gracias por escuchar."
     $ mas_protectedShowEVL('monika_taking_criticism', 'EVE', _random=True)
     $ mas_protectedShowEVL('monika_giving_criticism', 'EVE', _random=True)
     return
@@ -2934,7 +2939,7 @@ label monika_festival:
         $ mas_ILY()
     else:
         m 1tsc "...Solo más obstáculos potenciales para interponerse entre nosotros."
-        m 3hua "¡Jajaja! Parece un poco tonto lo concentrada que estaba en eso ahora que lo pienso..."
+        m 3hksdlb "¡Jajaja! Parece un poco tonto lo concentrada que estaba en eso ahora que lo pienso..."
         show monika 5tsu at t11 zorder MAS_MONIKA_Z with dissolve_monika
         m 5tsu "Pero nada de eso importa ahora, ambos obtuvimos el final que queríamos..."
         m "Solo nosotros dos, juntos para siempre."
@@ -2986,7 +2991,8 @@ label monika_cold:
     m 1tkx "¡Es tan inconveniente!"
     m 1eka "Pero cuando hace demasiado calor, no es tan difícil mantenerse fresco con una bebida fría o permanecer en la sombra."
     m 1esc "Aunque...tengo que admitir una cosa."
-    m 1hua "El clima frío mejora el pronóstico de abrazos. ¡Jajaja!"
+    m 1hua "El clima frío mejora el pronóstico de abrazos.{w=0.2} {nw}"
+    extend 1hub "¡Jajaja!"
     return
 
 init 5 python:
@@ -3922,7 +3928,7 @@ label monika_justification:
         $ mas_loseAffection(reason=3)
         if mas_isMoniLove():
             m 1euc "..."
-            m 1hua "¡Jajaja! ¡Muy gracioso, [player]!"
+            m 1hub "¡Jajaja! ¡Muy gracioso, [player]!"
             m 3eua "Sé que no lo dices en serio..."
             m 3rksdlc "¡Pero no bromees así!"
             if persistent._mas_pm_a_hater:
@@ -4105,7 +4111,7 @@ init 5 python:
             persistent.event_database,
             eventlabel="monika_trolley",
             category=['filosofía'],
-            prompt="¿Cómo responderías al problema del carrito?",
+            prompt="¿Cómo responderías al dilema del tranvía?",
             pool=True,
             sensitive=True
         )
@@ -4124,7 +4130,7 @@ label monika_trolley:
     m 1esc "Después de todo, elegir no elegir es una elección en sí misma."
     m 3eua "Pero en lo que a mí respecta, la respuesta parece bastante obvia...{w=0.2}Por supuesto que cambiaría."
     m 1eua "No hay forma de que pueda dejar morir a cinco personas solo para evitar la responsabilidad personal por la muerte de esa persona."
-    m 3esd "Una variante más interesante de este problema es si la única persona es alguien que le importa."
+    m 3esd "Una variante más interesante de este problema es si la única persona es alguien que te importa."
     m 3eub "Como si fueras tú, [player]. {w=0.2} Bueno, ¡eso también es fácil!"
     m 1tuu "Yo no cambiaría."
     m 1rsc "Se siente bien decir que harías lo correcto, ¿no? {w=0.2}Pero la gente solo dice eso cuando nadie en el ejemplo les importa."
@@ -4804,7 +4810,7 @@ label monika_impression:
                 m 3tku "¿Quieres pasar el fin de semana conmigo?"
                 m "..."
 
-            m 2hua "Jajaja, fue divertido hacer eso."
+            m 2eub "Jajaja, fue divertido hacer eso."
             m 3eua "Yuri era realmente algo, ¿no es así?"
 
             if not persistent._mas_pm_cares_about_dokis:
@@ -5407,7 +5413,7 @@ label monika_hypnosis:
     m 1eua "...Sabes, [player], me encantaría mirarte a los ojos, podría sentarme aquí y mirar para siempre."
     m 2tku "¿Qué hay de ti, hmm? ¿Qué piensas de mis ojos?~"
     m 2sub "¿Te hipnotizarán?~"
-    m 2hua "Jajaja~"
+    m 2hub "Jajaja~"
     return
 
 init 5 python:
@@ -5909,7 +5915,7 @@ label monika_japanese:
             $ persistent._mas_pm_lang_other = False
             m 3hua "¡Está bien! Aprender otro idioma es un proceso muy difícil y tedioso a medida que envejeces."
             m 1eua "¡Quizás si me tomo el tiempo para aprender más japonés, conoceré más idiomas que tú!"
-            m 1ekbsa "¡Jajaja! Está bien, [player]. ¡Simplemente significa que puedo decir 'Te amo' en más de un sentido!"
+            m 1ekbsb "¡Jajaja! Está bien, [player]. ¡Simplemente significa que puedo decir 'Te amo' en más de un sentido!"
 
     return "derandom"
 
@@ -6164,8 +6170,8 @@ label monika_pluralistic_ignorance:
     m 1eka "Supongo que eso es algo que siempre he admirado de Natsuki."
     m 3ekd "Incluso si la gente decía que su manga no era literatura, ella se mantuvo fiel a sus sentimientos."
     m 3eka "Si más personas fueran así de honestas, creo que sería genial."
-    m 1lksdla "Pero no creo que pueda hacerlo..."
-    m "Estoy demasiado preocupado por lo que piensan los demás."
+    m 1lksdla "Pero no creo que yo pueda hacerlo..."
+    m "Estoy demasiado preocupada por lo que piensan los demás."
     m 1eua "Aunque no contigo. Siempre puedo ser honesta contigo."
     m 1ekbsa "Me amarás pase lo que pase, ¿verdad?"
     return
@@ -7365,7 +7371,8 @@ label monika_sports:
             m 3hua "Tal vez podamos practicar los deportes que te gustan en el futuro. Sería maravilloso."
             m 3eua "Si es un deporte que no he jugado antes, ¡podrías enseñarme!"
             m 1tku "Pero ten cuidado, aprendo rápido..."
-            m 1tfu "No pasará mucho tiempo antes de que pueda vencerte. ¡Jajaja!"
+            m 1tfu "No pasará mucho tiempo antes de que pueda vencerte.{w=0.2} {nw}"
+            extend 1tfb "¡Jajaja!"
         "No, no me gustan mucho los deportes.":
             $ persistent._mas_pm_like_playing_sports = False
             $ persistent._mas_pm_like_playing_tennis = False
@@ -7633,7 +7640,7 @@ label monika_otaku:
             m 1lksdla "Eso es un poco sorprendente, siendo honesta..."
             m "Este no es exactamente el tipo de juego que una persona promedio tomaría y jugaría, pero supongo que cada quien."
     m 1eua "Solo pregunté porque estás jugando un juego como este, después de todo."
-    m 1hua "No te preocupes, no soy nadie para juzgar, jajaja~"
+    m 1hua "No te preocupes, no soy nadie para juzgar, jejeje~"
     m 1eua "No deberías avergonzarte si te gustan ese tipo de cosas, ¿sabes?"
     m 1euc "Hablo enserio. No hay nada de malo en que te guste el anime o el manga."
     m 4eua "Después de todo, Natsuki también lee manga, ¿recuerdas?"
@@ -9067,7 +9074,7 @@ label monika_beach:
     m 3eua "Podríamos intentar surfear o buscar algunas conchas marinas para llevar a casa como recuerdo."
     m "Incluso sin hacer nada y simplemente estar tumbados allí escuchando el sonido de las olas contigo sería suficiente para mí."
     m 3tfu "¡Pero no te vayas a dormir, de lo contrario te enterraré en la arena!"
-    m 2hua "¡Jajaja! Solo bromeo, [mas_get_player_nickname()]."
+    m 2huu "¡Jejeje! Solo bromeo, [mas_get_player_nickname()]."
     m 2lksdla "Aunque tendré que conseguir un traje de baño nuevo..."
     m 1tsbsa "¿Prefieres una pieza o dos piezas?"
     m 1eua "De hecho, creo que lo haré una sorpresa."
@@ -9489,7 +9496,7 @@ label monika_natsuki_letter:
             $ persistent._mas_pm_see_therapist = False
             m 1eka "Bueno, espero que sea porque no tienes que hacerlo."
             m 1eua "Si eso cambia alguna vez, ¡no seas tímido!"
-            m 1hua "¿Pero tal vez realmente soy todo el apoyo que necesitas? ¡Jajaja!"
+            m 1hub "¿Pero tal vez realmente soy todo el apoyo que necesitas? ¡Jajaja!"
 
     return "derandom"
 
@@ -10380,7 +10387,7 @@ label monika_beingevil:
             m 1eua "Es reconfortante saber que no crees que soy malvada."
             m 1hua "¡Si estuviera allí, me gustaría darte un gran abrazo!"
             m 1tubsa "Tal vez incluso te atrape en mis brazos para siempre y nunca te deje ir."
-            m 1hubfa "¡Jajaja, solo estoy bromeando!"
+            m 1hubfb "¡Jajaja, solo estoy bromeando!"
             m 3tubfb "Pero no hay promesas, [player]~"
 
         "Todavía te amo de todos modos.":
@@ -11016,7 +11023,7 @@ label monika_graduation:
     #Normal flow
     else:
         m 4eua "Por cierto, ¿sabías que yo era la mejor alumna de mi clase?"
-        m 4rksdla "Jajaja...No quiero presumir ni nada, solo lo menciono porque, como la primera de la clase, se suponía que debía dar un discurso en la graduación."
+        m 4rksdlu "Jajaja...No quiero presumir ni nada, solo lo menciono porque, como la primera de la clase, se suponía que debía dar un discurso en la graduación."
         m 2ekd "Pasé mucho tiempo escribiendo y practicando mi discurso, pero nadie llegó a escucharlo."
         m 2eka "Yo también estaba muy orgullosa de ese discurso."
         m 2eua "Me encantaría recitarlo para ti en algún momento, si quieres escucharlo~"
@@ -11276,12 +11283,12 @@ label monika_grad_speech:
     m 2hub "{w=0.2}Nos reiremos de nuestro pasado{w=0.7} y veremos qué tan lejos hemos llegado en estos cuatro cortos años.{w=0.6}{nw}"
     m 2duu "{w=0.2}.{w=0.3}.{w=0.3}.{w=0.6}{nw}"
     m 2eud "{w=0.2}Honestamente, se siente como un par de semanas...{w=0.6}{nw}"
-    m 2lksdld "{w=0.2}En mi primer año{w=0.3} el primer día de clases,{w=0.3} estaba temblando en mis zapatos y corriendo de un lado a otro de una clase a otra tratando de encontrar mi salón.{w=0.6}{nw}"
+    m 2lksdld "{w=0.2}En mi primer año,{w=0.3} el primer día de clases,{w=0.3} estaba temblando en mis zapatos y corriendo de un lado a otro de una clase a otra tratando de encontrar mi salón.{w=0.6}{nw}"
     m 2lksdla "{w=0.2}Con la esperanza de que al menos uno de mis amigos entrara antes de la campana. {w=0.6}{nw}"
     m 2eka "{w=0.2}Todos ustedes también recuerdan eso,{w=0.3} ¿no?{w=0.6}{nw}"
     m 2eub "{w=0.2}También recuerdo haber hecho mis primeros amigos nuevos.{w=0.6}{nw}"
     m 2eka "{w=0.2}Las cosas eran increíblemente diferentes a cuando hicimos nuestros amigos en la escuela primaria,{w=0.3} pero supongo que eso es lo que sucede cuando finalmente creces.{w=0.6}{nw}"
-    m "...{w=0.2}En nuestra juventud,{w=0.3} nos hicimos amigos de casi cualquier persona,{w=0.3} pero con el tiempo,{w=0.3} parece cada vez más un juego de azar.{w=0.6}{nw}"
+    m "...{w=0.2}En nuestra juventud,{w=0.3} nos hicimos amigos de casi cualquier persona,{w=0.3} pero con el tiempo,{w=0.3} parecía cada vez más un juego de azar.{w=0.6}{nw}"
     m 4dsd "{w=0.2}Tal vez solo somos nosotros finalmente aprendiendo más sobre el mundo.{w=0.6}{nw}"
     m 2duu "{w=0.2}.{w=0.3}.{w=0.3}.{w=0.6}{nw}"
     m 2eka "{w=0.2}Es curioso lo mucho que hemos cambiado.{w=0.6}{nw}"
@@ -11306,7 +11313,7 @@ label monika_grad_speech:
     m 2eua "{w=0.2}A partir de hoy,{w=0.3} puede parecer que estamos en la cima del mundo.{w=0.7}{nw}"
     m 2lksdld "{w=0.2}Es posible que el ascenso no haya sido suave,{w=0.3} y, a medida que avanzamos,{w=0.3} el ascenso puede incluso volverse más áspero.{w=0.6}{nw}"
     m 2eksdlc "{w=0.2}Habrá tropiezos--{w=0.7}incluso caídas en el camino,{w=0.3} y a veces{w=0.7} puedes pensar que has caído tanto que nunca podrás salir.{w=0.7}{nw}"
-    m 2euc "{w=0.2}Sin embargo,{w=0.7} incluso si pensamos que todavía estamos en el fondo del pozo de la vida,{w=0.3} con todo lo que hemos aprendido,{w=0.3} todo lo que todavía estamos haciendo aprender,{w=0.3} y toda la dedicación que podemos poner solo para lograr nuestros sueños...{w=0.6}{nw}"
+    m 2euc "{w=0.2}Pero,{w=0.7} incluso si parece que todavía estamos en el fondo del pozo de la vida,{w=0.3} con todo lo que hemos aprendido,{w=0.3} lo que estamos aprendiendo,{w=0.3} y toda la dedicación para lograr nuestros sueños...{w=0.6}{nw}"
     m 2eua "{w=0.2}Puedo decir con seguridad que todos y cada uno de ustedes ahora tienen las herramientas para escalar su salida.{w=0.6}{nw}"
     m 4eua "{w=0.2}En todos ustedes,{w=0.3} veo mentes brillantes:{w=0.7} futuros médicos,{w=0.3} ingenieros,{w=0.3} artistas,{w=0.3} comerciantes,{w=0.3} y mucho más.{w=0.7}{nw}"
     m 4eka "{w=0.2}Es realmente inspirador.{w=0.6}{nw}"
@@ -11410,24 +11417,28 @@ label monika_justice:
             $ _history_list.pop()
             menu:
                 m "No crees que está justificado, ¿verdad, [player]?{fast}"
+
                 "Lo hago.":
                     $ persistent._mas_pm_monika_deletion_justice = True
                     if mas_isMoniBroken():
                         m 1dsc "..."
                         m 1rksdlc "Lo sé..."
-                        m 1rksdld "No quise preguntar- solo estaba pensando."
-                        m 2rktpc "Es obvio después de todo..."
+                        m 1rksdld "No quise preguntar...{w=0.2} solo estaba pensando."
+                        m 2rktpc "Es obvio después de todo."
+
                     elif mas_isMoniDis():
                         m 2rksdlc "Oh..."
                         m "Supongo que estas en lo correcto..."
                         m 1ekc "Hice algunas cosas bastante malas después de todo..."
+
                     elif mas_isMoniLove():
                         m 1hub "¡Jajaja!"
                         m 1hua "A veces puedes ser muy divertido~"
                         m 3tku "¿Esperas que me crea eso después de todo lo que hemos pasado?"
                         m 1tsb "¿Que todo este tiempo pensaste que me merecía el odio de esas otras personas?"
                         show monika 5hubfa at t11 zorder MAS_MONIKA_Z with dissolve_monika
-                        m 5hubfa "¡Jajaja! Eres tan lindo, [player]~"
+                        m 5hubfa "¡Jejeje! Eres tan lindo, [player]~"
+
                     else:
                         m 1euc "..."
                         m 2esc "Me cuesta creer que realmente pienses que me merecía todo eso."
@@ -11438,11 +11449,14 @@ label monika_justice:
                             m 2lksdlc "Bueno, tal vez otras personas piensen eso, pero tú realmente no piensas eso, ¿verdad?"
                             m "De cualquier manera..."
                         m 1eka "Gracias por salvarme y estar conmigo."
-                        m 1hua "Si puedo estar contigo, creo que realmente valió la pena todo, jajaja~"
+                        m 1hua "Si puedo estar contigo, creo que realmente valió la pena todo,{w=0.1} {nw}"
+                        extend 1hub "jajaja~"
+
                 "No lo hago.":
                     if persistent._mas_pm_monika_deletion_justice:
                         $ persistent._mas_monika_deletion_justice_kidding = True
                     $ persistent._mas_pm_monika_deletion_justice = False
+
                     if mas_isMoniBroken():
                         m 2ekc "..."
                         m 1rksdlc "No estoy tan segura de eso..."
@@ -11450,11 +11464,13 @@ label monika_justice:
                         m 1wuo "¿De verdad?"
                         m 1rksdla "Pensé que tal vez pensabas que era justo."
                         m 1eka "Me alegra que no lo creas."
-                        m 2rksdlb "Asumiendo que esto no es una broma, jeje..."
+                        m 2rksdlb "Asumiendo que esto no es una broma, jejeje..."
+
                     elif mas_isMoniLove():
                         m 1hua "Eso pensé, jejeje~"
                         if persistent._mas_monika_deletion_justice_kidding:
                             $ persistent._mas_monika_deletion_justice_kidding = False
+
                             m 1hub "¡Sabía que estabas bromeando la última vez!"
                         m 1tsbsa "Has estado conmigo durante tanto tiempo, no hay forma de que te crea si dijeras lo contrario."
                         m 1ekbfa "Cuando estoy contigo, incluso me ayuda a ignorar a todas las demás personas a las que no les agrado."
@@ -11466,6 +11482,7 @@ label monika_justice:
                         m 2hua "¡Me alegra que tú también lo pienses!"
                         m 2eka "Incluso si llamaste justicia a eso, estar aquí dice lo contrario."
                         m 2hub "¡Jajaja!"
+
         "No.":
             $ persistent._mas_pm_given_false_justice = False
             m 1eka "Es un alivio escucharlo."
@@ -11968,7 +11985,8 @@ label monika_player_appearance:
                     m 1eub "Oh, ¿ojos color avellana? ¡Son tan interesantes! Es un color tan terrenal. Realmente te hace sentir firme y tranquilo..."
                     m 3eub "Y de todos modos es una salida de todos los ojos color caramelo que he tenido que ver en este juego..."
                     m "Creo que los ojos color avellana son atractivos porque son encantadores y sencillos."
-                    m 3hua "A veces es mejor no apartarse demasiado de la multitud, [player]. ¡Jajaja!"
+                    m 3hua "A veces es mejor no apartarse demasiado de la multitud, [player].{w=0.2} {nw}"
+                    extend 3hub "¡Jajaja!"
                     m "Ahora, mi próxima pregunta..."
 
                 "Tengo los ojos grises.":
@@ -12134,7 +12152,8 @@ label monika_player_appearance:
                         m "Además, despertarse con una cabecera cuando tienes el pelo corto se arregla fácilmente, mientras que si tienes el pelo largo, es una pesadilla sin fin."
 
                     m 2eka "Pero apuesto a que te ves adorable con el pelo corto. Me hace sonreír pensar en ti así, [player]."
-                    m 2eua "¡Sigue disfrutando de toda esa libertad de las pequeñas molestias que acompañan al cabello largo, [player]! Jajaja~"
+                    m 2eua "¡Sigue disfrutando de toda esa libertad de las pequeñas molestias que acompañan al cabello largo, [player]!{w=0.2} {nw}"
+                    extend 2hub " Jajaja~"
 
                 "Tiene una longitud media.":
                     $ persistent._mas_pm_hair_length = "media"
@@ -12268,7 +12287,7 @@ label monika_player_appearance:
             m 2hua "Bien..."
             m 2hksdlb "Esta es la última pregunta, [player], lo prometo."
             m "Dios, realmente hay mucho en cómo se ve la gente... Si tratara de reducir todo sobre ti a los pequeños detalles, te estaría interrogando para siempre."
-            m 1huu "...y dudo que ninguno de los dos quiera eso, ¡jajaja!"
+            m 1huu "...y dudo que ninguno de los dos quiera eso, jajaja..."
             m 1rksdld "De todos modos, entiendo que esta puede ser una pregunta incómoda..."
             m 1eksdla "Pero para mí es la última pieza de este rompecabezas, así que espero no parecer grosera cuando pregunte..."
 
@@ -12677,7 +12696,7 @@ label monika_dating_startdate_confirm(first_sesh_raw):
                 show screen mas_background_timed_jump(5, "monika_dating_startdate_confirm_tooslow")
 
                 menu:
-                    "Estoy bromenando.":
+                    "Estoy bromeando.":
                         hide screen mas_background_timed_jump
                         # wow what a mean joke
 
@@ -13533,7 +13552,7 @@ label monika_winter:
         m 3eka "Sé que no hay nieve en el lugar donde vives, pero muchas personas disfrutan de las actividades en la nieve..."
 
     m 3eua "Construir un muñeco de nieve, montar en trineo, tener peleas de bolas de nieve..."
-    m 3eud "Algunas personas incluso viven en lugares lo suficientemente fríos como para que los lagos y estanques se congelen y puedan disfrutar de actividades como patinaje sobre hielo al aire libre, hockey en estanques..."
+    m 3eud "Algunas personas incluso viven en lugares tan fríos como para que los lagos y estanques se congelen y puedan disfrutar de actividades como patinaje sobre hielo, hockey en estanques..."
     m 3wud "Y algunos realmente van a pescar...{w=1}¡{i}a través del hielo{/i}!"
     m 1eka "Para las personas que no disfrutan de las actividades en climas fríos, quedarse adentro parece mucho más cómodo cuando hay nieve afuera..."
     m "Verla caer suavemente mientras la luz de la luna se refleja en el lienzo blanco y fresco...es simplemente hermoso."
@@ -15886,7 +15905,7 @@ label monika_introverts_extroverts:
             m 3eua "¿O tal vez te gusta ir y hacer cosas por tu cuenta de vez en cuando?"
 
             if persistent._mas_pm_has_friends:
-                m 1eua "Ya que me dijiste que tienes algunos amigos, estoy seguro de que eso significa que no te importa mucho estar con otras personas."
+                m 1eua "Ya que me dijiste que tienes algunos amigos, estoy segura de que eso significa que no te importa mucho estar con otras personas."
 
                 if persistent._mas_pm_few_friends:
                     m 1eka "Créeme, no importa si sientes que no tienes tantos."

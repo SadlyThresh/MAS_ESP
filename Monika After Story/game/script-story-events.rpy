@@ -2024,7 +2024,7 @@ label mas_text_speed_enabler:
         m 1tuu "Sin embargo, {w=0.3} me pregunto si puedes seguirme el ritmo."
         m 3tuu "{cps=*2}Puedo hablar bastante rápido, sabes...{/cps}{nw}"
         $ _history_list.pop()
-        m 3hua "Jajaja~"
+        m 3hub "Jajaja~"
 
     else:
         m 3hua "Y estoy segura de que leerás más rápido cuanto más tiempo pasemos juntos."

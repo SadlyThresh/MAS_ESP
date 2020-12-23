@@ -749,7 +749,7 @@ init -10 python in mas_selspr:
         RETURNS: remover ACS selectable
         """
         if remover_name is None:
-            remover_name = "Remove"
+            remover_name = "Quitar"
 
         # get default mux for this acs type
         template = store.mas_sprites.get_ACSTemplate_by_type(acs_type)

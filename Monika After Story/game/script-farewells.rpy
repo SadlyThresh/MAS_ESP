@@ -672,7 +672,8 @@ label bye_prompt_sleep:
             m 1eua "Ya veo, tomando una siesta."
             # TODO: monika says she'll join you, use sleep sprite here
             # and setup code for napping
-            m 1hua "Jajaja~ Que tengas una buena siesta, [player]."
+            m 1hub "Jajaja~{w=0.1} {nw}"
+            extend 1hua "Que tengas una buena siesta, [player]."
 
         elif mas_isMoniUpset():
             m 2esc "¿Tomando una siesta, [player]?"

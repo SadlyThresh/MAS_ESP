@@ -2623,7 +2623,7 @@ label prompt_menu:
             unseen_num = len(unseen_event_labels)
             mas_setEVLPropValues(
                 "mas_show_unseen",
-                prompt="I would like to see 'Unseen' ([unseen_num]) again"
+                prompt="Me gustaría ver 'Texto no visto' ([unseen_num]) de nuevo"
             )
         else:
             mas_hideEVL('mas_show_unseen','EVE',lock=True)

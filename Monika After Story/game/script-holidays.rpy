@@ -861,7 +861,8 @@ label greeting_o31_generic:
     call spaceroom(scene_change=True, dissolve_all=True)
 
     m 3hub "¡Dulce o truco!"
-    m 3eua "Jajaja, solo estoy bromeando, [player]."
+    m 3eub "Jajaja,{w=0.1} {nw}"
+    extend 3eua "solo estoy bromeando, [player]."
     m 1hua "Bienvenido de nuevo...{w=0.5}{nw}"
     extend 3hub "y ¡Feliz Halloween!"
 
@@ -969,7 +970,7 @@ label bye_trick_or_treat:
 
             "En realidad, es {i}un{/i} poco tarde...":
                 if persistent._mas_o31_tt_count:
-                    m 1hua "Jajaja~"
+                    m 1hub "Jajaja~"
                     m "Te lo dije."
                     m 1eua "Tendremos que esperar hasta el próximo año para ir."
 
@@ -1010,7 +1011,7 @@ label bye_trick_or_treat_wait_wait:
 
             if persistent._mas_o31_tt_count:
                 call mas_transition_from_emptydesk(exp="monika 1hua")
-                m 1hua "Jajaja~"
+                m 1hub "Jajaja~"
                 m "Te lo dije."
                 m 1eua "Tendremos que esperar hasta el próximo año para volver."
 
@@ -1807,7 +1808,7 @@ init 501 python:
     MASImageTagDecoDefinition.register_img(
         "mas_d25_lights",
         store.mas_background.MBG_DEF,
-        MASAdvancedDecoFrame(zorder=7)
+        MASAdvancedDecoFrame(zorder=5)
     )
 
 #autoload starter check
@@ -1941,14 +1942,14 @@ label mas_d25_season_exit:
 #D25 holiday gift starter/connector
 label mas_d25_gift_starter:
     $ amt_gifts = len(persistent._mas_d25_gifts_given)
-    $ presents = "regalos"
-    $ the = "el"
+    $ presents = "los regalos"
+    $ the = ""
     $ should_open = "debería abrir"
 
     if amt_gifts == 1:
-        $ presents = "regalo"
+        $ presents = "el regalo"
     elif amt_gifts > 3:
-        $ the = "todos los"
+        $ the = ""
 
     if persistent._mas_d25_gone_over_d25:
         $ should_open = "no he abierto"
@@ -2462,7 +2463,7 @@ label mas_d25_monika_mistletoe:
     if not persistent._mas_pm_d25_mistletoe_kiss:
         m 3hua "Quizás algún día podamos besarnos bajo el muérdago, [player]."
         m 1tku "...¡Quizás incluso pueda agregar uno aquí!"
-        m 1hub "Jejeje~"
+        m 1kuu "Jejeje~"
     return "derandom"
 
 #Stores whether or not the player hangs christmas lights
@@ -2529,7 +2530,7 @@ label mas_d25_monika_christmaslights:
         "No.":
             $ persistent._mas_pm_hangs_d25_lights = False
             m 1eka "Oh, está bien, [player]."
-            m 1dkbla "Estoy seguro de que sería agradable relajarse contigo en una noche fría..."
+            m 1dkbla "Estoy segura de que sería agradable relajarse contigo en una noche fría..."
             m 1dkbsa "Ver caer la nieve y beber chocolate caliente juntos."
             m 1dkbsa "Abrazados el uno al otro para mantener el calor..."
             m 1rkbfb "Sí, eso suena muy bien."
@@ -2961,17 +2962,17 @@ label monika_merry_christmas_baby:
 
         call mas_song_merry_christmas_baby
 
-        m 1hua "Ehehe..."
-        m 3eka "I hope you liked it~"
+        m 1hua "Jejeje..."
+        m 3eka "Espero te gustara~"
         $ mas_unlockEVL("mas_song_merry_christmas_baby", "SNG")
 
     else:
-        m 3euu "I think it's time for another Christmas song, ehehe~"
+        m 3euu "Creo que es tiempo de otra canción navideña, jejeje~"
         m 1hua ".{w=0.5}.{w=0.5}.{nw}"
 
         call mas_song_merry_christmas_baby
 
-        m 1huu "Ehehe... {w=0.2}Merry Christmas, baby~"
+        m 1huu "Jejeje... {w=0.2}Feliz Navidad, baby~"
 
     return "no_unlock"
 
@@ -3058,7 +3059,7 @@ label mas_d25_spider_tinsel:
     m 1eua "...Y encontré esta historia popular de Ucrania realmente interesante sobre el origen de por qué el oropel se usa a menudo para decorar árboles de Navidad."
     m 1eka "Pensé que era una historia muy bonita y quería compartirla contigo."
     m 1dka "..."
-    m 3esa "Había una vez una viuda (llamémosla Amy) que vivía en una vieja choza con sus hijos."
+    m 3esa "Había una vez una viuda--llamémosla Amy--que vivía en una vieja choza con sus hijos."
     m 3eud "Afuera de su casa había un pino alto, y del árbol cayó una piña que pronto comenzó a crecer en el suelo."
     m 3eua "Los niños estaban entusiasmados con la idea de tener un árbol de Navidad, así que lo cuidaron hasta que alcanzó la altura suficiente para llevarlo dentro de su casa."
     m 2ekd "Desafortunadamente, la familia era pobre y aunque tenían el árbol de Navidad, no podían permitirse ningún adorno para decorarlo."
@@ -3073,7 +3074,7 @@ label mas_d25_spider_tinsel:
     m "...haciendo que el árbol de Navidad brille y brille con un brillo mágico."
     m 1eka "Desde ese día en adelante, Amy nunca se sintió pobre; {w=0.3}en cambio, siempre estuvo agradecida por todos los maravillosos dones que ya tenía en la vida."
     m 3tuu "Bueno, supongo que ahora sabemos por qué a Amy le gustan las arañas..."
-    m 3hub "¡Jajaja! ¡Yo sólo estoy bromeando!"
+    m 3hub "¡Jajaja! ¡Estoy bromeando!"
     m 1eka "¿No es una historia tan dulce y maravillosa, [player]?"
     m "Creo que es una visión realmente interesante de por qué se usa oropel como decoración en los árboles de Navidad."
     m 3eud "También leí que los ucranianos a menudo decoran su árbol de Navidad con adornos de telaraña, creyendo que les traerán buena fortuna para el próximo año."
@@ -3333,7 +3334,7 @@ label mas_d25_postd25_notimespent:
         m 2eka "Y, en el futuro, si alguna vez no puedes venir a visitarme en Navidad, intenta al menos llevarme contigo..."
         m 1eka "Todo lo que quiero es estar cerca de ti, [player]..."
         m 3ekbsa "Te amo~"
-        return "love"
+        $ mas_ILY()
 
     elif mas_isMoniNormal(higher=True):
         $ mas_loseAffection(5, reason=6)
@@ -4103,7 +4104,7 @@ label monika_nye_year_review:
 
     elif store.mas_anni.pastThreeMonths():
         m 2eka "Ya sabes [player], hemos pasado por bastante durante el poco tiempo que pasamos juntos el año pasado."
-        m 2eksdla "Todo ha pasado tan rápido, jajaja..."
+        m 2eksdlu "Todo ha pasado tan rápido, jajaja..."
 
     else:
         m 2eka "[player], a pesar de que no hemos pasado por mucho juntos, todavía..."
@@ -4249,7 +4250,7 @@ label monika_nye_year_review:
                 call monika_kissing_motion_short
                 m 1ekbfa "Te amo, [player]."
                 show monika 5hubfb at t11 zorder MAS_MONIKA_Z with dissolve_monika
-                m 5hubfb "Hagamos que este año sea mejor que el anterior."
+                m 5hubfb "Hagamos que este año sea aún mejor que el anterior."
 
         else:
             m "Hagamos de este año lo mejor que podamos, [player]. Te amo~"
@@ -5678,7 +5679,7 @@ label mas_f14_monika_valentines_intro:
                 call mas_clothes_change(mas_clothes_sundress_white, unlock=True, outfit_mode=True)
                 m 2eua "..."
                 m 2eksdla "..."
-                m 2rksdla "Jajaja...{w=1} No es bueno que me mires así, [player]..."
+                m 2rksdlu "Jajaja...{w=1} No es bueno que me mires así, [player]..."
                 m 3tkbsu "...pero supongo que eso significa que te gusta mi ropa, jejeje~"
                 call mas_f14_sun_dress_outro
 

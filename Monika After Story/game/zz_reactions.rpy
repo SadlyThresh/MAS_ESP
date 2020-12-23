@@ -1359,7 +1359,7 @@ label mas_reaction_hotchocolate:
 
         elif hotchoc.enabled() and not hotchoc.hasServing():
             $ mas_giftCapGainAff(0.5)
-            m 3rksdla "De hecho, se me acabó el chocolate caliente, jajaja...{w=0.5} {nw}"
+            m 3rksdlu "De hecho, se me acabó el chocolate caliente, jajaja...{w=0.5} {nw}"
             extend 3eub "¡Así que obtener más de ti ahora es increíble!"
             m 1hua "Gracias de nuevo, [player]~"
 
@@ -2063,166 +2063,166 @@ label mas_reaction_json_ribbon_base(ribbon_name, user_friendly_desc, helper_labe
 # lanvallime
 
 label mas_reaction_gift_acs_lanvallime_ribbon_coffee:
-    call mas_reaction_json_ribbon_base("lanvallime_ribbon_coffee", "coffee colored", "mas_reaction_gift_acs_lanvallime_ribbon_coffee")
+    call mas_reaction_json_ribbon_base("lanvallime_ribbon_coffee", "de color café", "mas_reaction_gift_acs_lanvallime_ribbon_coffee")
     return
 
 label mas_reaction_gift_acs_lanvallime_ribbon_gold:
-    call mas_reaction_json_ribbon_base("lanvallime_ribbon_gold", "gold", "mas_reaction_gift_acs_lanvallime_ribbon_gold")
+    call mas_reaction_json_ribbon_base("lanvallime_ribbon_gold", "dorada", "mas_reaction_gift_acs_lanvallime_ribbon_gold")
     return
 
 label mas_reaction_gift_acs_lanvallime_ribbon_hot_pink:
-    call mas_reaction_json_ribbon_base("lanvallime_ribbon_hot_pink", "hot pink", "mas_reaction_gift_acs_lanvallime_ribbon_hot_pink")
+    call mas_reaction_json_ribbon_base("lanvallime_ribbon_hot_pink", "rosa vivo", "mas_reaction_gift_acs_lanvallime_ribbon_hot_pink")
     return
 
 label mas_reaction_gift_acs_lanvallime_ribbon_lilac:
-    call mas_reaction_json_ribbon_base("lanvallime_ribbon_lilac", "lilac", "mas_reaction_gift_acs_lanvallime_ribbon_lilac")
+    call mas_reaction_json_ribbon_base("lanvallime_ribbon_lilac", "lila", "mas_reaction_gift_acs_lanvallime_ribbon_lilac")
     return
 
 label mas_reaction_gift_acs_lanvallime_ribbon_lime_green:
-    call mas_reaction_json_ribbon_base("lanvallime_ribbon_lime_green", "lime green", "mas_reaction_gift_acs_lanvallime_lime_green")
+    call mas_reaction_json_ribbon_base("lanvallime_ribbon_lime_green", "verde lima", "mas_reaction_gift_acs_lanvallime_lime_green")
     return
 
 label mas_reaction_gift_acs_lanvallime_ribbon_navy_blue:
-    call mas_reaction_json_ribbon_base("lanvallime_ribbon_navy_blue", "navy", "mas_reaction_gift_acs_lanvallime_ribbon_navy_blue")
+    call mas_reaction_json_ribbon_base("lanvallime_ribbon_navy_blue", "color marina", "mas_reaction_gift_acs_lanvallime_ribbon_navy_blue")
     return
 
 label mas_reaction_gift_acs_lanvallime_ribbon_orange:
-    call mas_reaction_json_ribbon_base("lanvallime_ribbon_orange", "orange", "mas_reaction_gift_acs_lanvallime_ribbon_orange")
+    call mas_reaction_json_ribbon_base("lanvallime_ribbon_orange", "naranja", "mas_reaction_gift_acs_lanvallime_ribbon_orange")
     return
 
 label mas_reaction_gift_acs_lanvallime_ribbon_royal_purple:
-    call mas_reaction_json_ribbon_base("lanvallime_ribbon_royal_purple", "royal purple", "mas_reaction_gift_acs_lanvallime_ribbon_royal_purple")
+    call mas_reaction_json_ribbon_base("lanvallime_ribbon_royal_purple", "púrpura real", "mas_reaction_gift_acs_lanvallime_ribbon_royal_purple")
     return
 
 label mas_reaction_gift_acs_lanvallime_ribbon_sky_blue:
-    call mas_reaction_json_ribbon_base("lanvallime_ribbon_sky_blue", "sky blue", "mas_reaction_gift_acs_lanvallime_ribbon_sky_blue")
+    call mas_reaction_json_ribbon_base("lanvallime_ribbon_sky_blue", "azul cielo", "mas_reaction_gift_acs_lanvallime_ribbon_sky_blue")
     return
 
 # anonymioo
 label mas_reaction_gift_acs_anonymioo_ribbon_bisexualpride:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_bisexualpride","bisexual-pride-themed","mas_reaction_gift_acs_anonymioo_ribbon_bisexualpride")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_bisexualpride","del orgullo bisexual","mas_reaction_gift_acs_anonymioo_ribbon_bisexualpride")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_blackandwhite:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_blackandwhite","black and white","mas_reaction_gift_acs_anonymioo_ribbon_blackandwhite")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_blackandwhite","negro y blanco","mas_reaction_gift_acs_anonymioo_ribbon_blackandwhite")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_bronze:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_bronze","bronze","mas_reaction_gift_acs_anonymioo_ribbon_bronze")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_bronze","bronce","mas_reaction_gift_acs_anonymioo_ribbon_bronze")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_brown:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_brown","brown","mas_reaction_gift_acs_anonymioo_ribbon_brown")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_brown","marrón","mas_reaction_gift_acs_anonymioo_ribbon_brown")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_gradient:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_gradient","multi-colored","mas_reaction_gift_acs_anonymioo_ribbon_gradient")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_gradient","multicolor","mas_reaction_gift_acs_anonymioo_ribbon_gradient")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_gradient_lowpoly:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_gradient_lowpoly","multi-colored","mas_reaction_gift_acs_anonymioo_ribbon_gradient_lowpoly")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_gradient_lowpoly","multicolor","mas_reaction_gift_acs_anonymioo_ribbon_gradient_lowpoly")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_gradient_rainbow:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_gradient_rainbow","rainbow colored","mas_reaction_gift_acs_anonymioo_ribbon_gradient_rainbow")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_gradient_rainbow","color del arcoiris","mas_reaction_gift_acs_anonymioo_ribbon_gradient_rainbow")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_polkadots_whiteonred:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_polkadots_whiteonred","red and white polka dotted","mas_reaction_gift_acs_anonymioo_ribbon_polkadots_whiteonred")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_polkadots_whiteonred","de lunares rojos y blancos punteados","mas_reaction_gift_acs_anonymioo_ribbon_polkadots_whiteonred")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_starsky_black:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_starsky_black","night-sky-themed","mas_reaction_gift_acs_anonymioo_ribbon_starsky_black")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_starsky_black","temática del cielo nocturno","mas_reaction_gift_acs_anonymioo_ribbon_starsky_black")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_starsky_red:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_starsky_red","night-sky-themed","mas_reaction_gift_acs_anonymioo_ribbon_starsky_red")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_starsky_red","temática del cielo nocturno","mas_reaction_gift_acs_anonymioo_ribbon_starsky_red")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_striped_blueandwhite:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_striped_blueandwhite","blue and white striped","mas_reaction_gift_acs_anonymioo_ribbon_striped_blueandwhite")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_striped_blueandwhite","de rayas azules y blancas","mas_reaction_gift_acs_anonymioo_ribbon_striped_blueandwhite")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_striped_pinkandwhite:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_striped_pinkandwhite","pink and white striped","mas_reaction_gift_acs_anonymioo_ribbon_striped_pinkandwhite")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_striped_pinkandwhite","de rayas rosas y blancas","mas_reaction_gift_acs_anonymioo_ribbon_striped_pinkandwhite")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_transexualpride:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_transexualpride","transexual-pride-themed","mas_reaction_gift_acs_anonymioo_ribbon_transexualpride")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_transexualpride","del orgullo transexual","mas_reaction_gift_acs_anonymioo_ribbon_transexualpride")
     return
 
 # velius94
 
 label mas_reaction_gift_acs_velius94_ribbon_platinum:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_platinum", "platinum", "mas_reaction_gift_acs_velius94_ribbon_platinum")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_platinum", "platino", "mas_reaction_gift_acs_velius94_ribbon_platinum")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_pink:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_pink", "pink", "mas_reaction_gift_acs_velius94_ribbon_pink")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_pink", "rosa", "mas_reaction_gift_acs_velius94_ribbon_pink")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_peach:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_peach", "peach", "mas_reaction_gift_acs_velius94_ribbon_peach")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_peach", "durazno", "mas_reaction_gift_acs_velius94_ribbon_peach")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_green:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_green", "green", "mas_reaction_gift_acs_velius94_ribbon_green")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_green", "verde", "mas_reaction_gift_acs_velius94_ribbon_green")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_emerald:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_emerald", "emerald", "mas_reaction_gift_acs_velius94_ribbon_emerald")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_emerald", "esmeralda", "mas_reaction_gift_acs_velius94_ribbon_emerald")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_gray:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_gray", "gray", "mas_reaction_gift_acs_velius94_ribbon_gray")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_gray", "gris", "mas_reaction_gift_acs_velius94_ribbon_gray")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_blue:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_blue", "blue", "mas_reaction_gift_acs_velius94_ribbon_blue")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_blue", "azul", "mas_reaction_gift_acs_velius94_ribbon_blue")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_def:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_def", "white", "mas_reaction_gift_acs_velius94_ribbon_def")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_def", "blanca", "mas_reaction_gift_acs_velius94_ribbon_def")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_black:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_black", "black", "mas_reaction_gift_acs_velius94_ribbon_black")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_black", "negra", "mas_reaction_gift_acs_velius94_ribbon_black")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_dark_purple:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_dark_purple", "dark purple", "mas_reaction_gift_acs_velius94_ribbon_dark_purple")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_dark_purple", "morado oscuro", "mas_reaction_gift_acs_velius94_ribbon_dark_purple")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_yellow:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_yellow", "yellow", "mas_reaction_gift_acs_velius94_ribbon_yellow")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_yellow", "amarilla", "mas_reaction_gift_acs_velius94_ribbon_yellow")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_red:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_red", "red", "mas_reaction_gift_acs_velius94_ribbon_red")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_red", "roja", "mas_reaction_gift_acs_velius94_ribbon_red")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_sapphire:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_sapphire", "sapphire", "mas_reaction_gift_acs_velius94_ribbon_sapphire")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_sapphire", "zafiro", "mas_reaction_gift_acs_velius94_ribbon_sapphire")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_teal:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_teal", "teal", "mas_reaction_gift_acs_velius94_ribbon_teal")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_teal", "cerceta", "mas_reaction_gift_acs_velius94_ribbon_teal")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_silver:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_silver", "silver", "mas_reaction_gift_acs_velius94_ribbon_silver")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_silver", "plata", "mas_reaction_gift_acs_velius94_ribbon_silver")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_light_purple:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_light_purple", "light purple", "mas_reaction_gift_acs_velius94_ribbon_light_purple")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_light_purple", "morado claro", "mas_reaction_gift_acs_velius94_ribbon_light_purple")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_ruby:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_ruby", "ruby", "mas_reaction_gift_acs_velius94_ribbon_ruby")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_ruby", "rubí", "mas_reaction_gift_acs_velius94_ribbon_ruby")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_wine:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_wine", "wine colored", "mas_reaction_gift_acs_velius94_ribbon_wine")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_wine", "de color vino", "mas_reaction_gift_acs_velius94_ribbon_wine")
     return
 
 #specific to this, since we need to verify if the player actually gave a ribbon.
@@ -2464,7 +2464,8 @@ label mas_reaction_gift_chocolates:
                 $ monika_chr.wear_acs(mas_acs_heartchoc)
 
             m 1eka "¿Más chocolates, [player]?"
-            m 3tku "Realmente te encanta mimarme, ¿no es así?, ¡jajaja!"
+            m 3tku "Realmente te encanta mimarme, ¿no es así?,{w=0.2} {nw}"
+            extend 3tub "¡jajaja!"
             m 1rksdla "Todavía no he terminado la primera caja que me diste..."
             m 1hub "...¡pero no me quejo!"
 
@@ -2663,7 +2664,7 @@ label mas_reaction_gift_clothes_finale_jacket_brown:
     m 1sub "¡Oh!{w=0.5} ¡Una chaqueta de invierno!"
     m 1suo "¡E incluso viene con una bufanda!"
     if mas_isSummer():
-        m 3rksdla "...Aunque me estoy calentando un poco con sólo mirarla, jajaja..."
+        m 3rksdlu "...Aunque me estoy calentando un poco con sólo mirarla, jajaja..."
         m 3eksdla "Quizás el verano no sea el mejor momento para usar esto, [player]."
         m 3eka "Aprecio la idea y estaré encantada de usarla en unos meses."
 
@@ -2707,7 +2708,7 @@ label mas_reaction_gift_clothes_orcaramelo_sweater_shoulderless:
 
     m 2dkbsu "Es tan...{w=1}cómodo. Me siento tan cómoda como un insecto en una alfombra. Jejeje~"
     m 1ekbsa "Gracias, [player]. ¡Me encanta!"
-    m 3hubsa "Ahora, siempre que lo use, pensaré en tu calidez. Jajaja~"
+    m 3hubsb "Ahora, siempre que lo use, pensaré en tu calidez. Jajaja~"
 
     $ mas_finishSpriteObjInfo(sprite_data)
     if giftname is not None:
