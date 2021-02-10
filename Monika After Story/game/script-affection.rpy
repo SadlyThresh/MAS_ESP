@@ -1010,7 +1010,7 @@ init 15 python in mas_affection:
             _("¿Tienes algo en mente?"),
             _("¿Tienes algo en mente, [mas_get_player_nickname()]?"),
             _("¿Listo para hablar, [mas_get_player_nickname()]?"),
-            _("Sí, [mas_get_player_nickname()]?"),
+            _("¿Sí, [mas_get_player_nickname()]?"),
             _("¿Qué tienes en mente, [mas_get_player_nickname()]?"),
             _("¿Qué pasa, [mas_get_player_nickname()]?"),
             _("Pregúntame, [mas_get_player_nickname()]."),

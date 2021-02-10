@@ -8231,7 +8231,7 @@ label monika_coffee:
     return
 
 init 5 python:
-    addEvent(Event(persistent.event_database,eventlabel="monika_1984",category=['literature'],prompt="Mil novecientos ochenta y cuatro",random=True))
+    addEvent(Event(persistent.event_database,eventlabel="monika_1984",category=['literatura'],prompt="Mil novecientos ochenta y cuatro",random=True))
 
 label monika_1984:
     m 1eua "[player], ¿Conoces el libro {i}Mil novecientos ochenta y cuatro{/i}?"

@@ -20,11 +20,11 @@ init 3 python in mas_compliments:
 init 22 python in mas_compliments:
     thanking_quips = [
         _("Eres tan dulce, [player]."),
-        _("Gracias por decir eso de nuevo, [player]!"),
-        _("Gracias por decirme eso de nuevo, [mas_get_player_nickname()]!"),
+        _("¡Gracias por decir eso de nuevo, [player]!"),
+        _("¡Gracias por decirme eso de nuevo, [mas_get_player_nickname()]!"),
         _("Siempre me haces sentir especial, [mas_get_player_nickname()]."),
         _("Aww, [player]~"),
-        _("Gracias, [mas_get_player_nickname()]!"),
+        _("¡Gracias, [mas_get_player_nickname()]!"),
         _("Siempre me halagas, [player].")
     ]
 
