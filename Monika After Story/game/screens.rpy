@@ -764,6 +764,8 @@ screen fake_main_menu():
 
         textbutton _("Ajustes")
 
+        textbutton _("Discord")
+
         if store.mas_submod_utils.submod_map:
             textbutton _("Submods")
 
@@ -826,6 +828,8 @@ screen navigation():
 
         textbutton _("Ajustes") action [ShowMenu("preferences"), SensitiveIf(renpy.get_screen("preferences") == None)]
 
+        textbutton _("Discord") action OpenURL("https://discord.gg/k7t26yW8Bx")
+
         if store.mas_submod_utils.submod_map:
             textbutton _("Submods") action [ShowMenu("submods"), SensitiveIf(renpy.get_screen("submods") == None)]
 
@@ -834,7 +838,7 @@ screen navigation():
 
         textbutton _("Atajos") action [ShowMenu("hot_keys"), SensitiveIf(renpy.get_screen("hot_keys") == None)]
 
-        #textbutton _("About") action ShowMenu("about")
+        #textbutton _("Acerca de") action ShowMenu("about")
 
         if renpy.variant("pc"):
 
@@ -1740,7 +1744,7 @@ style slider_pref_vbox is pref_vbox
 screen notif_settings():
     tag menu
 
-    use game_menu(("Alerts"), scroll="viewport"):
+    use game_menu(("Alertas"), scroll="viewport"):
 
         default tooltip = Tooltip("")
 
@@ -1767,7 +1771,7 @@ screen notif_settings():
 
             #Dynamically populate this
             for item in persistent._mas_windowreacts_notif_filters:
-                if item != "Window Reactions" or persistent._mas_windowreacts_windowreacts_enabled:
+                if item != "Reacciones de Ventana" or persistent._mas_windowreacts_windowreacts_enabled:
                     textbutton _(item):
                         action ToggleDict(persistent._mas_windowreacts_notif_filters, item)
                         selected persistent._mas_windowreacts_notif_filters.get(item)
@@ -2448,26 +2452,6 @@ style notify_frame is empty:
 style notify_text is gui_text:
     size gui.notify_text_size
 
-## This part of the code is used to create the tutorial selection screen.
-
-#Each tutorial is defined by its name (caption) and its label,
-#items is the list of caption and label of each tutorial
-#init python is necessary because items is a List, a python object
-
-init python:
-
-    items = [(_("Introducción"),"example_chapter")
-        ,(_("Ruta Parte 1, Cómo hacer un mod"),"tutorial_route_p1")
-        ,(_("Ruta Parte 2, Música"),"tutorial_route_p2")
-        ,(_("Ruta Parte 3, Escena"),"tutorial_route_p3")
-        ,(_("Ruta Parte 4, Diálogo"),"tutorial_route_p4")
-        ,(_("Ruta Parte 5, Menu"),"tutorial_route_p5")
-        ,(_("Ruta Parte 6, Declaración de la lógica"),"tutorial_route_p6")
-        ,(_("Ruta Parte 7, Sprite"),"tutorial_route_p7")
-        ,(_("Ruta Parte 8, Posición"),"tutorial_route_p8")
-        ,(_("Ruta Parte 9, Final"),"tutorial_route_p9")]
-
-
 ## Scrollable Menu ###############################################################
 ##
 ## This screen creates a vertically scrollable menu of prompts attached to labels
@@ -2933,29 +2917,6 @@ screen mas_generic_restart:
                 spacing 100
 
                 textbutton _("OK") action Return(True)
-
-
-# generic custom displayabels below:
-init python:
-    class PauseDisplayable(renpy.Displayable):
-        """
-        Pause until click variant of Pause
-        This is because normal pause until click is broken for some reason
-        """
-        import pygame
-
-        def __init__(self):
-            super(renpy.Displayable, self).__init__()
-
-        def render(self, width, height, st, at):
-            # dont actually render anything
-            return renpy.Render(width, height)
-
-        def event(self, ev, x, y, st):
-            if ev.type == pygame.MOUSEBUTTONDOWN and ev.button not in (4, 5):
-                return True
-
-            raise renpy.IgnoreEvent()
 
 # Partial generic showpoem screen
 # IN:

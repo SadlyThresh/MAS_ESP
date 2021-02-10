@@ -390,9 +390,6 @@ label game_hangman:
             instruct_txt = instruct_txt.format("'?' para repetir las pista, ")
             store.mas_hangman.game_name = "Ahorcado"
 
-    m 2eub "¿Quieres jugar [store.mas_hangman.game_name]? ¡Vale!"
-
-
 label mas_hangman_game_select_diff:
     m "Elige una dificultad.{nw}"
     $ _history_list.pop()
@@ -714,7 +711,7 @@ label mas_hangman_game_loop:
     menu:
         m "¿Te gustaría volver a jugar?{fast}"
         "Sí.":
-            $ hang_ev = mas_getEV("mas_hang")
+            $ hang_ev = mas_getEV("mas_hangman")
             if hang_ev:
                 # each game counts as a game played
                 $ hang_ev.shown_count += 1

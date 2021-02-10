@@ -902,9 +902,9 @@ label update_now:
         # updates are currently disabled
         python:
             no_update_dialog = (
-                "Error: Failed to move 'update/' folder. Please manually " +
-                "move the update folder from 'game/' to the base 'ddlc/' " +
-                "directory and try again."
+                "Error: No se pudo mover la carpeta 'update/'. Por favor mueva " +
+                "la carpeta update de 'game/' a la carpeta base de 'ddlc/' " +
+                "e intenta nuevamente."
             )
         call screen dialog(message=no_update_dialog, ok_action=Return())
 

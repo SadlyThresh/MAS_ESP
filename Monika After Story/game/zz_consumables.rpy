@@ -1464,12 +1464,12 @@ label mas_consumables_generic_finish_having(consumable):
             line_starter = renpy.substitute(dlg_map["else"][get_more])
 
     if (not mas_canCheckActiveWindow() or mas_isFocused()) and not store.mas_globals.in_idle_mode:
-        m 1eud "Terminé mi[plur] [consumable.disp_name][plur].{w=0.2} {nw}"
+        m 1eud "Terminé mi[plur] [consumable.disp_name].{w=0.2} {nw}"
         extend 1eua "[line_starter]"
         m 3eua "Espera un momento."
 
     elif store.mas_globals.in_idle_mode or (mas_canCheckActiveWindow() and not mas_isFocused()):
-        m 1esd "Oh, terminé mi[plur] [consumable.disp_name][plur].{w=1}{nw}"
+        m 1esd "Oh, terminé mi[plur] [consumable.disp_name].{w=1}{nw}"
         m 1eua "[line_starter] Vuelvo enseguida.{w=1}{nw}"
 
     #Monika is off screen
@@ -1508,6 +1508,7 @@ label mas_consumables_generic_finish_having(consumable):
             and mas_getEV("mas_consumables_generic_queued_running_out").timePassedSinceLastSeen_d(datetime.timedelta(days=7))
             and len(MASConsumable._getLowCons()) > 0
         ):
+            $ mas_display_notif(m_name, ("Hey, [player]...",), "Alerta de Temas")
             $ queueEvent("mas_consumables_generic_queued_running_out")
 
     #Only have one left

@@ -2063,7 +2063,7 @@ label mas_reaction_json_ribbon_base(ribbon_name, user_friendly_desc, helper_labe
 # lanvallime
 
 label mas_reaction_gift_acs_lanvallime_ribbon_coffee:
-    call mas_reaction_json_ribbon_base("lanvallime_ribbon_coffee", "de color café", "mas_reaction_gift_acs_lanvallime_ribbon_coffee")
+    call mas_reaction_json_ribbon_base("lanvallime_ribbon_coffee", "color café", "mas_reaction_gift_acs_lanvallime_ribbon_coffee")
     return
 
 label mas_reaction_gift_acs_lanvallime_ribbon_gold:
@@ -2083,7 +2083,7 @@ label mas_reaction_gift_acs_lanvallime_ribbon_lime_green:
     return
 
 label mas_reaction_gift_acs_lanvallime_ribbon_navy_blue:
-    call mas_reaction_json_ribbon_base("lanvallime_ribbon_navy_blue", "color marina", "mas_reaction_gift_acs_lanvallime_ribbon_navy_blue")
+    call mas_reaction_json_ribbon_base("lanvallime_ribbon_navy_blue", "marina", "mas_reaction_gift_acs_lanvallime_ribbon_navy_blue")
     return
 
 label mas_reaction_gift_acs_lanvallime_ribbon_orange:
@@ -2095,7 +2095,7 @@ label mas_reaction_gift_acs_lanvallime_ribbon_royal_purple:
     return
 
 label mas_reaction_gift_acs_lanvallime_ribbon_sky_blue:
-    call mas_reaction_json_ribbon_base("lanvallime_ribbon_sky_blue", "azul cielo", "mas_reaction_gift_acs_lanvallime_ribbon_sky_blue")
+    call mas_reaction_json_ribbon_base("lanvallime_ribbon_sky_blue", "azul celeste", "mas_reaction_gift_acs_lanvallime_ribbon_sky_blue")
     return
 
 # anonymioo
@@ -2116,27 +2116,27 @@ label mas_reaction_gift_acs_anonymioo_ribbon_brown:
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_gradient:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_gradient","multicolor","mas_reaction_gift_acs_anonymioo_ribbon_gradient")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_gradient","multi-color","mas_reaction_gift_acs_anonymioo_ribbon_gradient")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_gradient_lowpoly:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_gradient_lowpoly","multicolor","mas_reaction_gift_acs_anonymioo_ribbon_gradient_lowpoly")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_gradient_lowpoly","multi-color","mas_reaction_gift_acs_anonymioo_ribbon_gradient_lowpoly")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_gradient_rainbow:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_gradient_rainbow","color del arcoiris","mas_reaction_gift_acs_anonymioo_ribbon_gradient_rainbow")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_gradient_rainbow","de los colores del arcoiris","mas_reaction_gift_acs_anonymioo_ribbon_gradient_rainbow")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_polkadots_whiteonred:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_polkadots_whiteonred","de lunares rojos y blancos punteados","mas_reaction_gift_acs_anonymioo_ribbon_polkadots_whiteonred")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_polkadots_whiteonred","lunares rojos y blancos punteados","mas_reaction_gift_acs_anonymioo_ribbon_polkadots_whiteonred")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_starsky_black:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_starsky_black","temática del cielo nocturno","mas_reaction_gift_acs_anonymioo_ribbon_starsky_black")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_starsky_black","temática nocturna","mas_reaction_gift_acs_anonymioo_ribbon_starsky_black")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_starsky_red:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_starsky_red","temática del cielo nocturno","mas_reaction_gift_acs_anonymioo_ribbon_starsky_red")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_starsky_red","temática nocturna","mas_reaction_gift_acs_anonymioo_ribbon_starsky_red")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_striped_blueandwhite:
@@ -2158,7 +2158,7 @@ label mas_reaction_gift_acs_velius94_ribbon_platinum:
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_pink:
-    call mas_reaction_json_ribbon_base("velius94_ribbon_pink", "rosa", "mas_reaction_gift_acs_velius94_ribbon_pink")
+    call mas_reaction_json_ribbon_base("velius94_ribbon_pink", "rosada", "mas_reaction_gift_acs_velius94_ribbon_pink")
     return
 
 label mas_reaction_gift_acs_velius94_ribbon_peach:

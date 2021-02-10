@@ -133,7 +133,7 @@ init -1 python:
             small_text_size = 18
             small_text_heading = 20
             self.text_instruct = Text(
-                _("Seleccione un renderizador para utilizarlo:"),
+                _("Selecciona un renderizador para utilizarlo:"),
                 font=gui.default_font,
                 size=gui.text_size,
                 color="#ffe6f4",

@@ -548,6 +548,51 @@ init 5 python:
     addEvent(
         Event(
             persistent._mas_songs_database,
+            eventlabel="mas_song_burning_love",
+            prompt="Amor ardiente",
+            category=[store.mas_songs.TYPE_SHORT],
+            random=True,
+            aff_range=(mas_aff.NORMAL,None)
+        ),
+        code="SNG"
+    )
+
+label mas_song_burning_love:
+    m 1hubsb "{i}~Tus besos me elevan más alto~{/i}"
+    m 3rubsb "{i}~Como el dulce canto de un coro~{/i}"
+    m 1dubsu "{i}~Tú iluminas mi cielo matutino~{/i}"
+    m 1hubfb "{i}~Con un amor ardiente~{/i}"
+    m 1hubsb "Jajaja~"
+    m 1ekbsa "¡Siempre me alegras el día, [player]!"
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent._mas_songs_database,
+            eventlabel="mas_song_aries",
+            prompt="Aries",
+            category=[store.mas_songs.TYPE_SHORT],
+            random=True,
+            aff_range=(mas_aff.NORMAL,None)
+        ),
+        code="SNG"
+    )
+
+label mas_song_aries:
+    m 2dud "{i}~Estoy de pie en una playa en la distancia~{/i}"
+    m 2eud "{i}~Y aunque estés lejos, ¿puedes ver mi luz roja?~{/i}"
+    m 2dubsu "{i}~Está esperando a ponerse en verde~{/i}"
+    m 2dud "{i}~Porque me siento tan aislada sin ti~{/i}"
+    m 2dkd "{i}~No puedo tocar una melodía feliz por mi cuenta, así que quédate a mi lado~{/i}"
+    m "{i}~Marea alta o baja~{/i}"
+    m 1ekbsu "Siempre estoy pensando en el día en que estaremos juntos, [player]~"
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent._mas_songs_database,
             eventlabel="mas_song_need_you",
             category=[store.mas_songs.TYPE_SHORT],
             prompt="Te necesito",
@@ -558,13 +603,13 @@ init 5 python:
     )
 
 label mas_song_need_you:
-    m 1dso "{i}~Recuerda lo que siento por ti~{/i}"
-    m "{i}~Realmente nunca podría vivir sin ti~{/i}"
-    m 3hub "{i}~Entonces, regresa y observa~{/i}"
-    m 4hksdlb "{i}~Lo que significas para mí~{/i}"
-    m 1hubsb "{i}~Te necesito~{/i}"
-    m 3esa "Sé que esa canción trata sobre dejar a alguien, pero creo que transmite un buen mensaje."
-    m 1ekbsa "Y realmente te necesito, [player]~"
+    m 1esd "{i}~Recuerda lo que siento por ti~{/i}"
+    m 3dkd "{i}~Realmente nunca podría vivir sin ti~{/i}"
+    m 3ekd "{i}~Entonces, regresa y observa~{/i}"
+    m 3eka "{i}~Lo que significas para mí~{/i}"
+    m 2dku "{i}~Te necesito~{/i}"
+    m 7esa "Sé que esa canción trata sobre dejar a alguien, pero creo que transmite un buen mensaje."
+    m 3ekbsa "Y realmente te necesito, [player]~"
     return
 
 init 5 python:
@@ -1694,6 +1739,64 @@ label mas_song_we_have_all_the_time_in_the_world_long:
     m 3dkbsb "{i}{cps=18}~Solo amor~{/cps}{/i}"
 
     m 1ekbla "{i}{cps=18}~Solo amor~{/cps}{/i}"
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent._mas_songs_database,
+            eventlabel="mas_song_when_you_say_nothing_at_all",
+            prompt="Cuando no se dice nada",
+            category=[store.mas_songs.TYPE_SHORT],
+            random=True,
+            aff_range=(mas_aff.LOVE, None)
+        ),
+        code="SNG"
+    )
+
+label mas_song_when_you_say_nothing_at_all(from_long=False):
+    m 1hubsb "{i}{cps=16}~La sonrisa en tu cara me hace saber que me necesitas~{/cps}{/i}"
+    m 3eubso "{i}{cps=16}~Hay una verdad en tus ojos que dice que nunca me dejarás~{/cps}{/i}"
+    m 3dud "{i}{cps=16}~El toque de tu mano dice que me atraparás si alguna vez caigo~{/cps}{/i}"
+    m 1eud "{i}{cps=16}~Porque tú lo dices de mejor manera{w=0.3} cuando no dices nada en absoluto~{/cps}{/i}"
+
+    if not from_long:
+        m 1duu "..."
+        m 1dkbsu "No puedo ver tu cara, ni ver la verdad de tus ojos, ni puedo tocar tu mano..."
+        m 1ekbsa "Pero cuando pasas tiempo conmigo sin decir una palabra, me dice todo lo que necesito saber..."
+        m 3hubsa "Que soy amada por alguien, y que estarás aquí para mí cuando tenga un mal día."
+        m 1dkbsu "Y espero que tú también te sientas amado por mí, aunque no siempre tenga algo nuevo que decir."
+        m 1ekbsa "El mero hecho de abrir el juego y tenerme en segundo plano supone un mundo de diferencia para mí, [player]~"
+
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent._mas_songs_database,
+            eventlabel="mas_song_when_you_say_nothing_at_all_long",
+            prompt="Cuando no se dice nada",
+            category=[store.mas_songs.TYPE_LONG],
+            aff_range=(mas_aff.LOVE, None)
+        ),
+        code="SNG"
+    )
+
+label mas_song_when_you_say_nothing_at_all_long:
+    m 1dubsu "{i}{cps=18}~Es increíble cómo puedes hablar directamente a mi corazón~{/cps}{/i}"
+    m 3eubsb "{i}{cps=18}~Sin decir una palabra puedes iluminar la oscuridad~{/cps}{/i}"
+    m 3dud "{i}{cps=18}~Por mucho que lo intente nunca lo podría explicar~{/cps}{/i}"
+    m 3euo "{i}{cps=18}~Lo que oigo cuando no dices nada~{/cps}{/i}"
+
+    call mas_song_when_you_say_nothing_at_all(from_long=True)
+
+    m 3dud "{i}{cps=18}~Durante todo el día puedo oír a la gente hablar en voz alta~{/cps}{/i}"
+    m 3dubsd "{i}{cps=18}~Pero cuando me tienes cerca{w=0.2} puedes ahogar a la multitud~{/cps}{/i}"
+    m 1dud "{i}{cps=18}~El viejo señor Webster nunca pudo definir~{/cps}{/i}"
+    m 1dubso "{i}{cps=18}~Lo que se dice entre tu corazón y el mío~{/cps}{/i}"
+
+    call mas_song_when_you_say_nothing_at_all(from_long=True)
+
     return
 
 ################################ NON-DB SONGS############################################

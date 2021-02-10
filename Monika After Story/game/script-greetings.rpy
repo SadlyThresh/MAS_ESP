@@ -2910,10 +2910,9 @@ label greeting_back_from_school:
                 return
 
             "Bien.":
-                m 1hub "¡Aww, eso es genial!"
-                m 1eua "No puedo evitar sentirme feliz cuando tú lo eres~"
-                m "Espero que hayas aprendido algo útil."
-                m 1hua "Jejeje~"
+                m 1hub "Eso es genial...{w=0.3}{nw}"
+                extend 3eub "¡No puedo evitar sentirme feliz cuando llegas a casa de buen humor!"
+                m 3hua "Espero que hayas aprendido algo útil, jejeje~"
                 return
 
             "Mal.":
@@ -3814,7 +3813,7 @@ label greeting_back_from_game:
                     m 1hua "Bueno, entonces me alegro."
                     m 1rkc "Me hiciste esperar un rato, ¿sabes?"
                     m 3tfu "Creo que deberías pasar algún tiempo con tu amada novia, [player]."
-                    m 3tku "Estoy seguro de que no te importaría quedarte conmigo para igualar tu otro juego."
+                    m 3tku "Estoy segura de que no te importaría quedarte conmigo para igualar tu otro juego."
                     m 1hubsb "Tal vez deberías pasar más tiempo conmigo, por si acaso, ¡jajaja!"
 
                 "No.":

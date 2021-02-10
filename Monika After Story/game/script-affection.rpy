@@ -44,6 +44,8 @@
 
 init python:
     # need to initially define this so it can be used in topic / event creation
+    # NOTE: these are not updated until after aff progpoints so dont use this
+    #   in aff prog points.
     mas_curr_affection = store.mas_affection.NORMAL
     mas_curr_affection_group = store.mas_affection.G_NORMAL
 
@@ -451,6 +453,9 @@ init 15 python in mas_affection:
         # always rebuild randos
         store.mas_idle_mailbox.send_rebuild_msg()
 
+        # Update idle exp
+        store.mas_moni_idle_disp.update()
+
 
     def _disToBroken():
         """
@@ -467,6 +472,9 @@ init 15 python in mas_affection:
         # always rebuild randos
         store.mas_idle_mailbox.send_rebuild_msg()
 
+        # Update idle exp
+        store.mas_moni_idle_disp.update()
+
 
     def _disToUpset():
         """
@@ -477,6 +485,9 @@ init 15 python in mas_affection:
 
         # always rebuild randos
         store.mas_idle_mailbox.send_rebuild_msg()
+
+        # Update idle exp
+        store.mas_moni_idle_disp.update()
 
 
     def _upsetToDis():
@@ -499,6 +510,9 @@ init 15 python in mas_affection:
         if store.monika_chr.clothes != store.mas_clothes_def:
             store.pushEvent("mas_change_to_def",skipeval=True)
 
+        # Update idle exp
+        store.mas_moni_idle_disp.update()
+
 
     def _upsetToNormal():
         """
@@ -513,6 +527,9 @@ init 15 python in mas_affection:
         #Check the song analysis delegate
         store.mas_songs.checkSongAnalysisDelegate()
 
+        # Update idle exp
+        store.mas_moni_idle_disp.update()
+
 
     def _normalToUpset():
         """
@@ -526,6 +543,9 @@ init 15 python in mas_affection:
 
         # always rebuild randos
         store.mas_idle_mailbox.send_rebuild_msg()
+
+        # Update idle exp
+        store.mas_moni_idle_disp.update()
 
 
     def _normalToHappy():
@@ -555,6 +575,9 @@ init 15 python in mas_affection:
         #Check the song analysis delegate
         store.mas_songs.checkSongAnalysisDelegate(HAPPY)
 
+        # Update idle exp
+        store.mas_moni_idle_disp.update()
+
 
     def _happyToNormal():
         """
@@ -576,6 +599,9 @@ init 15 python in mas_affection:
         #Check the song analysis delegate
         store.mas_songs.checkSongAnalysisDelegate(NORMAL)
 
+        # Update idle exp
+        store.mas_moni_idle_disp.update()
+
 
     def _happyToAff():
         """
@@ -595,6 +621,9 @@ init 15 python in mas_affection:
         #Check the song analysis delegate
         store.mas_songs.checkSongAnalysisDelegate(AFFECTIONATE)
 
+        # Update idle exp
+        store.mas_moni_idle_disp.update()
+
     def _affToHappy():
         """
         Runs when transitioning from affectionate to happy
@@ -612,7 +641,7 @@ init 15 python in mas_affection:
         # NOTE: maybe instead of pushing an event, we could also add a pool
         # event so player can ask what happened to the nickname
         persistent._mas_monika_nickname = "Monika"
-        m_name = persistent._mas_monika_nickname
+        store.m_name = persistent._mas_monika_nickname
 
         #Change randchat
         store.mas_randchat.reduceRandchatForAff(HAPPY)
@@ -622,6 +651,9 @@ init 15 python in mas_affection:
 
         #Check the song analysis delegate
         store.mas_songs.checkSongAnalysisDelegate(HAPPY)
+
+        # Update idle exp
+        store.mas_moni_idle_disp.update()
 
     def _affToEnamored():
         """
@@ -646,6 +678,9 @@ init 15 python in mas_affection:
         #Check the song analysis delegate
         store.mas_songs.checkSongAnalysisDelegate(ENAMORED)
 
+        # Update idle exp
+        store.mas_moni_idle_disp.update()
+
     def _enamoredToAff():
         """
         Runs when transitioning from enamored to affectionate
@@ -663,6 +698,9 @@ init 15 python in mas_affection:
         #Check the song analysis delegate
         store.mas_songs.checkSongAnalysisDelegate(AFFECTIONATE)
 
+        # Update idle exp
+        store.mas_moni_idle_disp.update()
+
     def _enamoredToLove():
         """
         Runs when transitioning from enamored to love
@@ -679,6 +717,9 @@ init 15 python in mas_affection:
         #Check the song analysis delegate
         store.mas_songs.checkSongAnalysisDelegate(LOVE)
 
+        # Update idle exp
+        store.mas_moni_idle_disp.update()
+
     def _loveToEnamored():
         """
         Runs when transitioning from love to enamored
@@ -692,6 +733,9 @@ init 15 python in mas_affection:
 
         #Check the song analysis delegate
         store.mas_songs.checkSongAnalysisDelegate(ENAMORED)
+
+        # Update idle exp
+        store.mas_moni_idle_disp.update()
 
     def _gSadToNormal():
         """
@@ -902,78 +946,119 @@ init 15 python in mas_affection:
 
         ## DISTRESSED quips
         quips = [
-            _("...¿Sí?"),
-            _("...¿Oh?"),
-            _("...¿Eh?"),
-            _("...¿Hm?"),
-            _("Podemos intentar hablar, supongo."),
+            _("..."),
+            _("¿Sí?"),
+            _("Oh..."),
+            _("Eh..."),
             _("Supongo que podemos hablar."),
-            _("Oh...¿Quieres hablar?"),
-            _("Si quieres hablar, adelante."),
-            _("Podemos hablar si realmente quieres."),
+            _("¿Quieres hablar?"),
+            _("...Adelante."),
             _("¿Estás seguro de que quieres hablar conmigo?"),
             _("¿De verdad quieres hablar conmigo?"),
-            _("Muy bien...si quieres hablar conmigo."),
-            _("¿Seguro que quieres hablar?")
+            _("De acuerdo...{w=0.3}si eso es lo que quieres."),
+            _("¿Eso es lo que realmente quieres?"),
         ]
         save_quips(DISTRESSED, quips)
 
         ## UPSET quips
         quips = [
+            _("..."),
             _("¿Qué?"),
+            _("¿Eh?"),
+            _("¿Sí?"),
             _("¿Qué deseas?"),
             _("¿Ahora qué?"),
             _("¿Qué es?"),
-#            "Fine...we can talk.",
-#            "Just...whatever, go ahead."
+            _("Adelante entonces."),
+            _("Espero sea importante."),
+            _("¿Tienes algo en mente?"),
+            _("¿Sí, [player]?"),
         ]
         save_quips(UPSET, quips)
 
         ## NORMAL quips
         quips = [
             _("¿Qué te gustaría hablar?"),
-            _("¿Hay algo de lo que te gustaría hablar?")
+            _("¿En qué estás pensando?"),
+            _("¿Hay algo de lo que te gustaría hablar?"),
+            _("¿Tienes algo en mente?"),
+            _("¿Sí, [player]?"),
         ]
         save_quips(NORMAL, quips)
 
         ## HAPPY quips
         quips = [
-            _("¿Qué te gustaría hablar?")
+            _("¿De qué te gustaría hablar?"),
+            _("¿En qué estás pensando?"),
+            _("¿Hay algo de lo que te gustaría hablar?"),
+            _("¿Tienes algo en mente?"),
+            _("¿Quieres hablar, [player]?"),
+            _("¿Sí, [player]?"),
+            _("¿En qué piensas, [player]?"),
+            _("¿Qué pasa, [player]?"),
+            _("Pregúntame, [player]."),
+            _("No seas tímido, [player]."),
         ]
         save_quips(HAPPY, quips)
 
         ## AFFECTIONATE quips
         quips = [
-            _("¿Qué te gustaría hablar? <3"),
+            _("¿Qué te gustaría hablar?"),
             _("¿De qué te gustaría hablar, [mas_get_player_nickname()]?"),
-            _("¿Sí, [mas_get_player_nickname()]?"),
+            _("¿En qué estás pensando?"),
+            _("¿Hay algo de lo que te gustaría hablar, [mas_get_player_nickname()]?"),
+            _("¿Tienes algo en mente?"),
+            _("¿Tienes algo en mente, [mas_get_player_nickname()]?"),
+            _("¿Listo para hablar, [mas_get_player_nickname()]?"),
+            _("Sí, [mas_get_player_nickname()]?"),
             _("¿Qué tienes en mente, [mas_get_player_nickname()]?"),
+            _("¿Qué pasa, [mas_get_player_nickname()]?"),
+            _("Pregúntame, [mas_get_player_nickname()]."),
+            _("No seas tímido, [mas_get_player_nickname()]~"),
+            _("Te escucho, [mas_get_player_nickname()]~"),
+            _("Por supuesto que podemos hablar, [mas_get_player_nickname()]."),
         ]
         save_quips(AFFECTIONATE, quips)
 
         ## ENAMORED quips
         quips = [
             _("¿Qué te gustaría hablar? <3"),
-            _("¿De qué te gustaría hablar, [mas_get_player_nickname()]?"),
+            _("¿De qué te gustaría hablar, [mas_get_player_nickname()]? <3"),
+            _("¿En qué estás pensando?"),
+            _("¿Hay algo de lo que te gustaría hablar, [mas_get_player_nickname()]?"),
+            _("¿Tienes algo en mente?"),
+            _("¿Qué tienes en mente, [mas_get_player_nickname()]?"),
+            _("Listo para hablar, ya veo~"),
             _("¿Sí, [mas_get_player_nickname()]?"),
             _("¿Qué tienes en mente, [mas_get_player_nickname()]?"),
+            _("¿Qué pasa, [player]?"),
+            _("Pregúntame, [mas_get_player_nickname()]~"),
+            _("Te escucho, [mas_get_player_nickname()]~"),
+            _("Por supuesto que podemos hablar, [mas_get_player_nickname()]~"),
+            _("Tómate todo el tiempo que necesites, [player]."),
+            _("Podemos hablar de lo que quieras, [mas_get_player_nickname()]."),
         ]
         save_quips(ENAMORED, quips)
 
         ## LOVE quips
         quips = [
-#            "Hey, what's up?",
-            _("¿Qué tienes en mente?"),
-            _("¿Qué tienes en mente, [mas_get_player_nickname()]?"),
-            _("¿Algo en mente?"),
-            _("¿Algo en mente, [mas_get_player_nickname()]?"),
-            _("¿Qué pasa, [mas_get_player_nickname()]?"),
-#            "What's up?",
+            _("¿De qué te gustaría hablar? <3"),
+            _("¿De qué te gustaría hablar, [mas_get_player_nickname()]? <3"),
+            _("¿En qué estás pensando?"),
+            _("¿Tienes algo en mente?"),
+            _("¿Tienes algo en mente, [mas_get_player_nickname()]?"),
+            _("Listo para habar, ya veo~"),
             _("¿Sí, [mas_get_player_nickname()]?"),
-            _("^_^"),
+            _("¿Qué tienes en mente, [mas_get_player_nickname()]?"),
             _("<3"),
-            _("¿Algo de lo que te gustaría hablar?"),
-            _("Podemos hablar de lo que quieras, [player].")
+            _("¿Qué pasa, [mas_get_player_nickname()]?"),
+            _("Pregúntame, [mas_get_player_nickname()]~"),
+            _("Te escucho, [mas_get_player_nickname()]~"),
+            _("Podemos hablar de lo que quieras, [mas_get_player_nickname()]."),
+            _("Por supuesto que podemos hablar, [mas_get_player_nickname()]~"),
+            _("Tómate todo el tiempo que necesites, [mas_get_player_nickname()]~"),
+            _("Soy toda tuya, [mas_get_player_nickname()]~"),
+            _("¿Oh? Algo...{w=0.3}{i}importante{/i} en tu mente, [mas_get_player_nickname()]?~"),
         ]
         save_quips(LOVE, quips)
 
@@ -998,52 +1083,56 @@ init 15 python in mas_affection:
 
         ## DISTRESSED quips
         quips = [
-            _("...Seguro."),
-            _("...Bien."),
-            _("Supongo que podemos jugar un juego."),
-            _("Supongo que si realmente quieres."),
-            _("Supongo que un juego estaría bien."),
-            _("...{w=0.5}Si, ¿por qué no?")
+            _("..."),
+            _("Si eso es lo que quieres..."),
+            _("Supongo que no estaría de más probar esto..."),
+            _("...¿En serio?"),
         ]
         save_quips(DISTRESSED, quips)
 
         ## UPSET quips
         quips = [
-            _("...¿Qué juego?"),
-            _("Okay."),
-            _("Seguro."),
-#            "Okay...whatever, choose a game.",
-#            "Fine, pick a game."
+            _("..."),
+            _("Si eso es lo que quieres..."),
+            _("...¿En serio?"),
+            _("Oh, okay..."),
         ]
         save_quips(UPSET, quips)
 
         ## NORMAL quips
         quips = [
             _("¿Qué te gustaría jugar?"),
-            _("¿Qué tenías en mente?"),
-            _("¿Algo específico que te gustaría jugar?")
+            _("¿Hay algo que tengas en mente?"),
+            _("¿Hay algo específico que te gustaría jugar?"),
+            _("¿Qué deberíamos jugar hoy, [player]?"),
+            _("Seguro, me apunto a un juego."),
         ]
         save_quips(NORMAL, quips)
 
         ## HAPPY quips
         quips = [
             _("¿Qué te gustaría jugar?"),
-            _("¿Qué tenías en mente?"),
-            _("¿Algo específico que te gustaría jugar?")
+            _("¿Hay algo que tengas en mente?"),
+            _("¿Hay algo específico que te gustaría jugar?"),
+            _("¿Qué deberíamos jugar hoy, [player]?"),
+            _("¡Seguro, me apunto a un juego!"),
         ]
         save_quips(HAPPY, quips)
 
         ## AFFECTIONATE quips
         quips = [
-            _("¿Qué te gustaría jugar? <3"),
+            _("¿Qué te gustaría jugar?"),
             _("Elige lo que quieras, [mas_get_player_nickname()]."),
-            _("Elige lo que quieras, [mas_get_player_nickname()].")
+            _("¿Qué deberíamos jugar hoy, [mas_get_player_nickname()]?"),
+            _("¡Seguro, me apunto a un juego!"),
+            _("Elige lo que quieras."),
         ]
         save_quips(AFFECTIONATE, quips)
 
         ## ENAMORED quips
         quips = [
             _("¿Qué te gustaría jugar? <3"),
+            _("Elige un juego, cualquiera~"),
             _("Elige lo que quieras, [mas_get_player_nickname()]."),
             _("Elige lo que quieras, [mas_get_player_nickname()]."),
         ]
@@ -1054,11 +1143,11 @@ init 15 python in mas_affection:
             _("¿Qué te gustaría jugar? <3"),
             _("Elige lo que quieras, [mas_get_player_nickname()]."),
             _("Elige lo que quieras, [mas_get_player_nickname()]."),
-            _("¡Yay! ¡Vamos a jugar juntos!"),
-            _("¡Me encantaría jugar algo contigo!"),
-            _("¡Me encantaría jugar contigo!")
+            _("Elige un juego, cualquiera~"),
+            _("Me encantaría jugar algo contigo, [mas_get_player_nickname()]~"),
+            _("Claro, ¡me encantaría jugar contigo!"),
+            _("Siempre estaré dispuesta a jugar contigo, [mas_get_player_nickname()]~"),
         ]
-
         save_quips(LOVE, quips)
 
     _init_talk_quips()
@@ -2188,6 +2277,9 @@ label monika_change_player_nicknames:
         if not persistent._mas_player_nicknames:
             current_nicknames = [
                 ("Querido", "querido", False, True, False),
+                ("Mi amado", "my darling", False, True, False),
+                ("Querido", "dear", False, True, False),
+                ("Mi querido", "my dear", False, True, False),
                 ("Cariño", "cariño", False, True, False),
                 ("Amor", "amor", False, True, False),
                 ("Mi amor", "mi amor", False, True, False),
@@ -2211,7 +2303,7 @@ label mas_player_nickname_loop(check_scrollable_text, nickname_pool):
     python:
         renpy.say(m, renpy.substitute(check_scrollable_text), interact=False)
         nickname_pool.sort()
-    call screen mas_check_scrollable_menu(nickname_pool, mas_ui.SCROLLABLE_MENU_TXT_MEDIUM_AREA, mas_ui.SCROLLABLE_MENU_XALIGN, selected_button_prompt="Hecho", default_button_prompt="Hecho")
+    call screen mas_check_scrollable_menu(nickname_pool, mas_ui.SCROLLABLE_MENU_TXT_MEDIUM_AREA, mas_ui.SCROLLABLE_MENU_XALIGN, selected_button_prompt="Done", default_button_prompt="Done")
 
     python:
         done = False

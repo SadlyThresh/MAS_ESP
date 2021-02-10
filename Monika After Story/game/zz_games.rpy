@@ -128,7 +128,7 @@ init 5 python:
             eventlabel="mas_chess",
             prompt="Ajedrez",
             conditional=(
-                "not renpy.seen_label('mas_chess_dlg_qf_lost_ofcn_6') "
+                "persistent._mas_chess_timed_disable is not True "
                 "and mas_games.is_platform_good_for_chess() "
                 "and mas_timePastSince(persistent._mas_chess_timed_disable, datetime.timedelta(hours=1))"
             )
@@ -205,6 +205,44 @@ label mas_pick_a_game:
 
     if selected_game:
         show monika at t11
+        if selected_game != "mas_piano":
+            python:
+                if mas_isMoniUpset(lower=True):
+                    begin_quips = [
+                        _("Okay, comencemos."),
+                        _("Supongo que podemos hacer eso."),
+                        _("Comencemos."),
+                        _("Seguro."),
+                        _("Bien."),
+                        _("De acuerdo."),
+                    ]
+
+                else:
+                    begin_quips = [
+                        _("¡Hagámoslo!"),
+                        _("¡Empecemos, [mas_get_player_nickname()]!"),
+                        _("¿Listo para perder, [mas_get_player_nickname()]?"),
+                        _("¡Estoy lista cuando tú lo estés, [mas_get_player_nickname()]!"),
+                        _("Espero que estés preparado, [mas_get_player_nickname()]~"),
+                        _("¡Vamos a divertirnos, [mas_get_player_nickname()]!"),
+                        _("¡No esperes que sea fácil para ti, [mas_get_player_nickname()]!~"),
+                        _("Lanzando el guante, ¿eh?"),
+                        _("¡Es hora de batirse en duelo!"),
+                        _("¡Reto aceptado!"),
+                    ]
+
+                game_quip = renpy.substitute(renpy.random.choice(begin_quips))
+
+
+            if mas_isMoniBroken():
+                m 6ckc "..."
+
+            elif mas_isMoniUpset(lower=True):
+                m 2ekd "[game_quip]"
+
+            else:
+                m 3hub "[game_quip]"
+
         $ pushEvent(selected_game, skipeval=True)
 
     if not renpy.showing("monika idle"):

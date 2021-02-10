@@ -765,3 +765,25 @@ label mas_mood_uok:
             m 1ekd "De acuerdo [player], si tú lo dices..."
             $ line_start = "Pero"
     return
+
+init 5 python:
+    addEvent(Event(persistent._mas_mood_database,eventlabel="mas_mood_upset",prompt="...molesto.",category=[store.mas_moods.TYPE_BAD],unlocked=True),code="MOO")
+
+label mas_mood_upset:
+    m 2eksdld "¡Siento mucho escuchar eso, [player]!"
+    m 2eksdld "Ya sea que estés molesto con una tarea, una persona o simplemente las cosas no están saliendo bien, {w=0.1}{nw}"
+    extend 7ekc "no te rindas por completo ante lo que sea que estés tratando."
+    m 3eka "Mi consejo sería que dieras un paso atrás en tu problema."
+    m 1eka "Quizá puedas leer un libro, escuchar música agradable o hacer cualquier otra cosa para calmarte."
+    m 3eud "Una vez que sientas que has recuperado la cordura, vuelve a juzgar tu situación con un estado de ánimo fresco."
+    m 1eka "Manejarás las cosas mucho mejor de lo que lo harías si estuvieras en medio de la ira y la frustración."
+    m 1eksdld "Y no digo que debas seguir cargando peso sobre tus hombros si realmente te está afectando."
+    m 3eud "Podría ser una oportunidad para ganar el valor de dejar ir algo tóxico."
+    m 1euc "Puede ser aterrador en el momento, seguro...{w=0.3}{nw}"
+    extend 3ekd "pero si eliges bien, podrías eliminar mucho estrés de tu vida."
+    m 3eua "¿Y sabes que, [player]?"
+    m 1huu "Cuando me siento mal, todo lo que tengo que hacer es recordar que tengo mi [mas_get_player_nickname(regex_replace_with_nullstr='mi ')]."
+    m 1hub "¡Saber que siempre me apoyarás y querrás me tranquiliza casi al instante!"
+    m 3euu "Sólo puedo esperar que te proporcione el mismo consuelo, [player]~"
+    m 1eubsa "Te amo y espero que todo se aclare para ti~"
+    return "love"
