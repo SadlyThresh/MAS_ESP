@@ -639,7 +639,7 @@ label game_chess:
         # if player did bad, then we dont do file checks anymore
         if persistent._mas_chess_skip_file_checks:
             $ loaded_game = quicksaved_game[1]
-            m "Let's continue our unfinished game."
+            m "Continuemos con nuestro juego inconcluso."
 
             if loaded_game:
                 python:
@@ -1027,11 +1027,12 @@ label mas_chess_start_chess:
     else:
         python:
             player_win_quips = [
-                "¡Estoy muy orgullosa de ti, [player]!",
-                "¡Estoy orgullosa, [player]!~",
-                "¡Bien jugado, [player]!",
-                "Me hace muy feliz verte ganar~",
-                "¡Me alegro de que ganes!"
+                _("¡Estoy tan orgullosa de ti, [player]!"),
+                _("¡Estoy orgullosa de ti, [player]!~"),
+                _("¡Bien jugado, [player]!"),
+                _("Me hace muy feliz verte ganar~"),
+                _("¡Estoy feliz de que ganes!"),
+                _("No importa el resultado, siempre disfrutaré jugando contigo.")
             ]
             persistent._mas_chess_stats["practice_wins" if practice_mode else "wins"] += 1
 
@@ -1065,9 +1066,7 @@ label mas_chess_start_chess:
             m 3hua "[renpy.substitute(random.choice(player_win_quips))]"
 
         else:
-            m 3hub "Buen trabajo, [player], ¡ganaste!"
-            m 3eua "No importa el resultado, siempre disfrutaré jugando contigo."
-            m 1hua "Volvamos a jugar pronto, ¿de acuerdo?"
+            m 3eub "¡Buen trabajo, ganaste!"
             m 3hub "[renpy.substitute(random.choice(player_win_quips))]"
 
         m 1eua "Como sea..."
@@ -1096,6 +1095,8 @@ label mas_chess_start_chess:
             "No.":
                 pass
 
+    # FALL THROUGH
+
 label mas_chess_play_again_ask:
     m 1eua "¿Te gustaría jugar de nuevo?{nw}"
     $ _history_list.pop()
@@ -1114,7 +1115,8 @@ label mas_chess_play_again_ask:
             jump mas_chess_remenu
 
         "No.":
-            pass
+            m 1eua "Muy bien, volvamos a jugar pronto."
+
     return
 
 label mas_chess_draw_lots(begin=True):

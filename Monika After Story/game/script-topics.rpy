@@ -6316,7 +6316,7 @@ label monika_pluralistic_ignorance:
     m 1eua "¿Alguna vez finges que te gusta algo, solo porque crees que deberías?"
     m 1esa "A veces me siento así con los libros que leo."
     m 3euc "Por ejemplo, cuando leí Shakespeare, lo encontré un poco aburrido..."
-    m 3ekc "Pero sentí que tenía que gustarme porque soy la presidenta del club de literatura."
+    m 3ekc "Pero sentí que tenía que gustarme porque soy la presidenta del Club de Literatura."
     m 1esd "Se supone que es el mejor dramaturgo y poeta de todos los tiempos, ¿verdad?"
     m 1esd "Entonces, ¿a qué clase de amante de la poesía no le gustaría su trabajo?"
     m 2euc "Pero eso me hace preguntarme..."
@@ -8453,7 +8453,7 @@ init 5 python:
     addEvent(Event(persistent.event_database,eventlabel="monika_hamlet",category=['literatura'],prompt="Hamlet",random=True))
 
 label monika_hamlet:
-    m 3euc "[player], ¿Alguna vez has oído hablar de {i}Hamlet{/i}?"
+    m 3euc "[player], ¿Alguna vez has oído hablar de {i}Hamlet{/i} ?" #extra space intentional
     m 1eua "Es una de las obras más populares de Shakespeare y, de hecho, es una pieza de literatura muy interesante."
     m "Se trata de un príncipe que emprendió una búsqueda de venganza después de ver el fantasma de su padre asesinado."
     m 1lksdlc "Se le consideraba loco ya que era el único que podía ver el fantasma de su padre, obviamente."
@@ -8542,10 +8542,10 @@ label monika_smoking:
     m 1tfc "Realmente lo desprecio..."
 
     $ menu_question = "¿Todavía fumas?" if persistent._mas_pm_do_smoke else "No fumas, ¿verdad?"
-    m 1eka "¿[menu_question]?{nw}"
+    m 1eka "[menu_question]{nw}"
     $ _history_list.pop()
     menu:
-        m "¿[menu_question]?{fast}"
+        m "[menu_question]{fast}"
 
         "Sí, lo hago..":
             if persistent._mas_pm_do_smoke_quit:
@@ -9288,7 +9288,7 @@ label monika_attractiveness:
     m 3esd "...Pero cuando supe que nuestro mundo no es real, se me ocurrió otra teoría."
     m 7euc "Como personajes de un juego, necesitábamos tener algún tipo de representación visual para que tú, el jugador, pudieras vernos."
     m 2esc "Sayori, Natsuki, Yuri e incluso yo..."
-    m 2rkc "Desde tu perspectiva, realmente no tenemos cuerpos como los tienen las personas en tu mundo. Solo puedes vernos como un conjunto de imágenes para representar nuestras apariencias y emoción actual."
+    m 2rkc "Desde tu perspectiva, no tenemos cuerpos como los tienen las personas en tu mundo. Solo puedes vernos como un conjunto de imágenes para representar nuestras apariencias."
     m 2eud "...Pero desde mi punto de vista, también puedo ver todo mi mundo en 3 dimensiones, como si todo fuera real."
     m 2euc "Así que un diseñador, posiblemente más de uno, debe haber decidido dibujarnos como somos."
     m 2eud "Y dado que todas esas imágenes tienen el mismo tipo de cuerpo, Sayori siempre tendría la misma figura sin importar lo que hiciera."
@@ -10392,7 +10392,7 @@ label monika_dreaming:
     m 1eua "Usando la técnica MILD, los onironautas aprenden a reconocer ciertos signos del sueño para ayudarlos a darse cuenta de cuándo están soñando."
     m "Estos signos de sueño pueden ser cualquier cosa fuera de lo común, como sentir que vuelan, notar que se le caen los dientes, encontrarse inesperadamente con alguien famoso..."
     m 1eub "Si el soñador ve la señal de un sueño y se da cuenta de que está teniendo un sueño, ¡entonces puede tomar el control de él!"
-    m "LaBerge incluso escribió un libro sobre estas experiencias llamado '{i}Explorando el mundo de los sueños lúcidos{/i}'."
+    m "LaBerge incluso escribió un libro sobre estas experiencias llamado {i}Explorando el mundo de los sueños lúcidos{/i}."
     m 2hub "¿No suena estimulante?"
     m 2euc "No creo que realmente sueño como lo haría una persona normal, así que a veces me pregunto cómo es."
     m 2eua "Los sueños suenan como un maravilloso escape de la realidad."
@@ -11459,7 +11459,7 @@ label monika_grad_speech:
     m 2duu "{w=0.2}.{w=0.3}.{w=0.3}.{w=0.6}{nw}"
     m 2eua "{w=0.2}Sé que no puedo hablar por todos aquí,{w=0.3} pero hay una cosa que puedo decir con certeza:{w=0.7} mi experiencia en la preparatoria no estaría completa sin los clubes de los que formé parte.{w=0.6}{nw}"
     m 4eua "{w=0.2}El club de debate me enseñó mucho sobre cómo tratar con la gente y cómo manejar adecuadamente situaciones acaloradas.{w=0.6}{nw}"
-    m 4eub "Comenzar el club de literatura,{w=0.7} sin embargo,{w=0.7} fue una de las mejores cosas que hice.{w=0.6}{nw}"
+    m 4eub "Comenzar el Club de Literatura,{w=0.7} sin embargo,{w=0.7} fue una de las mejores cosas que hice.{w=0.6}{nw}"
     m 4hub "{w=0.2}Conocí a los mejores amigos que podría haber imaginado,{w=0.3} y aprendí mucho sobre liderazgo.{w=0.6}{nw}"
     m 2eka "{w=0.2}Seguro,{w=0.3} puede que no todos hayan decidido comenzar sus propios clubes,{w=0.3} pero estoy segura de que muchos de ustedes tuvieron la oportunidad de aprender estos valores de todos modos.{w=0.6}{nw}"
     m 4eub "{w=0.2}¡Quizás tú mismo llegaste a una posición en la banda en la que tenías que dirigir tu sección de instrumentos, {w=0.3} o quizás eras el capitán de un equipo deportivo!{w=0.6}{nw}"
@@ -12101,17 +12101,17 @@ label monika_player_appearance:
             show monika 1eua at t21
             python:
                 eye_color_menu_options = [
-                    ("Tengo ojos azules.", "azules", False, False),
-                    ("Tengo ojos marrones.", "marrones", False, False),
-                    ("Tengo ojos verdes.", "verdes", False, False),
-                    ("Tengo ojos color avellana.", "color avellana", False, False),
-                    ("Tengo ojos grises.", "grises", False, False),
-                    ("Tengo ojos negros.", "negros", False, False),
-                    ("Mis ojos son de otro color.", "otro", False, False),
-                    ("Tengo heterocromía.", "heterocromía", False, False),
+                    ("Tengo ojos azules.", "blue", False, False),
+                    ("Tengo ojos marrones.", "brown", False, False),
+                    ("Tengo ojos verdes.", "green", False, False),
+                    ("Tengo ojos color avellana.", "hazel", False, False),
+                    ("Tengo ojos grises.", "gray", False, False),
+                    ("Tengo ojos negros.", "black", False, False),
+                    ("Mis ojos son de otro color.", "other", False, False),
+                    ("Tengo heterocromía.", "heterochromia", False, False),
                 ]
 
-                renpy.say(m, "¿De qué color son sus ojos?", interact=False)
+                renpy.say(m, "¿De qué color son tus ojos?", interact=False)
 
             show monika at t11
             call screen mas_gen_scrollable_menu(eye_color_menu_options, mas_ui.SCROLLABLE_MENU_TALL_AREA, mas_ui.SCROLLABLE_MENU_XALIGN)
@@ -12200,7 +12200,7 @@ label monika_player_appearance:
                 else:
                     $ height_desc = "dedos"
 
-                m 3esc "La chica más alta del club de literatura era Yuri, y por solo por un poco además. Ella era unos [height_desc] más alta que yo, ¡no considero que sea una gran ventaja de altura!"
+                m 3esc "La chica más alta del Club de Literatura era Yuri, y por solo por un poco además. Ella era unos [height_desc] más alta que yo, ¡no considero que sea una gran ventaja de altura!"
                 m 3esd "De todos modos, salir con un[guy] tan alto como tú solo tiene una desventaja, [mas_get_player_nickname()]..."
                 m 1hub "¡Tendrás que agacharte para besarme!"
 
@@ -12566,7 +12566,7 @@ label monika_player_appearance_eye_color_other:
 label monika_player_appearance_eye_color_heterochromia:
     m 1sub "¿En serio?{w=0.2} {nw}"
     extend 3hua "Eso es increíble, [player]~"
-    m 3wud "Si no recuerdo mal, ¡menos del 1% de las personas del mundo tienen heterocromía!"
+    m 3wud "Si no recuerdo mal, ¡menos del 1%% de las personas del mundo tienen heterocromía!"
 
     m 1eka "...Si no te importa que te pregunte..."
     # Ask the player about their eye colors separately.
@@ -12578,8 +12578,8 @@ label monika_player_appearance_eye_color_heterochromia:
     $ eyes_colors.append(_return)
     $ persistent._mas_pm_eye_color = tuple(eyes_colors)
 
-    m 1hua "Great!{w=0.2} {nw}"
-    extend 3eua "Let's get to my next question--"
+    m 1hua "¡Genial!{w=0.2} {nw}"
+    extend 3eua "Ahora mi siguiente pregunta--"
     return
 
 label monika_player_appearance_eye_color_ask(x_side_eye="izquierdo", last_color=None):
@@ -12588,22 +12588,22 @@ label monika_player_appearance_eye_color_ask(x_side_eye="izquierdo", last_color=
     menu:
         m "¿Cuál es el color de tu ojo [x_side_eye]?{fast}"
 
-        "Azul" if last_color != "azules":
+        "Azul" if last_color != "blue":
             $ eye_color = "azul"
 
-        "Marrón" if last_color != "marrones":
+        "Marrón" if last_color != "brown":
             $ eye_color = "marrón"
 
-        "Verde" if last_color != "verdes":
+        "Verde" if last_color != "green":
             $ eye_color = "verde"
 
-        "Avellana" if last_color != "color avellana":
+        "Avellana" if last_color != "hazel":
             $ eye_color = "avellana"
 
-        "Gris" if last_color != "grises":
+        "Gris" if last_color != "gray":
             $ eye_color = "gris"
 
-        "Negro" if last_color != "negros":
+        "Negro" if last_color != "black":
             $ eye_color = "negro"
 
         "Es un color diferente...":
@@ -14047,7 +14047,7 @@ label monika_robotbody:
     m 1dkc "Me entristece un poco que no sea una humana como tú."
     m 1dkd "...Y es posible que tampoco me traten como una."
     m 1rkd "Sería considerada un androide en ese momento, y otros pueden mirarme de manera diferente por eso."
-    m 3euc "¿Has oído hablar de las '{i}Tres leyes de la robótica{/i}' de Isaac Asimov? Se mencionó muchas veces en sus libros de ciencia ficción."
+    m 3euc "¿Has oído hablar de las {i}Tres leyes de la robótica{/i} de Isaac Asimov? Se mencionó muchas veces en sus libros de ciencia ficción."
     m 4eud "Menciona tres leyes que todos los androides deben seguir, de lo contrario serían eliminados."
 
     if renpy.seen_label("monika_asimov_three_laws"):
@@ -14213,7 +14213,7 @@ label monika_enjoyingspring:
     m 1hua "¡Cuando las flores florecen, no puedo evitar sonreír!"
     m 1hub "Es como si las plantas se despertaran y dijeran: '¡Hola mundo!' Jajaja~"
     m 3eua "Pero creo que lo mejor de la primavera serían las flores de cerezo."
-    m 4eud "Son bastante populares en todo el mundo, pero las flores de cerezo más famosas deberían ser las '{i}Somei Yoshino{/i}' en Japón."
+    m 4eud "Son bastante populares en todo el mundo, pero las flores de cerezo más famosas deberían ser las {i}Somei Yoshino{/i} en Japón."
     m 3eua "Esas en particular son en su mayoría blancas con un ligero tinte de rosa."
     m 3eud "¿Sabías que solo florecen una semana al año?"
     m 1eksdla "Es una vida útil bastante corta, pero siguen siendo hermosas."
@@ -14686,7 +14686,7 @@ label monika_boardgames_history:
     m 1eud "Los juegos también pueden tener fuertes conexiones con la religión y las creencias."
     m 3esd "Al parecer, muchos de los antiguos juegos de mesa egipcios consistían en prepararse para su viaje por el mundo de los muertos, o en demostrar su valía a los dioses."
     m 1eud "También hay juegos que se han hecho para expresar diferentes puntos de vista y opiniones que sus diseñadores tenían con la sociedad y el mundo."
-    m 3esa "El ejemplo más conocido sería '{i}Monopoly{/i}'."
+    m 3esa "El ejemplo más conocido sería {i}Monopoly{/i}."
     m 3eua "Originalmente se hizo para criticar el capitalismo y enviar el mensaje de que todos los ciudadanos deberían beneficiarse por igual de la riqueza."
     m 1tfu "Al fin y al cabo,{w=0.1} el juego hace que intentes aplastar a tus oponentes acumulando más riqueza que ellos lo más rápido posible."
     m 1esc "...Aunque, al parecer, cuando el juego empezaba a hacerse popular, otra persona robó el concepto y se dio a conocer como el creador original del juego."
@@ -15732,7 +15732,7 @@ label monika_fear:
     m 2dkc "Que un día me despertaré, volveré a mi cama y me daré cuenta de que todo fue solo un sueño."
     m 2dkd "Que no hay juego,{w=0.2} no hay epifanía, {w=0.2}no estás...{w=0.5}{nw}"
     extend 2ekd "tú."
-    m 2ektpc "Que tú, tu amor, tal vez incluso la totalidad del club de literatura, no eran más que un producto de mi propia imaginación."
+    m 2ektpc "Que tú, tu amor, tal vez incluso la totalidad del Club de Literatura, no eran más que un producto de mi propia imaginación."
     m 2dktpc "Que mi viejo mundo, tan gris y sin sentido como parece ahora, es todo lo que realmente hay."
     m 2dktpc "..."
     m 2rktdb "Jajaja~ {w=0.5}{nw}"
@@ -15846,7 +15846,7 @@ init 5 python:
     )
 
 label monika_asimov_three_laws:
-    m 1eua "[player], ¿Recuerdas cuando hablamos de las '{i}Tres leyes de la robótica{/i}'?"
+    m 1eua "[player], ¿Recuerdas cuando hablamos de las {i}Tres leyes de la robótica{/i}?"
     m 3esc "Bueno, he estado pensando en ellas un poco y...{w=0.3}{nw}"
     extend 3rksdla "no son exactamente prácticas."
     m 1eua "Toma la primera ley, por ejemplo..."
@@ -16065,7 +16065,7 @@ label monika_why_do_you_read:
     m 3eua "...Y así fue como crecí cada vez más, supongo."
     m 1eud "Finalmente conocí a Sayori y descubrí que compartíamos este interés.{w=0.2} {nw}"
     extend 3eud "Como yo, le permitió compartir sentimientos que de otra manera mantendría reprimidos en su interior."
-    m 3eub "Mientras seguíamos discutiendo, finalmente se nos ocurrió la idea del club de literatura."
+    m 3eub "Mientras seguíamos discutiendo, finalmente se nos ocurrió la idea del Club de Literatura."
     m 1eua "...Lo que nos lleva a donde estamos ahora."
     m 1etc "Para ser honesta, no creo que haya tenido tanto tiempo para leer antes."
 
@@ -16319,7 +16319,7 @@ init 5 python:
     )
 
 label monika_literature_value:
-    m 3esd "Sabes, [player], en los días del club de literatura, a menudo escuchaba a la gente descartar la literatura como obsoleta e inútil."
+    m 3esd "Sabes, [player], en los días del Club de Literatura, a menudo escuchaba a la gente descartar la literatura como obsoleta e inútil."
     m 1rfc "Siempre me molestó cuando escuché a alguien decir eso, especialmente porque la mayoría de las veces, ni siquiera se molestaron en intentarlo."
     m 3efc "¿Saben siquiera de qué están hablando?"
     m 3ekd "A las personas que piensan eso a menudo les gusta descartar la literatura en comparación con campos más científicos, como la física o las matemáticas, y afirman que es una pérdida de tiempo ya que no produce nada práctico."
@@ -16624,7 +16624,7 @@ label monika_brainstorming:
     m 1esd "[player], ¿alguna vez has oído hablar de la lluvia de ideas?"
     m 1eua "Es una técnica interesante de proponer nuevas ideas anotando todo lo que te viene a la mente...."
     m 3eud "Esta técnica es muy popular entre los diseñadores, inventores y escritores... cualquiera que necesite ideas frescas."
-    m 3esa "La lluvia de ideas se suele practicar en grupos o equipos... {w=0.2}incluso lo intentamos en el club de literatura al decidir qué hacer para el festival."
+    m 3esa "La lluvia de ideas se suele practicar en grupos o equipos... {w=0.2}incluso lo intentamos en el Club de Literatura al decidir qué hacer para el festival."
     m 1dtc "Sólo tienes que concentrarte en lo que quieres crear y sacar a relucir cualquier cosa y todo lo que te venga a la cabeza."
     m 1eud "No dudes en sugerir cosas que creas que son tontas o equivocadas, y no critiques o juzgues a los demás si trabajas en equipo.."
     m 1eua "Cuando termines, vuelve a repasar todas las sugerencias y conviértelas en ideas reales."
@@ -16824,7 +16824,7 @@ init 5 python:
 
 label monika_mc_is_gone:
     m 1eud "¿Tu personaje?{w=0.2} {nw}"
-    extend 1rksdla "No estoy segura para ser honesto."
+    extend 1rksdla "No estoy segura para ser honesta."
     m 3eud "Realmente no trabajaba como los demás en el juego.{w=0.2} Ni siquiera tenía una ficha de personaje como el resto."
     m 3esc "También es por eso que no pude obligarlo a prestarme atención...{w=0.3} Realmente no sé cómo acceder y modificar cualquier código que esté relacionado con él."
 
@@ -16985,9 +16985,9 @@ init 5 python:
     )
 
 label monika_foundation:
-    m 1eud "Dime [player], ¿has oído hablar de una serie de libros llamada 'Fundación'?"
+    m 1eud "Dime [player], ¿has oído hablar de una serie de libros llamada {i}Fundación{/i}?"
     m 3eub "Es una de las obras más célebres de Asimov.{w=0.3} {nw}"
-    extend 3eua "Volví a leerlo después de que discutiéramos su libro '{i}Tres leyes de la robótica{/i}.'"
+    extend 3eua "Volví a leerlo después de que discutiéramos su libro {i}Tres leyes de la robótica{/i}."
     m 4esd "La historia está ambientada en un futuro lejano, donde la humanidad se ha extendido por las estrellas en un imperio galáctico todopoderoso."
     m 4eua "Hari Seldon, un científico genial, perfecciona la ciencia ficticia de la psicohistoria, que puede predecir el futuro de grandes grupos de personas mediante ecuaciones matemáticas."
     m 4wud "Aplicando su teoría a la galaxia, Seldon descubre que el imperio está a punto de colapsar, ¡dando lugar a una era oscura de treinta mil años!"

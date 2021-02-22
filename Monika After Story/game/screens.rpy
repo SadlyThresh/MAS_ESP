@@ -1375,10 +1375,10 @@ screen preferences():
 
                     #Handle buttons
                     textbutton _("UI: Modo Noche"):
-                        action [Function(mas_darkMode, persistent._mas_dark_mode_enabled), Function(mas_settings._dark_mode_toggle)]
+                        action [Function(mas_settings._ui_change_wrapper, persistent._mas_dark_mode_enabled), Function(mas_settings._dark_mode_toggle)]
                         selected persistent._mas_dark_mode_enabled
                     textbutton _("UI: Ciclo D/N"):
-                        action [Function(mas_darkMode, mas_current_background.isFltDay()), Function(mas_settings._auto_mode_toggle)]
+                        action [Function(mas_settings._ui_change_wrapper, mas_current_background.isFltDay()), Function(mas_settings._auto_mode_toggle)]
                         selected persistent._mas_auto_mode_enabled
 
 
@@ -1771,7 +1771,7 @@ screen notif_settings():
 
             #Dynamically populate this
             for item in persistent._mas_windowreacts_notif_filters:
-                if item != "Reacciones de Ventana" or persistent._mas_windowreacts_windowreacts_enabled:
+                if item != "Window Reactions" or persistent._mas_windowreacts_windowreacts_enabled:
                     textbutton _(item):
                         action ToggleDict(persistent._mas_windowreacts_notif_filters, item)
                         selected persistent._mas_windowreacts_notif_filters.get(item)

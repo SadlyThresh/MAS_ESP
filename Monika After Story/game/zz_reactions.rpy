@@ -1147,10 +1147,10 @@ label mas_reaction_gift_generic_clothes_json(sprite_object):
         mas_giftCapGainAff(3)
         # expandable
         outfit_quips = [
-            _("¡creo que es muy lindo, [player]!"),
-            _("¡creo que es asombroso, [player]!"),
-            _("¡simplemente me encanta, [player]!"),
-            _("¡creo que es maravilloso, [player]!")
+            _("¡Creo que es muy lindo, [player]!"),
+            _("¡Creo que es asombroso, [player]!"),
+            _("¡Simplemente me encanta, [player]!"),
+            _("¡Creo que es maravilloso, [player]!")
         ]
         outfit_quip = renpy.random.choice(outfit_quips)
 
@@ -1217,7 +1217,7 @@ label mas_reaction_gift_hairclip(hairclip_name,desc=None):
     $ is_wearing_baked_outfit = monika_chr.is_wearing_clothes_with_exprop("baked outfit")
 
     if gifted_before:
-        m 1rksdlb "¡Ya me diste esta horquilla, tontito!"
+        m 1rksdlb "¡Ya me diste esta pinza de pelo, tontito!"
 
     else:
         #Grant affection
@@ -1226,11 +1226,11 @@ label mas_reaction_gift_hairclip(hairclip_name,desc=None):
             $ desc = "lindo"
 
         if len(store.mas_selspr.filter_acs(True, "left-hair-clip")) > 0:
-            m 1hub "¡Oh!{w=1} ¡Otra horquilla!"
+            m 1hub "¡Oh!{w=1} ¡Otra pinza de pelo!"
 
         else:
             m 1wuo "¡Oh!"
-            m 1sub "¿Eso es una horquilla?"
+            m 1sub "¿Eso es una pinza de pelo?"
 
         m 1hub "¡Es tan [desc]! ¡Me encanta [player], gracias!"
 
@@ -2104,7 +2104,7 @@ label mas_reaction_gift_acs_anonymioo_ribbon_bisexualpride:
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_blackandwhite:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_blackandwhite","negro y blanco","mas_reaction_gift_acs_anonymioo_ribbon_blackandwhite")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_blackandwhite","negra y blanco","mas_reaction_gift_acs_anonymioo_ribbon_blackandwhite")
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_bronze:

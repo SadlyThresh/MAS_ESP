@@ -711,7 +711,8 @@ label mas_pong_dlg_winner:
         if persistent._mas_pong_difficulty_change_next_game_date == datetime.date.today():
             m 2tsb "¿No te dije que ganaría esta vez?"
         else:
-            m 2ttu "¿Recuerdas, [mas_get_player_nickname(regex_replace_with_nullstr='mi ')]?{w=0.1} {nw}"
+            $ p_nickname = mas_get_player_nickname(regex_replace_with_nullstr='mi ')
+            m 2ttu "¿Recuerdas, [p_nickname]?{w=0.1} {nw}"
             extend 2tfb "Te dije que ganaría nuestro próximo partido."
 
     #Monika wins after going easy on the player
@@ -740,8 +741,9 @@ label mas_pong_dlg_winner:
 
     #Monika wins after the player got a 3+ winstreak
     elif win_streak_counter_before >= 3:
+        $ p_nickname = mas_get_player_nickname(regex_replace_with_nullstr='mi ')
         m 1hub "¡Jajaja!"
-        m 2tfu "Lo siento [mas_get_player_nickname(regex_replace_with_nullstr='mi ')],{w=0.1} {nw}"
+        m 2tfu "Lo siento [p_nickname],{w=0.1} {nw}"
         extend 2tub "pero parece que tu suerte se ha acabado."
         m 2hub "Ahora es mi momento de brillar~"
 

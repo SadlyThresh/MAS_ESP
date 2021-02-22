@@ -6039,8 +6039,8 @@ label mas_f14_monika_spent_time_with:
 
 label mas_f14_first_kiss:
         m 1ektpu "Honestamente, no sé qué haría sin ti."
-        #NOTE: Thinking of dissolving into pose 6 here. Might look cleaner. Thoughts?
-        m 6dktuu "..."
+        show monika 6dktuu at t11 zorder MAS_MONIKA_Z with dissolve_monika
+        m "..."
         window hide
         menu:
             "Te amo, [m_name].":
