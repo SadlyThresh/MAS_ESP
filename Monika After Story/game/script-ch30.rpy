@@ -1809,7 +1809,7 @@ label ch30_reset:
     # check for game unlocks
     python:
         game_unlock_db = {
-            "chess": "mas_unlock_chess",
+            "ajedrez": "mas_unlock_chess",
             mas_games.HANGMAN_NAME: "mas_unlock_hangman",
             "piano": "mas_unlock_piano",
         }

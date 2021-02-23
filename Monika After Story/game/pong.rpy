@@ -764,7 +764,7 @@ label mas_pong_dlg_winner:
             m 1hub "Sigue así y me vencerás, ¡estoy segura!"
         else:
             m 3hub "Bien jugado, [player], ¡eres realmente bueno!"
-            m 1tfu "¡Pero yo también,,{w=0.1} {nw}"
+            m 1tfu "¡Pero yo también,{w=0.1} {nw}"
             extend 1hub "jajaja!"
 
         $ pong_monika_last_response_id = PONG_MONIKA_RESPONSE_WIN_LONG_GAME

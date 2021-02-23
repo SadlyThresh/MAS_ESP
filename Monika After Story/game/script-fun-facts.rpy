@@ -200,7 +200,7 @@ init 5 python:
 
 label mas_fun_fact_chess:
     #Chess is unlocked
-    if mas_isGameUnlocked("chess"):
+    if mas_isGameUnlocked("ajedrez"):
         m 1eua "¡Este es un dato curioso!"
         m 3eub "Había un hombre llamado Claude Shannon que calculó la máxima cantidad de movimientos posibles en el ajedrez."
         m "Ese número se llama el 'número de Shannon' y establece que la cantidad de juegos de ajedrez posibles es de 10^120."
@@ -214,7 +214,7 @@ label mas_fun_fact_chess:
         return
 
     #Chess was unlocked, but locked due to cheating
-    elif not mas_isGameUnlocked("chess") and renpy.seen_label("mas_unlock_chess"):
+    elif not mas_isGameUnlocked("ajedrez") and renpy.seen_label("mas_unlock_chess"):
         m 1dsc "Ajedrez..."
         m 2dfc "..."
         m 2rfd "Puedes olvidarte de este dato ya que eres un tramposo, [player]."

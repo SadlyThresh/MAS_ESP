@@ -2397,7 +2397,7 @@ init 810 python:
                 activate_sound=gui.activate_sound
             )
             self._button_resetall = MASButtonDisplayable.create_stb(
-                _("Resetear todo"),
+                _("Resetear"),
                 True,
                 cbutton_x_start + ((self.BUTTON_WIDTH + self.BUTTON_SPACING) * 2),
                 cbutton_y_start,

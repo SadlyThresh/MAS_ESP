@@ -15159,7 +15159,7 @@ label monika_toxin_puzzle:
             m 1eua "Pero, ¿de verdad crees que podrías conseguir el dinero? {w=0.5} Puede que sea un poco más difícil de lo que crees."
 
         "No.":
-            m 1eub "Sentí lo mismo conmiga misma. {w=0.3}¡Es bastante complicado, jajaja!"
+            m 1eub "Sentí lo mismo conmigo misma. {w=0.3}¡Es bastante complicado, jajaja!"
 
     m 1eka "Después de todo, puede ser fácil a primera vista. {w=0.3}Todo lo que tienes que hacer es beber algo que te incomode bastante."
     m 3euc "Pero se vuelve complicado después de la medianoche...{w=0.3}{i}después{/i} de tener garantizado el dinero."

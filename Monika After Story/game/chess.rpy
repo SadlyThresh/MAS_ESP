@@ -3154,7 +3154,7 @@ init python:
             )
 
             self._button_draw = MASButtonDisplayable.create_stb(
-                _("Declarar Empate"),
+                _("Empatar"),
                 True,
                 MASChessDisplayableBase.BUTTON_INDICATOR_X,
                 MASChessDisplayableBase.DRAWN_BUTTON_Y_MID_LOW,
