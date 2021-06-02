@@ -30,7 +30,7 @@ init -1 python in mas_stories:
 
     # TYPES:
     TYPE_NORMAL = "normal"
-    TYPE_SCARY = "scary"
+    TYPE_SCARY = "aterradora"
 
     # pane constant
     STORY_RETURN = "No importa"
@@ -290,13 +290,11 @@ label mas_scary_story_setup:
     $ mas_temp_zoom_level = store.mas_sprites.zoom_level
     call monika_zoom_transition_reset(1.0)
 
-    $ mas_changeBackground(mas_background_def)
-
     #If we're in O31 mode, it's already raining and the room is also already set up
     if not persistent._mas_o31_in_o31_mode:
         $ mas_changeWeather(mas_weather_rain)
         $ store.mas_globals.show_vignette = True
-        call spaceroom(scene_change=is_scene_changing, dissolve_all=is_scene_changing, dissolve_masks=are_masks_changing, force_exp='monika 1dsc_static')
+        call spaceroom(dissolve_all=is_scene_changing, dissolve_masks=are_masks_changing, force_exp='monika 1dsc_static')
 
     play music "mod_assets/bgm/happy_story_telling.ogg" loop
 
@@ -338,7 +336,7 @@ label mas_scary_story_cleanup:
     if not persistent._mas_o31_in_o31_mode:
         $ mas_changeWeather(mas_temp_r_flag)
         $ store.mas_globals.show_vignette = False
-        call spaceroom(scene_change=is_scene_changing, dissolve_all=is_scene_changing, dissolve_masks=are_masks_changing, force_exp='monika 1dsc_static')
+        call spaceroom(dissolve_all=is_scene_changing, dissolve_masks=are_masks_changing, force_exp='monika 1dsc_static')
         hide vignette
 
     call monika_zoom_transition(mas_temp_zoom_level,transition=1.0)
@@ -941,7 +939,7 @@ init 5 python:
             eventlabel="mas_story_friend",
             prompt="Tener un Mejor Amigo",
             category=[mas_stories.TYPE_NORMAL],
-            unlocked=True
+            unlocked=False
         ),
         code="STY"
     )
@@ -965,6 +963,39 @@ label mas_story_friend:
     m 1hua "¡Espero que lo hayas disfrutado, [player]!"
     return
 
+init 5 python:
+    addEvent(
+        Event(
+            persistent._mas_story_database,
+            eventlabel="mas_story_tanabata",
+            prompt="La tejedora y el pastor",
+            category=[mas_stories.TYPE_NORMAL],
+            unlocked=False,
+            aff_range=(mas_aff.AFFECTIONATE, None)
+        ),
+        code="STY"
+    )
+
+label mas_story_tanabata:
+    call mas_story_begin
+    m 1eub "Orihime, la hija del Emperador de Jade, Gobernante del Cielo, tejía hermosas ropas en la orilla del Amanogawa."
+    m 3eua "A su padre le encantaba la tela que ella tejía y por eso trabajaba muy duro cada día para tejerla."
+    m 2ekd "Sin embargo, Orihime estaba triste porque a causa de su duro trabajo, nunca pudo conocer y enamorarse de nadie."
+    m 2eksdla "Preocupado por su hija, su padre la hizo conocer al pastor de vacas Hikoboshi, que vivía y trabajaba al otro lado del Amanogawa."
+    m 7hub "Cuando se conocieron, ¡se enamoraron al instante y se casaron poco después!"
+    m 2eksdld "Sin embargo, una vez casada, Orihime dejó de tejer telas y Hikoboshi dejó que sus vacas se perdieran por todo el Cielo."
+    m 4wud "Enfadado, el emperador separó a los dos amantes y les prohibió reunirse."
+    m 2dkc "Orihime se abatió ante la pérdida de su marido y pidió a su padre que les permitiera volver a reunirse."
+    m 2eksdla "Conmovido por las lágrimas de su hija, permitió que ambos se reunieran el séptimo día del séptimo mes si ella se esforzaba y terminaba su tejido."
+    m 2wud "Sin embargo, la primera vez que intentaron reunirse, se encontraron con que no podían cruzar el río porque no había puente."
+    m 2dkc "Orihime lloró tanto que una bandada de urracas vino y prometió hacer un puente con sus alas para que ella pudiera cruzar el río."
+    m 7ekd "Se dice que si llueve en Tanabata, las urracas no pueden venir y los enamorados deben esperar hasta otro año para encontrarse."
+    m 3eud "La lluvia que cae en Tanabata se llama apropiadamente {i}Las lágrimas de Orihime y Hikoboshi.{/i}"
+    m 1dksdlc "No puedo imaginar lo que debe ser poder reunirse con tu ser querido sólo una vez al año."
+    m 3eua "Pero ya sabes lo que dicen, [player]...{w=0.3}el amor puede mover montañas."
+    m 3hubsu "...Y mi amor por ti es tan fuerte que ni el mismo cielo podría separarnos."
+    $ mas_unlockEVL("monika_tanabata", "EVE")
+    return "love"
 
 #START: SCARY STORIES
 init 5 python:

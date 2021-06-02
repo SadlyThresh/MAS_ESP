@@ -1015,7 +1015,7 @@ label mas_chess_start_chess:
             m 1eka "Parece que estamos en un punto muerto."
             $ line_start = "Pero el lado bueno es que"
 
-        if not persistent.ever_won.get("chess"):
+        if not persistent._mas_ever_won["chess"]:
             m 3hub "[line_start], estás cada vez más cerca de vencerme, [player]~"
 
         else:
@@ -1037,8 +1037,8 @@ label mas_chess_start_chess:
             persistent._mas_chess_stats["practice_wins" if practice_mode else "wins"] += 1
 
             #Give player XP if this is their first win
-            if not persistent.ever_won['chess']:
-                persistent.ever_won['chess'] = True
+            if not persistent._mas_ever_won['chess']:
+                persistent._mas_ever_won['chess'] = True
 
         #Main dialogue
         if practice_mode:
@@ -1259,7 +1259,7 @@ label mas_chess_dlg_game_monika_wins_often:
     m 1ekc "Sin embargo, espero que al menos lo sigas intentando."
     m 1eua "Volvamos a jugar pronto, ¿de acuerdo?"
 
-    if not persistent.ever_won.get("chess"):
+    if not persistent._mas_ever_won["chess"]:
         m 1hua "Ya me ganarás algún día~"
     return
 

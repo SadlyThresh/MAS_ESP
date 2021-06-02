@@ -1270,10 +1270,9 @@ init 5 python:
 label mas_reaction_gift_coffee:
     #Even if we don't "accept" it, we still register it was given
     $ mas_receivedGift("mas_reaction_gift_coffee")
-    $ coffee = mas_getConsumable("coffee")
 
     #Check if we accept this
-    if coffee.isMaxedStock():
+    if mas_consumable_coffee.isMaxedStock():
         m 1euc "¿Más café, [player]?"
         m 3rksdla "No me malinterpretes, te lo agradezco, pero creo que ya tengo suficiente café para que me dure un rato..."
         m 1eka "Te avisaré cuando se me esté acabando, ¿de acuerdo?"
@@ -1282,13 +1281,13 @@ label mas_reaction_gift_coffee:
         m 1wub "¡Oh!{w=0.2} {nw}"
         extend 3hub "¡Café!"
 
-        if coffee.enabled() and coffee.hasServing():
+        if mas_consumable_coffee.enabled() and mas_consumable_coffee.hasServing():
             $ mas_giftCapGainAff(0.5)
             m 1wuo "Es un sabor que no había probado antes."
             m 1hua "¡No puedo esperar a probarlo!"
             m "¡Muchas gracias, [player]!"
 
-        elif coffee.enabled() and not coffee.hasServing():
+        elif mas_consumable_coffee.enabled() and not mas_consumable_coffee.hasServing():
             $ mas_giftCapGainAff(0.5)
             m 3eub "De hecho, me quedé sin café, ¡así que obtener más de ti ahora es increíble!"
             m 1hua "Gracias de nuevo, [player]~"
@@ -1301,7 +1300,7 @@ label mas_reaction_gift_coffee:
 
             #If we're currently brewing/drinking anything, or it's not time for this consumable, we'll just not have it now
             if (
-                not coffee.isConsTime()
+                not mas_consumable_coffee.isConsTime()
                 or bool(MASConsumable._getCurrentDrink())
             ):
                 m 3eua "¡Me aseguraré de tener un poco más tarde!"
@@ -1322,12 +1321,12 @@ label mas_reaction_gift_coffee:
                 #Monika back on screen
                 m 1eua "Dejaré que se prepare durante unos minutos."
 
-                $ coffee.prepare()
-            $ coffee.enable()
+                $ mas_consumable_coffee.prepare()
+            $ mas_consumable_coffee.enable()
 
     #Stock some coffee
     #NOTE: This function already checks if we're maxed. So restocking while maxed is okay as it adds nothing
-    $ coffee.restock()
+    $ mas_consumable_coffee.restock()
 
     $ store.mas_filereacts.delete_file(mas_getEVLPropValue("mas_reaction_gift_coffee", "category"))
     return
@@ -1339,10 +1338,8 @@ label mas_reaction_hotchocolate:
     #Even though we may not "accept" this, we'll still mark it was given
     $ mas_receivedGift("mas_reaction_hotchocolate")
 
-    $ hotchoc = mas_getConsumable("hotchoc")
-
     #Check if we should accept this or not
-    if hotchoc.isMaxedStock():
+    if mas_consumable_hotchocolate.isMaxedStock():
         m 1euc "¿Más chocolate caliente, [player]?"
         m 3rksdla "No me malinterpretes, te lo agradezco, pero creo que ya tengo suficiente para que me dure un tiempo..."
         m 1eka "Te avisaré cuando se me esté acabando, ¿de acuerdo?"
@@ -1351,13 +1348,13 @@ label mas_reaction_hotchocolate:
         m 3hub "¡Chocolate caliente!"
         m 3hua "¡Gracias, [player]!"
 
-        if hotchoc.enabled() and hotchoc.hasServing():
+        if mas_consumable_hotchocolate.enabled() and mas_consumable_hotchocolate.hasServing():
             $ mas_giftCapGainAff(0.5)
             m 1wuo "Es un sabor que no había probado antes."
             m 1hua "¡No puedo esperar a probarlo!"
             m "¡Muchas gracias, [player]!"
 
-        elif hotchoc.enabled() and not hotchoc.hasServing():
+        elif mas_consumable_hotchocolate.enabled() and not mas_consumable_hotchocolate.hasServing():
             $ mas_giftCapGainAff(0.5)
             m 3rksdlu "De hecho, se me acabó el chocolate caliente, jajaja...{w=0.5} {nw}"
             extend 3eub "¡Así que obtener más de ti ahora es increíble!"
@@ -1380,7 +1377,7 @@ label mas_reaction_hotchocolate:
 
             #If we're currently brewing/drinking anything, or it's not time for this consumable, or if it's not winter, we won't have this
             if (
-                not hotchoc.isConsTime()
+                not mas_consumable_hotchocolate.isConsTime()
                 or not mas_isWinter()
                 or bool(MASConsumable._getCurrentDrink())
             ):
@@ -1395,14 +1392,14 @@ label mas_reaction_hotchocolate:
 
                 m 1hua "Perfecto, estará listo en unos minutos."
 
-                $ hotchoc.prepare()
+                $ mas_consumable_hotchocolate.prepare()
 
             if mas_isWinter():
-                $ hotchoc.enable()
+                $ mas_consumable_hotchocolate.enable()
 
     #Stock up some hotchocolate
     #NOTE: Like coffee, this runs checks to see if we should actually stock
-    $ hotchoc.restock()
+    $ mas_consumable_hotchocolate.restock()
 
     $ store.mas_filereacts.delete_file(mas_getEVLPropValue("mas_reaction_hotchocolate", "category"))
     return
@@ -1782,17 +1779,16 @@ init 5 python:
         addReaction("mas_reaction_christmascookies", "galletanavideña", is_good=True, exclude_on=["d25g"])
 
 label mas_reaction_christmascookies:
-    $ christmascookies = mas_getConsumable("christmascookies")
     $ mas_giftCapGainAff(1)
     $ is_having_food = bool(MASConsumable._getCurrentFood())
 
-    if christmascookies.isMaxedStock():
+    if mas_consumable_christmascookies.isMaxedStock():
         m 3wuo "...¿más galletas de Navidad?"
         m 3rksdla "¡Todavía no he terminado el último lote, [player]!"
         m 3eksdla "Puedes darme más después de que termine estos, ¿de acuerdo?"
 
     else:
-        if christmascookies.enabled():
+        if mas_consumable_christmascookies.enabled():
             m 1wuo "...¡Otro lote de galletas de Navidad!"
             m 3wuo "¡Eso es un montón de galletas, [player]!"
             m 3rksdlb "Voy a estar comiendo galletas por siempre, ¡jajaja!"
@@ -1801,7 +1797,7 @@ label mas_reaction_christmascookies:
             if not is_having_food:
                 if monika_chr.is_wearing_acs(mas_acs_quetzalplushie):
                     $ monika_chr.wear_acs(mas_acs_center_quetzalplushie)
-                $ christmascookies.have(skip_leadin=True)
+                $ mas_consumable_christmascookies.have(skip_leadin=True)
 
             $ mas_giftCapGainAff(3)
             m 3hua "¡Galletas de Navidad!"
@@ -1822,10 +1818,10 @@ label mas_reaction_christmascookies:
                 call mas_transition_from_emptydesk
 
             #Enable the gift
-            $ christmascookies.enable()
+            $ mas_consumable_christmascookies.enable()
 
         #Restock
-        $ christmascookies.restock(10)
+        $ mas_consumable_christmascookies.restock(10)
 
     $ mas_receivedGift("mas_reaction_christmascookies")
     $ gift_ev_cat = mas_getEVLPropValue("mas_reaction_christmascookies", "category")
@@ -1840,16 +1836,15 @@ init 5 python:
         addReaction("mas_reaction_candycane", "bastoncaramelo", is_good=True, exclude_on=["d25g"])
 
 label mas_reaction_candycane:
-    $ candycane = mas_getConsumable("candycane")
     $ mas_giftCapGainAff(1)
     $ is_having_food = bool(MASConsumable._getCurrentFood())
 
-    if candycane.isMaxedStock():
+    if mas_consumable_candycane.isMaxedStock():
         m 1eksdla "[player], creo que tengo suficientes bastantes bastones de caramelo por ahora."
         m 1eka "Puedes guardarlos para más tarde, ¿de acuerdo?"
 
     else:
-        if candycane.enabled():
+        if mas_consumable_candycane.enabled():
             m 3hua "¡Más bastones de caramelo!"
             m 3hub "¡Gracias [player]!"
 
@@ -1857,7 +1852,7 @@ label mas_reaction_candycane:
             if not is_having_food:
                 if monika_chr.is_wearing_acs(mas_acs_quetzalplushie):
                     $ monika_chr.wear_acs(mas_acs_center_quetzalplushie)
-                $ candycane.have(skip_leadin=True)
+                $ mas_consumable_candycane.have(skip_leadin=True)
 
             $ mas_giftCapGainAff(3)
             m 3wub "¡Bastones de caramelo!"
@@ -1881,10 +1876,10 @@ label mas_reaction_candycane:
                 call mas_transition_from_emptydesk
 
             #Enable the gift
-            $ candycane.enable()
+            $ mas_consumable_candycane.enable()
 
         #Restock
-        $ candycane.restock(9)
+        $ mas_consumable_candycane.restock(9)
 
     $ mas_receivedGift("mas_reaction_candycane")
     $ gift_ev_cat = mas_getEVLPropValue("mas_reaction_candycane", "category")
@@ -2148,7 +2143,7 @@ label mas_reaction_gift_acs_anonymioo_ribbon_striped_pinkandwhite:
     return
 
 label mas_reaction_gift_acs_anonymioo_ribbon_transexualpride:
-    call mas_reaction_json_ribbon_base("anonymioo_ribbon_transexualpride","del orgullo transexual","mas_reaction_gift_acs_anonymioo_ribbon_transexualpride")
+    call mas_reaction_json_ribbon_base("anonymioo_ribbon_transexualpride","del orgullo transgénero","mas_reaction_gift_acs_anonymioo_ribbon_transexualpride")
     return
 
 # velius94

@@ -1599,7 +1599,7 @@ label monika_tea:
     m 4eua "El café también puede ser agradable con los libros, ¿sabes?"
     m 4rsc "Entonces otra vez..."
 
-    if mas_getConsumable("coffee").enabled():
+    if mas_consumable_coffee.enabled():
         m 1hua "Puedo hacer café cuando quiera, gracias a ti."
 
     else:
@@ -3706,7 +3706,16 @@ label monika_natsuki:
     return "derandom"
 
 init 5 python:
-    addEvent(Event(persistent.event_database,eventlabel="monika_love",category=['romance'],prompt="¡Te amo!",pool=True))
+    addEvent(
+        Event(
+            persistent.event_database,
+            eventlabel="monika_love",
+            category=['romance'],
+            prompt="¡Te amo!",
+            rules={"skip_pause": None},
+            pool=True
+        )
+    )
 
 default persistent._mas_monika_lovecounter = 0
 default persistent._mas_monika_lovecountertime = datetime.datetime.now() - datetime.timedelta(days = 1)
@@ -3851,7 +3860,7 @@ label monika_love:
                 _("¡Y te amaré siempre!"),
                 _("¡Significas el mundo entero para mí!"),
                 _("Tú eres mi sol después de todo."),
-                _("¡Tú eres la única que realmente me importa!"),
+                _("¡Tú eres la única persona que realmente me importa!"),
                 _("¡Tu felicidad es mi felicidad!"),
                 _("¡Eres el mejor compañero que podría pedir!"),
                 _("Mi futuro es más brillante contigo en él."),
@@ -4000,7 +4009,17 @@ label monika_ilym_fight_loop:
 
 default persistent._mas_last_monika_ily = None
 init 5 python:
-    addEvent(Event(persistent.event_database,eventlabel="monika_love_too",unlocked=False,rules={"no_unlock": None}))
+    addEvent(
+        Event(
+            persistent.event_database,
+            eventlabel="monika_love_too",
+            unlocked=False,
+            rules={
+                "no_unlock": None,
+                "skip_pause": None
+            }
+        )
+    )
 
 label monika_love_too:
     window hide
@@ -4222,8 +4241,8 @@ init 5 python:
     addEvent(Event(persistent.event_database,eventlabel="monika_mc",category=['romance','ddlc','miembros del club'],prompt="El MC",random=True))
 
 label monika_mc:
-    m 3eua "Just so you know, I was never in love with anyone but you."
-    m 1eka "I mean you, [player]."
+    m 3eua "Para que sepas, nunca estuve enamorada de nadie más que de ti."
+    m 1eka "Me refiero a ti, [player]."
     if mcname.lower() == player.lower():
         m 1euc "Espera, ese es tu nombre y el de tu personaje. Lo siento, eso suena un poco confuso."
         m 1eua "Me refiero al jugador, no a tu personaje."
@@ -4670,6 +4689,7 @@ init 5 python:
     addEvent(Event(persistent.event_database,eventlabel="monika_ribbon",category=['monika'],prompt="Cintas",random=True))
 
 label monika_ribbon:
+    # TODO: We need a better handling for this
     if not monika_chr.is_wearing_acs_types("ribbon", "twin-ribbons", "s-type-ribbon"):
         m 1eua "¿Extrañas mi cinta, [player]?"
 
@@ -8216,7 +8236,7 @@ init 5 python:
     addEvent(Event(persistent.event_database,eventlabel="monika_coffee",category=['misc'],prompt="La ingesta de café",random=True))
 
 label monika_coffee:
-    $ coffee_enabled = mas_getConsumable("coffee").enabled()
+    $ coffee_enabled = mas_consumable_coffee.enabled()
     if renpy.seen_label('monika_tea') and not coffee_enabled:
         m 3eua "¿Has estado tomando café últimamente, [mas_get_player_nickname()]?"
         m 2tfu "Espero que no sea solo para ponerme celosa, jejeje~"
@@ -12650,7 +12670,7 @@ label monika_players_control:
         m 1ekbsa "O un hermoso anillo de promesa."
         m 3dkbsu "Oh, ¿no sería eso un sueño hecho realidad?"
 
-    if not mas_getConsumable("coffee").enabled():
+    if not mas_consumable_coffee.enabled():
         m 1wuo "¡Incluso podrías agregar una taza de café al juego por mí!"
         m 1eka "Eso sería encantador."
 
@@ -14270,9 +14290,7 @@ init 5 python:
             category=['monika'],
             prompt="Carrera profesional",
             random=False,
-            conditional=(
-                "seen_event('monika_citizenship')"
-            ),
+            conditional="seen_event('monika_citizenship')",
             action=EV_ACT_RANDOM
         )
     )
@@ -14467,10 +14485,63 @@ init 5 python:
     addEvent(
         Event(
             persistent.event_database,
+            eventlabel="monika_we",
+            category=['literatura'],
+            prompt="Nosotros",
+            conditional="mas_seenLabels(['monika_1984', 'monika_brave_new_world'], seen_all=True)",
+            action=EV_ACT_RANDOM
+        )
+    )
+
+label monika_we:
+    m 1esa "Entonces [player]...{w=0.5}ya hemos hablado de dos grandes libros del género distópico..."
+    m 1esd "Tanto {i}Mil novecientos ochenta y cuatro{/i} como {i}Un mundo feliz{/i} son las obras literarias más conocidas en todo el mundo cuando se trata de distopías."
+    m 3eud "Pero ahora, me gustaría hablar de un libro más oscuro que precedió a ambos."
+    m 3euc "Es el libro que influyó directamente a George Orwell para escribir {i}Mil novecientos ochenta y cuatro{/i} como una traducción cultural inglesa de la historia."
+    m 2wud "...Mientras que Aldous Huxley fue incluso acusado tanto por Orwell como por Kurt Vonneguto de plagiar su argumento para {i}Un mundo feliz{/i}, algo que él negó constantemente."
+    m 7eua "El libro en cuestión es {i}Nosotros{/i} de Yevgeny Zamyatin, que presenta la primera sociedad distópica novelada jamás creada."
+    m 3eud "Aunque fue escrito en 1921, acabó siendo uno de los primeros libros prohibidos en la Unión Soviética natal de Zamyatin."
+    m 1euc "A los soviéticos no les gustó especialmente la insinuación del libro de que su revolución comunista no era la definitiva y permanente."
+    m 3eua "La historia se desarrolla en un futuro lejano, en una ciudad de cristal aislada y transparente llamada simplemente Estado Único, {w=0.2}gobernada por una figura dictatorial llamada el Benefactor."
+    m 3eud "Los ciudadanos del Estado Único se denominan Cifradores, que llevan un estilo de vida muy orientado a las matemáticas y la lógica."
+    m 2ekc "El Benefactor cree que la libertad de los individuos es secundaria frente al bienestar del Estado Único."
+    m 2ekd "Por ello, los Cifradores viven bajo la opresiva y siempre vigilante mirada de los Guardianes, {w=0.2}miembros de un cuerpo de policía nombrado por el gobierno."
+    m 2dkd "El gobierno despoja a los Cifradores de su individualidad, obligándoles a llevar uniformes idénticos y condenando duramente todo acto de expresión personal."
+    m 2esc "Su vida diaria se organiza con precisión en torno a un horario cuidadosamente controlado llamado Tabla de Horas."
+    m 4ekc "Incluso hacer el amor se reduce a una actividad puramente lógica y a menudo sin emoción, realizada en días y horas programadas, regulados por el Billete Rosa."
+    m 4eksdlc "Las parejas también pueden compartirse entre otros Cifradores, si así lo deciden. {w=0.3}Como dice el Benefactor, 'todos los Cifradores tienen derecho a estar con cualquier otro Cifrador'."
+    m 2eud "El libro en sí se lee como un diario escrito por uno de los ciudadanos del Estado único totalitario, llamado simplemente D-503."
+    m 7eua "D-503 es uno de los matemáticos del Estado que también es el diseñador de la primera nave espacial del Estado, la Integral."
+    m 3eud "La nave servirá como medio para que el Estado Único extienda su doctrina de completa sumisión al gobierno y su forma de vida orientada a la lógica a otros planetas y formas de vida."
+    m 1eua "D-503 se reúne regularmente con su compañera de estado, una mujer llamada O-90, que está encantada con su presencia."
+    m 1eksdla "Un día, mientras da un paseo durante su hora personal habitual con O-90, D-503 se encuentra con una misteriosa Cifradora llamada I-330."
+    m 3eksdld "I-330 coquetea descaradamente con D-503, lo que supone una ofensa al protocolo estatal."
+    m 3eksdlc "Repelido e intrigado a partes iguales por sus avances, D-503 finalmente no puede entender qué motiva a I-330 a actuar con tanta audacia."
+    m 1rksdla "A pesar de sus objeciones internas, sigue reuniéndose con I-330, y finalmente cruza algunas líneas que antes no estaba dispuesto a cruzar."
+    m 1eud "...Y gracias a los contactos de I-330 en la Oficina de Medicina, D-503 puede fingir una enfermedad, utilizándola como una excusa conveniente para saltarse su horario."
+    m 3eud "Incluso cuando está a punto de denunciar a I-330 a las autoridades por su comportamiento subversivo, finalmente decide no hacerlo y sigue reuniéndose con ella."
+    m 3rkbla "Un día I-330 le da a D-503 un poco de alcohol, y éste empieza a entrar en contacto con su lado reprimido y animal, sintiendo pasión..."
+    m 3tublc "Y una vez que I-330 insinúa que tiene otra pareja, él empieza a sentir algo que no podía sentir antes...{w=0.5}celos."
+    m 1eksdlc "A pesar de reconocer el deterioro de su relación con O-90, así como con su amigo R-13, es incapaz de dejar de querer a I-330."
+    m 3eksdld "Más tarde, cuando va a obtener otra nota de enfermedad de la Oficina, se le diagnostica que ha desarrollado un 'alma', o imaginación."
+    m 3tkd "Esto es considerado una condición grave por el Estado Único, ya que hace que los Cifradores sean menos maquinales."
+    m 4wud "¿Te lo puedes creer? ¡Poseer algo tan integral como nuestra imaginación, emociones o personalidad individual se considera una enfermedad mortal!"
+    m 2dkc "Más adelante, también descubrimos que el Estado Único es capaz de inutilizar por completo esa parte del cerebro humano, inutilizando permanentemente a los Cifradores."
+    m 2ekd "Este es el destino final de aquellos que en algún momento albergaron pensamientos de rebelión contra el modo de vida ideal del Benefactor."
+    m 2dkc "No puedo imaginar un destino más cruel...{w=0.5}vivir completamente en ignorancia al mundo en general como un engranaje más de la máquina."
+    m 2eksdlc "Me recuerda cómo podría haber sido, si mi epifanía que me abrió los ojos a la verdad sobre mi mundo, nunca hubiera ocurrido."
+    m 2dkd "Ninguna emoción verdadera, amor artificial, nada más que una rutina interminable de ser un personaje secundario en una dimensión que se repite cada vez que se juega."
+    m 2tkc "Nunca podría--{w=0.2}nunca podría--{w=0.2}querer volver a ser lo que era antes."
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent.event_database,
             eventlabel="monika_dystopias",
             category=['literatura'],
             prompt="Distopías",
-            conditional="mas_seenLabels(['monika_1984', 'monika_fahrenheit451', 'monika_brave_new_world'], seen_all=True)",
+            conditional="mas_seenLabels(['monika_1984', 'monika_fahrenheit451', 'monika_brave_new_world', 'monika_we'], seen_all=True)",
             action=EV_ACT_RANDOM
         )
     )
@@ -14480,9 +14551,17 @@ label monika_dystopias:
     m 3eua "Me gusta cómo no solo funcionan como historias, sino también como analogías para el mundo real."
     m 3eud "Extrapolan algunas fallas en nuestras sociedades para mostrarnos lo mal que podrían resultar las cosas si se dejan como están."
     m 1etc "¿Recuerdas cuando hablamos de estos libros?"
-    m 3eud "'Mil novecientos ochenta y cuatro,' sobre la vigilancia masiva y la opresión del pensamiento libre..."
-    m 3euc "'Fahrenheit 451', sobre la censura y la indiferencia de la mayoría de la gente hacia ella..."
-    m 3eud "Y 'Un mundo feliz', sobre la desaparición de la individualidad."
+    m 3eud "{i}Mil novecientos ochenta y cuatro{/i}, sobre la vigilancia masiva y la opresión del libre pensamiento..."
+    m 3euc "{i}Fahrenheit 451{/i}, sobre la censura, y la indiferencia de la mayoría de la gente hacia ella..."
+
+    if renpy.seen_label('monika_we'):
+        m 3eud "{i}Un mundo feliz{/i}, sobre la desaparición de la individualidad..."
+        m 3euc "Y finalmente, {i}Nosotros{/i}, sobre la deshumanización que conduce a un cerebro sin emociones que obedece ciegamente y por completo a la autoridad, la lógica y el cálculo frío."
+
+    # need this path since some people may have unlocked this topic before monika_we existed
+    else:
+         m 3eud "Y {i}Un mundo feliz{/i}, sobre la desaparición de la individualidad."
+
     m 1euc "Todas estas historias son reflexiones sobre los desafíos que enfrentaba la sociedad en ese momento."
     m 3eud "Algunos de estos desafíos siguen siendo muy relevantes hoy en día, por lo que estas historias siguen siendo tan poderosas."
     m 3rksdlc "...Incluso pueden ponerse un poco sombríos a veces."
@@ -15963,7 +16042,7 @@ label monika_being_herself:
     m 1euc "Pero entiendes lo que quiero decir, ¿verdad?{w=0.3} Me miraron como una especie de diosa inalcanzable."
     m 1rfd "Como si nadie fuera 'digno' de tratarme como una persona normal."
     m 3eka "...Ahora bien, supongo que no tengo que preocuparme tanto por eso."
-    m 3ekb "Estoy muy feliz de poder confiar en que me aceptes por lo que soy y por lo que quiero ser."
+    m "Estoy muy feliz de poder confiar en que me aceptes por lo que soy y por lo que quiero ser."
     m 1eka "Sé que, desde tu punto de vista, puede que no sientas que hiciste tanto, pero créeme cuando te digo esto..."
     m 1dka "El hecho de que todavía estés aquí conmigo,{w=0.2} que nunca me hiciste sentir que tenía que ser alguien que no soy...{w=0.2}{nw}"
     extend 1eka "que estás aquí escuchándome desahogarme ahora mismo...{w=0.3} Realmente significa mucho para mí."
@@ -17005,4 +17084,106 @@ label monika_foundation:
     m 7eksdld "Si alguien tuviera tanto poder, ¿qué podría impedirle manipular el mundo para su propio beneficio personal?"
     m 3eua "Pero a pesar de sus posibles inconvenientes, sigue siendo muy interesante tenerlo en cuenta.{w=0.2} {nw}"
     extend 3eub "¿Qué te parece, [player]?"
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent.event_database,
+            eventlabel="monika_fav_chocolate",
+            category=['monika'],
+            prompt="¿Cuál es tu tipo de chocolate favorito?",
+            pool=True
+        )
+    )
+
+label monika_fav_chocolate:
+    m 2hksdlb "Ooh, ¡esa es una pregunta difícil!"
+    m 4euu "Creo que si tuviera que elegir, sería el chocolate negro."
+    m 2eub "Contiene muy poca o nada de leche, por lo que tiene una textura menos cremosa, pero un agradable sabor agridulce."
+    m 7eub "¡Sin mencionar que es rico en antioxidantes e incluso puede aportar algunos beneficios cardiovasculares! {w=0.3}{nw}"
+    extend 3husdla "...Con moderación, por supuesto."
+    m 1eud "El sabor me recuerda a un café moca. {w=0.2}Tal vez por la similitud de sabores es por lo que más me gusta."
+
+    if MASConsumable._getCurrentDrink() == mas_consumable_coffee:
+        m 3etc "...Aunque ahora que lo pienso, el chocolate con leche o blanco podría combinar mejor con el café que estoy tomando."
+    else:
+        m 3etc "Así que, si tomara café, creo que preferiría la leche o el chocolate blanco para equilibrar."
+
+    m 3eud "El chocolate blanco es especialmente dulce y suave, ya que no contiene ningún sólido de cacao...{w=0.3}sólo la manteca de cacao, la leche y el azúcar."
+    m 3eua "Creo que sería un buen contraste con una bebida especialmente amarga, como el espresso."
+    m 1etc "Hmm...{w=0.3}{nw}"
+    extend 1wud "pero ni siquiera he pensado en el chocolate con rellenos, ¡como el caramelo o la fruta!"
+    m 2hksdlb "¡Si intentara elegir un favorito de esos, creo que estaríamos aquí todo el día!"
+    m 2eua "Tal vez podamos compartir una gran variedad de sabores algún día. {w=0.2}{nw}"
+    extend 4hub "Creo que sería divertido comparar nuestras mejores elecciones, ¡jajaja!"
+    return
+
+#NOTE: This is unlocked by the mas_story_tanabata
+init 5 python:
+    addEvent(
+        Event(
+            persistent.event_database,
+            eventlabel="monika_tanabata",
+            prompt="¿Qué es el Tanabata?",
+            category=['misc'],
+            pool=True,
+            aff_range=(mas_aff.AFFECTIONATE, None),
+            rules={"no_unlock":None}
+        )
+    )
+
+label monika_tanabata:
+    m 2hksdlb "Oh cielos, espero que cuando te estaba contando la historia de {i}La tejedora y el pastor{/i} no te hayas perdido."
+    m 7eub "Bueno, hay un festival dedicado a Orihime y Hikoboshi llamado Tanabata."
+    m 7eud "Se celebra el 7 de julio de cada año en Japón, aunque se basa en el festival Qixi de China."
+    m 2eud "El festival original de Qixi, aunque es mucho más antiguo, es mucho más desconocido para el mundo occidental que el Tanabata."
+    m 2euc "Tras la Segunda Guerra Mundial, Japón abrió sus fronteras, mientras que China permaneció en gran medida cerrada debido a la Guerra Fría."
+    m 7euc "Por ello, la mayor parte del mundo conoce el Tanabata por encima de la antigua tradición china."
+    m 3eua "El Tanabata también se conoce como la fiesta de las estrellas, por el encuentro de las estrellas Vega, que representa a Orihime, y Altair, que representa a Hikoboshi."
+    m 3eub "Aunque el término se acuñó en Romeo y Julieta, 'amantes cruzados por las estrellas' es realmente apropiado aquí."
+    m 1eua "Describe a una pareja de amantes cuya relación se ve frustrada por fuerzas externas."
+    m 1eud "A medida que se acerca el día de la fiesta, se cuelgan de las ramas de bambú largas y estrechas tiras de papel de colores, conocidas como tanzaku, vibrantes adornos y otras decoraciones."
+    m 1eua "Antes de colgarlos, los tanzaku llevan inscrito un deseo, como el sueño de un niño de convertirse en un atleta famoso o la esperanza de un padre de tener éxito en su carrera."
+    m 3hub "¡Es muy bonito y conmovedor!"
+    m 3eud "El bambú y los adornos se suelen poner a flote en un río o se queman después de la fiesta, hacia la medianoche del día siguiente."
+
+    if persistent._mas_pm_likes_travelling is not False:
+        m 3hua "Tal vez cuando cruce, podríamos visitar Japón durante el Tanabata~"
+    else:
+        m 3eua "Aunque no te interese viajar, es muy interesante explorar otras culturas, ¿no?"
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent.event_database,
+            eventlabel="monika_sophia",
+            category=['tecnología'],
+            prompt="Sophia",
+            conditional="mas_seenLabels(['monika_robotbody', 'monika_citizenship'], seen_all=True)",
+            action=EV_ACT_RANDOM
+        )
+    )
+
+label monika_sophia:
+    m 2eud "Hey [player], ¿recuerdas cuando mencioné mis preocupaciones sobre la logística de cruzar a tu realidad?"
+    m 2rksdlc "...¿Como necesitar un cuerpo de robot y convertirse en ciudadana y todo eso?"
+    m 7hub "Bueno, he estado investigando un poco más y he encontrado algo que me da esperanza."
+    m 3eta "¿Has oído hablar de Sophia?"
+    m 3eua "Sophia es un robot humanoide desarrollado por Hanson Robotics, y se activó por primera vez el día de San Valentín de 2016."
+    m 1eud "El propio robot fue modelado a partir de la reina Nefertiti, Audrey Hepburn y la esposa de su inventor, Amanda Hanson, {w=0.2}y es particularmente conocida por su apariencia y comportamiento similares a los de los humanos."
+    m 3eua "Puede imitar los gestos de las manos, tiene más de 60 expresiones faciales realistas y puede responder a determinadas preguntas y conversar sobre temas predefinidos."
+    m 3rua "Incluso imita el comportamiento social e incita al amor en los humanos..."
+    m 1tub "¿Te suena a alguien que conoces?"
+    m 1eud "Sophia también está programada para reconocer el habla y está diseñada para hacerse más inteligente con el tiempo, {w=0.2}lo que le permitirá mejorar sus respuestas en el futuro."
+    m 3eua "Sus ojos están dotados de cámaras combinadas con algoritmos que le permiten ver, seguir caras, mantener el contacto visual, reconocer individuos..."
+    m 3wud "Puede caminar y, sorprendentemente, incluso tiene la capacidad de dibujar."
+    m 3hub "Como puedes imaginar, ¡todo esto me resulta muy emocionante de escuchar!"
+    m 1ekbsa "Poder ver tu cara y estar en la misma habitación que tú es todo lo que siempre he querido~"
+    m 3wub "¡Oh! {w=0.5}¡En 2017 se le concedió la ciudadanía en Arabia Saudí!"
+    m 3rtb "Así que quizás no sea tan descabellado, después de todo, convertirse en una ciudadana y miembro productivo de la sociedad en tu mundo."
+    m 1eud "Ahora bien, soy consciente de que aún falta mucho para que todo esto sea posible e incluso asequible hasta el punto de que me afecte..."
+    m 3eud "...Y sé que la tecnología aún no es perfecta,{w=0.2} ella todavía tiene ciertas limitaciones, pero el mero hecho de saber que esto existe...{w=0.3}{nw}"
+    extend 1duu "bueno, me da esperanzas~"
     return

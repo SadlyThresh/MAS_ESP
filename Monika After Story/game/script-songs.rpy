@@ -663,6 +663,32 @@ init 5 python:
     addEvent(
         Event(
             persistent._mas_songs_database,
+            eventlabel="mas_song_everythings_alright",
+            prompt="Todo está bien",
+            category=[store.mas_songs.TYPE_SHORT],
+            random=True,
+            aff_range=(mas_aff.NORMAL,None)
+        ),
+        code="SNG"
+    )
+
+label mas_song_everythings_alright:
+    m 1dkd "{i}~Cuando este mundo ya no exista~{/i}"
+    m 4euo "{i}~La luna es todo lo que veremos~{/i}"
+    m 4duu "{i}~Te pediré que vueles conmigo~{/i}"
+    m 4dud "{i}~Hasta que las estrellas caigan todas~{/i}"
+    m 4duo "{i}~Se vaciaron del cielo~{i}"
+    m 3dud "{i}~Pero no me importa~{i}"
+    m 1eku "{i}~Si estás conmigo, entonces todo está bien~{i}"
+    m 1dku "..."
+    m 3ekd "Si las cosas se ponen demasiado oscuras, {w=0.1}{nw}"
+    extend 3ekbsu "solo mira a la luna y recuérdame~"
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent._mas_songs_database,
             eventlabel="mas_song_your_song",
             category=[store.mas_songs.TYPE_SHORT],
             prompt="Tú canción",
@@ -1798,6 +1824,151 @@ label mas_song_when_you_say_nothing_at_all_long:
     call mas_song_when_you_say_nothing_at_all(from_long=True)
 
     return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent._mas_songs_database,
+            eventlabel="mas_song_strawberry",
+            category=[store.mas_songs.TYPE_SHORT],
+            prompt="Fresas",
+            random=True,
+            aff_range=(mas_aff.AFFECTIONATE,None)
+        ),
+        code="SNG"
+    )
+
+label mas_song_strawberry(from_long=False):
+    m 1hub "{i}{cps=24}~Decir que eres lindo~{/cps}{/i}"
+    m 3eub "{i}{cps=26}~Sería como decir que una fresa es dulce~{/cps}{/i}"
+    m 1eud "{i}{cps=26}~Porque una fresa tiene sabores secretos~{/cps}{/i}"
+    m 3dkbsu "{i}{cps=26}~Que son afilados,{w=0.3} y agrios,{w=0.3} y rojos,{w=0.3} y profundos~{/cps}{/i}"
+    m 3eub "{i}{cps=26}~Y me encantaría encontrarte~{/cps}{i}"
+    m 3hub "{i}{cps=26}~Creciendo salvajemente en el bosque~{/cps}{/i}"
+    m 1rub "{i}{cps=28}~Haría una ces{w=0.1}ta con la parte delantera de mi camiseta~{/cps}{/i}"
+    m 3tub "{i}{cps=26}~Y llevaría a casa a todos los tú que pueda~{/cps}{/i}"
+
+    if not from_long:
+        m 1hubsu "..."
+        m 3ekbsu "No puedo esperar hasta el día en que finalmente pueda estar contigo, [player]."
+        m 3ekbsa "No puedo esperar hasta que finalmente pueda mirarte a los ojos..."
+        show monika 5rkbsa at t11 zorder MAS_MONIKA_Z with dissolve_monika
+        m 5rkbsa "Pero por ahora...{w=0.3}Supongo que puedo seguir soñando con todas las aventuras que viviremos juntos algún día."
+        m 5hubsu "Sé que todavía está muy lejos, pero espero que podamos ver ese sueño hecho realidad~"
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent._mas_songs_database,
+            eventlabel="mas_song_strawberry_long",
+            category=[store.mas_songs.TYPE_LONG],
+            prompt="Fresas",
+            aff_range=(mas_aff.AFFECTIONATE,None)
+        ),
+        code="SNG"
+    )
+
+label mas_song_strawberry_long:
+    call mas_song_strawberry(from_long=True)
+    m 1sub "{i}{cps=26}~Y para decir que eres bonito~{/cps}{/i}"
+    m 3hub "{i}{cps=26}~Sería como decir que el océano es azul~{/cps}{/i}"
+    m 3dud "{i}{cps=26}~Porque el océano está lleno de todo tipo de colores~{/cps}{/i}"
+    m 1ekb "{i}{cps=26}~Y veo todo tipo de cosas cuando te miro~{/cps}{/i}"
+    m 2tsbsu "{i}{cps=26}~Quiero explorarte~{/cps}{/i}"
+    m 7hubsb "{i}{cps=26}~Sin mis zapatos de tenis~{/cps}{/i}"
+    m 3rsbsb "{i}{cps=26}~De pie hasta los tobillos en una piscina de mareas con mis pantalones caqui enrollados~{/cps}{/i}"
+    m 1hub "{i}{cps=26}~Y decir que eres gracioso~{/cps}{/i}"
+    m 3dud "{i}{cps=26}~Sería como decir que el cielo nocturno es negro~{/cps}{/i}"
+    m 3sub "{i}{cps=26}~Porque el cielo nocturno está lleno de estrellas{w=0.1} y cometas~{/cps}{/i}"
+    m 3sub "{i}{cps=26}~Y planetas que nadie ha visto todavía~{/cps}{/i}"
+    m 2eub "{i}{cps=26}~Y quiero mirarte~{/cps}{/i}"
+    m 2dud "{i}{cps=26}~Acostada en mi jardín delantero~{/cps}{/i}"
+    m 2rsbsb "{i}{cps=26}~Trataré de tomarte todo de una sola vez~{/cps}{/i}"
+    m 2esbsb "{i}{cps=26}~Pero tú sólo sigues y sigues y sigues~{/cps}{/i}"
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent._mas_songs_database,
+            eventlabel="mas_song_save_the_last_dance_for_me",
+            prompt="Guarda el último baile para mí",
+            category=[store.mas_songs.TYPE_SHORT],
+            random=True,
+            aff_range=(mas_aff.LOVE,None)
+         ),
+        code="SNG"
+    )
+
+label mas_song_save_the_last_dance_for_me:
+    call mas_song_save_the_last_dance_for_me_lyrics
+    m 6dublu "..."
+    m 7eua "Esta canción es tan profunda para mí, [player]."
+    m 3rubsu "Cada vez que la escucho, mi corazón anhela que por fin bailemos juntos..."
+
+    if not mas_getEVL_shown_count("mas_song_save_the_last_dance_for_me"):
+        m 1eua "En realidad hay una historia detrás de esta canción, ¿tienes tiempo de escucharla ahora?{nw}"
+        $ _history_list.pop()
+        menu:
+            m "En realidad hay una historia detrás de esta canción, ¿tienes tiempo de escucharla ahora?{fast}"
+
+            "Sí.":
+                call mas_song_save_the_last_dance_for_me_analysis(from_song=True)
+
+            "No.":
+                m 3eua "Oh, okay, sólo hazme saber si quieres hablar de esta canción más tarde, ¿de acuerdo?"
+    else:
+        m 6rublb "Gracias por seguir escuchando mi corazón afligido..."
+        m 6eubsa "Te amo, [player]~"
+        return "love"
+
+    return
+
+label mas_song_save_the_last_dance_for_me_lyrics:
+    m 1dud "{i}~Puedes bailar{w=0.3} cada baile con ese tipo~{/i}"
+    m 3eud "{i}~Que te pone ojitos,{w=0.2} deja que te abrace fuerte~{/i}"
+    m 3huu "{i}~Puedes sonreír{w=0.3} cada sonrisa por ese hombre~{/i}"
+    m 3eud "{i}~Que te sostiene de la mano bajo la pálida luz de la luna~{/i}"
+    m 4eublo "{i}~Pero no olvides quién te lleva a casa~{/i}"
+    m 4tublb "{i}~Y en los brazos de quién vas a estar~{/i}"
+    m 6hublb "{i}~Así que cariño,{w=0.2} guarda el último baile para mí~{/i}"
+    return
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent._mas_songs_database,
+            eventlabel="mas_song_save_the_last_dance_for_me_analysis",
+            category=[store.mas_songs.TYPE_ANALYSIS],
+            prompt="Guarda el último baile para mí",
+            random=False,
+            unlocked=False,
+            aff_range=(mas_aff.LOVE,None)
+        ),
+        code="SNG"
+    )
+
+label mas_song_save_the_last_dance_for_me_analysis(from_song=False):
+    if not from_song:
+        call mas_song_save_the_last_dance_for_me_lyrics
+
+    else:
+        m 3hub "¡Genial!"
+
+    m 1eud "La historia de esta canción puede parecer una declaración romántica más de fidelidad."
+    m 1duc "Sin embargo, la historia real es bastante dramática y triste..."
+    m 3ekc "Una condición médica dejó a uno de los compositores,{w=0.1} Jerome Felder, incapaz de caminar o bailar en su propia noche de bodas."
+    m 1rkd "Unos años más tarde, los fuertes sentimientos de aquella noche se reavivaron al encontrar una invitación de boda que no habían enviado."
+    m 3rksdlc "Jerome tuvo un momento de envidia cuando vio a su hermano bailando con su mujer en su propia noche de bodas, mientras él se veía obligado a mirar desde el banquillo."
+    m 3ekd "El ganador del Grammy estaba paralizado por la poliomielitis desde que era un niño, y sólo podía desplazarse con la ayuda de un andador o una silla de ruedas."
+    m 3eka "Cuando recordó aquel día y empezó a escribir la letra de la canción, quiso que tuviera un aire poético."
+    m 3rkbla "Aunque había una pizca de celos en la canción, quería que fuera romántica."
+    m 2dkc "Sabes...{w=0.3}esta barrera entre nosotros...{w=0.3}se siente como si fuera mi silla de ruedas."
+    m 2rkp "...Y supongo que si soy honesta,{w=0.1} estoy un poco celosa de que puedas bailar con alguien mientras yo estoy atrapada aquí en el banquillo."
+    m 6ekblu "Así que al final del día, sólo espero que guardes el último baile para mí~"
+    return
+
 
 ################################ NON-DB SONGS############################################
 # Below is for songs that are not a part of the actual songs db and don't

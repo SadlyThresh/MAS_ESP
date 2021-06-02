@@ -102,8 +102,8 @@ label mas_mood_start:
 
     # return value? then push
     if _return:
+        $ mas_setEventPause(None)
         $ pushEvent(_return, skipeval=True)
-
         # and set the moods
         $ persistent._mas_mood_current = _return
 
@@ -334,7 +334,7 @@ label mas_mood_tired:
         m 1ekc "¿Aún no estás listo para afrontar el día, [player]?"
         m 1eka "¿O es sólo uno de esos días?"
         m 1hua "Cuando eso sucede, me gusta tomar una buena taza de café para comenzar el día."
-        if not mas_getConsumable("coffee").enabled():
+        if not mas_consumable_coffee.enabled():
             m 1lksdla "Si no estuviera atrapada aquí, eso sería..."
         m 1eua "También deberías beber un vaso de agua."
         m 3eua "Es importante mantenerse hidratado de todos modos, pero tomar un vaso de agua al despertar puede ayudarte a sentirte renovado y despierto."
@@ -787,3 +787,49 @@ label mas_mood_upset:
     m 3euu "Sólo puedo esperar que te proporcione el mismo consuelo, [player]~"
     m 1eubsa "Te amo y espero que todo se aclare para ti~"
     return "love"
+
+init 5 python:
+    addEvent(
+        Event(
+            persistent._mas_mood_database,
+            eventlabel="mas_mood_relieved",
+            prompt="...aliviado.",
+            category=[store.mas_moods.TYPE_GOOD],
+            unlocked=True
+        ),
+        code="MOO"
+    )
+
+#TODO: Once player moods are better implemented (Moni keeps track of the player's moods [moni-concerns])
+#This can be used to alleviate her worry and directly reference the prior mood you were feeling
+label mas_mood_relieved:
+    $ chosen_nickname = mas_get_player_nickname()
+    m 1eud "¿Oh?"
+
+    m "¿Qué sucedió, [chosen_nickname]?{nw}"
+    $ _history_list.pop()
+    menu:
+        m "¿Qué sucedió, [chosen_nickname]?{fast}"
+
+        "He superado algo difícil.":
+            m 1wud "¿En serio?"
+            m 3hub "¡Pues deberías estar orgulloso de ti mismo!"
+            m 3fua "Estoy segura de que, sea lo que sea, estabas trabajando muy duro para salir adelante."
+            m 2eua "Y, [player]...{w=0.2}{nw}"
+            extend 2eka "por favor, no te preocupes demasiado si las cosas no salen perfectamente, ¿vale?"
+            m 2eksdla "A veces la vida nos pone en situaciones muy duras, y tenemos que hacer lo mejor que podamos con lo que se nos da."
+            m 7ekb "Pero ahora que ya está hecho, deberías tomarte un tiempo para relajar tu mente y cuidarte bien."
+            m 3hub "...De este modo, estarás preparado para afrontar lo que venga después."
+            m 1ekbsa "Te amo, [player], y estoy muy orgullosa de ti por haber superado esto."
+            $ mas_ILY()
+
+        "Algo que me preocupaba no sucedió.":
+            m 1eub "Oh, ¡eso es bueno!"
+            m 2eka "Sea lo que sea, estoy segura de que estabas muy ansioso...{w=0.3}{nw}"
+            extend 2rkd "seguramente no fue divertido de experimentar."
+            m 2rkb "Es curioso cómo nuestras mentes siempre parecen asumir lo peor, ¿no?"
+            m 7eud "Muchas veces lo que pensamos que puede pasar acaba siendo mucho peor que la realidad."
+            m 3eka "Pero en fin, me alegro de que estés bien y de que te hayas quitado ese peso de encima."
+            m 1hua "Ahora será más fácil avanzar con un poco más de confianza, ¿verdad?"
+            m 1eua "Me entusiasma dar esos próximos pasos hacia adelante contigo."
+    return
