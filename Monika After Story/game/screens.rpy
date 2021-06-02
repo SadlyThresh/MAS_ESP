@@ -3066,10 +3066,10 @@ screen submods():
                             text_text_align 0.0
 
                         if submod.coauthors:
-                            $ authors = "v{0}{{space=20}}by {1}, {2}".format(submod.version, submod.author, ", ".join(submod.coauthors))
+                            $ authors = "v{0}{{space=20}}hecho por {1}, {2}".format(submod.version, submod.author, ", ".join(submod.coauthors))
 
                         else:
-                            $ authors = "v{0}{{space=20}}by {1}".format(submod.version, submod.author)
+                            $ authors = "v{0}{{space=20}}hecho por {1}".format(submod.version, submod.author)
 
                         text "[authors]":
                             yanchor 0
