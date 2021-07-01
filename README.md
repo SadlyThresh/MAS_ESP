@@ -1,4 +1,4 @@
-![Monika After Story](https://github.com/SadlyThresh/MAS_ESP/raw/master/images/topmas.png)
+![Monika After Story](https://raw.githubusercontent.com/SadlyThresh/MAS_ESP/master/banner.png)
 
 # Monika After Story (MAS)
 Monika After Story es un mod para el juego gratis [Doki Doki Literature Club](https://www.ddlc.moe) de [Team Salvato](http://teamsalvato.com/). ¡MAS se basa en el acto 3 para crear un simulador de vida eterna con Monika, con nuevos eventos, manejadores y metacomentarios!
