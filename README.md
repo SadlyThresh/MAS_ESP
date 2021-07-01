@@ -111,17 +111,6 @@ O si te inclinas más por Discord, por un flujo constante de nuestro contenido f
 ### Discord de los Traductores
 ¿Quieres formar parte del servidor en Español de Monika After Story, con gente de ideas afines y tener la oportunidad de conocer más de los traductores? ¡Puedes unirte, sólo haz click en este [link](https://discord.gg/k7t26yW8Bx)!
 
-# Redes Sociales del equipo
-
-[SadlyThresh](https://twitter.com/sadlythresh)
-
-[Papu](https://www.youtube.com/channel/UC-3B0xtrowh8Oyh8VHA6Ziw)
-
-[Martin H](https://twitter.com/MartinH52149286)
-
-[DarkMrMewtho](https://twitter.com/MewthoYT)
-
-
 ## Preguntas Frecuentes
 
 Por favor consulta nuestra sección de: [Preguntas Frecuentes](https://github.com/Monika-After-Story/MonikaModDev/wiki/FAQ)
